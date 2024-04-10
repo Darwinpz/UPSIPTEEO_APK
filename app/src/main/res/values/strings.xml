@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">UPSIPTEEO</string>
+    <string name="proceso">Referendum y Consulta 2024</string>
+    <string name="author">\@DarwinPilaloa</string>
+    <string name="description_logo">logo</string>
+    <string name="login">Ingresar</string>
+    <string name="cedula_name">Cédula:</string>
+    <string name="cedula">Cédula de Identidad</string>
+    <string name="password_name">Clave:</string>
+    <string name="password">Clave de Acceso</string>
 </resources>
