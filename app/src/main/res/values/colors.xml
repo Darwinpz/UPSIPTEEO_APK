@@ -3,8 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="danger">#BD3817</color>
-    <color name="Proyecto">#3F51B5</color>
-    <color name="Proyecto2">#03A9F4</color>
-    <color name="Gray">#DCD3D3</color>
+    <color name="proyecto_light">#4B62E3</color>
+    <color name="proyecto_night">#3F51B5</color>
+    <color name="gray">#DCD3D3</color>
 
 </resources>
