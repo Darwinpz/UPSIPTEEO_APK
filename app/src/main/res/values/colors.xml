@@ -6,5 +6,5 @@
     <color name="proyecto_light">#4B62E3</color>
     <color name="proyecto_night">#3F51B5</color>
     <color name="gray">#DCD3D3</color>
-
+    <color name="success">#4CAF50</color>
 </resources>

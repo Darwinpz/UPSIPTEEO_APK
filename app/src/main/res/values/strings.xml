@@ -3,9 +3,36 @@
     <string name="proceso">Referendum y Consulta 2024</string>
     <string name="author">\@DarwinPilaloa</string>
     <string name="description_logo">logo</string>
+    <string name="description_upload">upload</string>
+    <string name="description_eye">eye</string>
     <string name="login">Ingresar</string>
     <string name="cedula_name">Cédula:</string>
+    <string name="title_correo">* Correo:</string>
+    <string name="correo">Correo electrónico</string>
+    <string name="title_celular">* Celular:</string>
+    <string name="title_photo">Foto</string>
+    <string name="title_icono">icono</string>
+    <string name="title_upload">Subir Foto</string>
+    <string name="title_buscar">Buscar Usuario</string>
+    <string name="title_sin_resultados">No existen Resultados</string>
+    <string name="title_resultados">0 Resultados</string>
+    <string name="title_add_user">Agregar Usuario</string>
+    <string name="title_update">Actualizar Perfil</string>
+    <string name="title_logout">Cerrar Sesión</string>
+    <string name="celular">Celular o Whatsapp:</string>
+    <string name="usuario">USUARIO</string>
+    <string name="title_canton">* Canton:</string>
+    <string name="ubicacion">Canton</string>
     <string name="cedula">Cédula de Identidad</string>
     <string name="password_name">Clave:</string>
     <string name="password">Clave de Acceso</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_users">Usuarios</string>
+    <string name="title_rol">ROL</string>
+    <string name="title_asistencia">REGISTRO DE ASISTENCIA</string>
+    <string name="title_alerta">!Tengo una Alerta!</string>
+    <string name="ver_alertas">Ver Alertas</string>
+    <string name="version">Versión</string>
+    <string name="title_profile">Perfil</string>
+
 </resources>

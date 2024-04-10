@@ -32,7 +32,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:src="@drawable/logo"
-            android:contentDescription="@string/description_logo" />
+            android:contentDescription="@string/description_logo"
+            />
 
         <TextView
             android:id="@+id/text_version"
@@ -54,9 +55,8 @@
             android:textSize="10sp"
             android:gravity="center"
             android:layout_marginBottom="10dp"
-            tools:ignore="SmallSp">
-
-        </TextView>
+            tools:ignore="SmallSp"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,7 +66,8 @@
             android:gravity="start"
             android:text="@string/cedula_name"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <EditText
             android:id="@+id/txt_cedula"
@@ -81,7 +82,8 @@
             android:paddingBottom="12dp"
             android:textColorHint="@color/gray"
             android:maxLength="10"
-            android:autofillHints="username" />
+            android:autofillHints="username"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -91,7 +93,8 @@
             android:gravity="start"
             android:text="@string/password_name"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <EditText
             android:id="@+id/txt_clave"
@@ -104,7 +107,8 @@
             android:textColorHint="@color/gray"
             android:inputType="textPassword"
             android:maxLength="10"
-            android:autofillHints="password" />
+            android:autofillHints="password"
+            />
 
         <Button
             android:id="@+id/btn_ingresar"
