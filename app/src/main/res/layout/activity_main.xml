@@ -79,7 +79,7 @@
             android:hint="@string/cedula"
             android:inputType="text"
             android:paddingBottom="12dp"
-            android:textColorHint="@color/Gray"
+            android:textColorHint="@color/gray"
             android:maxLength="10"
             android:autofillHints="username" />
 
@@ -101,7 +101,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:hint="@string/password"
-            android:textColorHint="@color/Gray"
+            android:textColorHint="@color/gray"
             android:inputType="textPassword"
             android:maxLength="10"
             android:autofillHints="password" />
