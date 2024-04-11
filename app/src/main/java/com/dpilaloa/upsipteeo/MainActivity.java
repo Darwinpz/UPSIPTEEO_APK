@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
         EditText txt_clave = findViewById(R.id.txt_clave);
         Button btn_ingreso = findViewById(R.id.btn_ingresar);
 
-        btn_ingreso.setOnClickListener(view -> {
-            Login(txt_usuario.getText().toString(),txt_clave.getText().toString());
-        });
+        btn_ingreso.setOnClickListener(view -> Login(txt_usuario.getText().toString(),txt_clave.getText().toString()));
 
     }
 
