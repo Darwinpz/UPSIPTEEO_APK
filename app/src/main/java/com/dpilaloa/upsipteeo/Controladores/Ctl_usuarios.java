@@ -1,8 +1,8 @@
 package com.dpilaloa.upsipteeo.Controladores;
 
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -40,88 +40,67 @@ public class Ctl_usuarios {
             datos.put("correo", usuario.correo.toLowerCase());
             datos.put("celular", usuario.celular);
             datos.put("canton", usuario.canton);
-
             dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
         }
 
     }
 
+    public void obtener_datos_perfil(String uid, final Interfaces.Firebase_calluser firebase_calldata){
 
-    public void VerUsuarios(Adapter_usuario list_usuario, String estado , String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
-
-        progressBar.setVisibility(View.VISIBLE);
-        textView.setVisibility(View.VISIBLE);
-
-        dbref.child("usuarios").addValueEventListener(new ValueEventListener() {
+        dbref.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.exists()) {
+                if(dataSnapshot.exists()){
 
-                    list_usuario.ClearUsuario();
-                    int contador = 0;
+                    Ob_usuario user = new Ob_usuario();
+                    user.uid = uid;
 
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                        if(!Objects.equals(snapshot.getKey(), uid)) {
-
-                            Ob_usuario usuario = new Ob_usuario();
-                            usuario.uid = snapshot.getKey();
-
-                            if (snapshot.child("cedula").exists()) {
-                                usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
-                            }
-                            if (snapshot.child("estado").exists()) {
-                                usuario.estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
-                            }
-                            if (snapshot.child("nombre").exists()) {
-                                usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
-                            }
-                            if (snapshot.child("url_foto").exists()) {
-                                usuario.url_foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
-                            }
-                            if (snapshot.child("email").exists()) {
-                                usuario.email = Objects.requireNonNull(snapshot.child("email").getValue()).toString();
-                            }
-                            if (snapshot.child("telefono").exists()) {
-                                usuario.telefono = Objects.requireNonNull(snapshot.child("telefono").getValue()).toString();
-                            }
-                            if (snapshot.child("rol").exists()) {
-                                usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
-                            }
-
-                            if (estado.isEmpty() || usuario.estado.equalsIgnoreCase(estado)) {
-                                list_usuario.AddUsuario(usuario);
-                                contador++;
-                            }
-
-                        }
-
+                    if(dataSnapshot.child("nombre").exists()){
+                        user.nombre = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("cedula").exists()){
+                        user.cedula = Objects.requireNonNull(dataSnapshot.child("cedula").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("rol").exists()){
+                        user.rol = Objects.requireNonNull(dataSnapshot.child("rol").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("correo").exists()){
+                        user.correo = Objects.requireNonNull(dataSnapshot.child("correo").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("celular").exists()){
+                        user.celular = Objects.requireNonNull(dataSnapshot.child("celular").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("canton").exists()){
+                        user.canton = Objects.requireNonNull(dataSnapshot.child("canton").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("foto").exists()){
+                        user.url_foto = Objects.requireNonNull(dataSnapshot.child("foto").getValue()).toString();
                     }
 
-                    txt_contador.setText(contador + " Usuarios");
-                    progressBar.setVisibility(View.GONE);
-                    textView.setVisibility(list_usuario.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-                    list_usuario.notifyDataSetChanged();
+                    firebase_calldata.datos_usuario(user);
 
-                } else {
-                    list_usuario.ClearUsuario();
-                    list_usuario.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
-                    textView.setVisibility(View.VISIBLE);
                 }
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
         });
 
     }
 
+
+    public void cerrar_sesion(SharedPreferences preferences) {
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user","");
+        editor.putString("rol","");
+        editor.apply();
+
+    }
 
     public boolean Validar_Cedula(String cedula){
 
@@ -142,19 +121,13 @@ public class Ctl_usuarios {
     }
 
     public boolean validar_correo(String correo){
-
         Pattern patron = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+$");
-
         return patron.matcher(correo).matches();
-
     }
 
     public boolean validar_celular(String celular){
-
         Pattern patron = Pattern.compile("^(0|593)?9[0-9]\\d{7}$");
-
         return patron.matcher(celular).matches();
-
     }
     
 }

@@ -1,12 +1,11 @@
 package com.dpilaloa.upsipteeo;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dpilaloa.upsipteeo.Adaptadores.ViewPageAdapter;
@@ -18,9 +17,19 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class Principal extends AppCompatActivity {
 
+    private static final int DOUBLE_CLICK_INTERVAL = 2000;
+    private boolean doubleBackToExitPressedOnce = false;
+    public static SharedPreferences preferences;
+    public static String id = "";
+    public static String rol = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferences = getSharedPreferences("datareflix",MODE_PRIVATE);
+        id = preferences.getString("uid","");
+        rol =  preferences.getString("rol","");
 
         ViewPager2 viewPager2 = (ViewPager2) findViewById(R.id.view_pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
@@ -51,4 +60,16 @@ public class Principal extends AppCompatActivity {
         }).attach();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
+    }
+
 }
