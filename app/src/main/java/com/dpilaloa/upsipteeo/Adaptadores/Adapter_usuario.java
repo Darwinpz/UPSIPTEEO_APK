@@ -3,6 +3,7 @@ package com.dpilaloa.upsipteeo.Adaptadores;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dpilaloa.upsipteeo.Det_usuario;
 import com.dpilaloa.upsipteeo.Holders.Holder_usuario;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.R;
@@ -22,7 +24,7 @@ import java.util.List;
 public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
 
     public List<Ob_usuario> list_usuario = new ArrayList<>();
-    private Context context;
+    final Context context;
 
     public Adapter_usuario(Context context) {
         this.context = context;
@@ -47,7 +49,8 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
     @Override
     public void onBindViewHolder(@NonNull Holder_usuario holder, int position) {
 
-        holder.card_cedula.setText(" C.I. "+list_usuario.get(position).cedula);
+        String ced = " C.I: " + list_usuario.get(position).cedula;
+        holder.card_cedula.setText(ced);
         holder.card_nombre.setText(list_usuario.get(position).nombre);
         holder.card_canton.setText(list_usuario.get(position).canton);
         holder.card_telefono.setText(list_usuario.get(position).celular);
@@ -56,9 +59,8 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
 
         holder.cardView.setOnClickListener(view -> {
 
-            /*Intent i = new Intent(context, Det_trabajador.class);
-            i.putExtra("uid",list_usuario.get(position).uid);
-            context.startActivity(i);*/
+            Intent i = new Intent(context, Det_usuario.class).putExtra("uid",list_usuario.get(position).uid);
+            context.startActivity(i);
 
         });
 

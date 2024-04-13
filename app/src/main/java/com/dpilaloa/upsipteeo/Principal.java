@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dpilaloa.upsipteeo.Adaptadores.ViewPageAdapter;
+import com.dpilaloa.upsipteeo.Controladores.Ctl_usuarios;
 import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Inicio;
 import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Perfil;
 import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Usuarios;
@@ -22,17 +23,21 @@ public class Principal extends AppCompatActivity {
     public static SharedPreferences preferences;
     public static String id = "";
     public static String rol = "";
+    public static Ctl_usuarios ctlUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_principal);
 
-        preferences = getSharedPreferences("datareflix",MODE_PRIVATE);
+        preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         id = preferences.getString("uid","");
         rol =  preferences.getString("rol","");
 
-        ViewPager2 viewPager2 = (ViewPager2) findViewById(R.id.view_pager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        ctlUsuarios = new Ctl_usuarios(MainActivity.databaseReference);
+
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
 
         ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 

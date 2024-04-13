@@ -6,7 +6,7 @@
     <string name="description_upload">upload</string>
     <string name="description_eye">eye</string>
     <string name="login">Ingresar</string>
-    <string name="cedula_name">Cédula:</string>
+    <string name="cedula_name">* Cédula:</string>
     <string name="title_correo">* Correo:</string>
     <string name="correo">Correo electrónico</string>
     <string name="title_celular">* Celular:</string>
@@ -18,21 +18,59 @@
     <string name="title_resultados">0 Resultados</string>
     <string name="title_add_user">Agregar Usuario</string>
     <string name="title_update">Actualizar Perfil</string>
+    <string name="title_remove">Eliminar Perfil</string>
     <string name="title_logout">Cerrar Sesión</string>
     <string name="celular">Celular o Whatsapp:</string>
     <string name="usuario">USUARIO</string>
-    <string name="title_canton">* Canton:</string>
-    <string name="ubicacion">Canton</string>
+    <string name="title_canton">* Cantón:</string>
+    <string name="ubicacion">Cantón</string>
     <string name="cedula">Cédula de Identidad</string>
-    <string name="password_name">Clave:</string>
+    <string name="password_name">* Clave:</string>
+    <string name="title_name">* Nombre:</string>
+    <string name="name">Apellidos y Nombres</string>
     <string name="password">Clave de Acceso</string>
     <string name="title_home">Inicio</string>
     <string name="title_users">Usuarios</string>
-    <string name="title_rol">ROL</string>
+    <string name="title_user">Usuario</string>
+    <string name="title_rol">* Rol:</string>
+    <string name="rol">ROL DE USUARIO</string>
     <string name="title_asistencia">REGISTRO DE ASISTENCIA</string>
     <string name="title_alerta">!Tengo una Alerta!</string>
     <string name="ver_alertas">Ver Alertas</string>
     <string name="version">Versión</string>
     <string name="title_profile">Perfil</string>
+
+    <string-array name="rol">
+        <item>Todos</item>
+        <item>TICS</item>
+        <item>TECNICO SUPERVISOR</item>
+        <item>OPERADOR CDA</item>
+        <item>OPERADOR CPE</item>
+        <item>ASISTENTE CDA</item>
+        <item>ASISTENTE CPE</item>
+        <item>DIGITADOR ELECCION</item>
+        <item>DIGITADOR CPE</item>
+        <item>FIRMAS DE ACTAS</item>
+        <item>ARCHIVO DE ACTAS</item>
+        <item>RECEPTOR DE ACTAS</item>
+    </string-array>
+
+    <string-array name="cantones">
+        <item>Cantones</item>
+        <item>MACHALA</item>
+        <item>PASAJE</item>
+        <item>ARENILLAS</item>
+        <item>HUAQUILLAS</item>
+        <item>BALSAS</item>
+        <item>EL GUABO</item>
+        <item>PIÑAS</item>
+        <item>PORTOVELO</item>
+        <item>SANTA ROSA</item>
+        <item>ZARUMA</item>
+        <item>MARCABELI</item>
+        <item>CHILLA</item>
+        <item>ATAHUALPA</item>
+        <item>LAS LAJAS</item>
+    </string-array>
 
 </resources>

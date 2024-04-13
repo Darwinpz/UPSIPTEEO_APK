@@ -15,6 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         >
 
         <ImageView
@@ -23,7 +25,7 @@
             android:src="@drawable/perfil"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:contentDescription="@string/title_photo" />
 
         <LinearLayout
@@ -122,9 +124,9 @@
                     android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_rol"
+                    android:text="@string/rol"
                     android:textSize="15sp"
-                    android:textColor="@color/proyecto_night"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>

@@ -23,14 +23,13 @@
         android:layout_below="@id/toolbar"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         >
 
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/spinner_tipo"
+            android:id="@+id/spinner_rol"
             android:layout_weight="1"
             android:layout_gravity="center"
             />
@@ -47,41 +46,49 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/buscador"
+    <LinearLayout
+        android:id="@+id/layout_buscador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_add"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:drawableStart="@drawable/ic_search"
-        android:hint="@string/title_buscar"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:textSize="15sp"
-        android:autofillHints="name" />
-
-    <TextView
-        android:id="@+id/txt_contador"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buscador"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:gravity="end"
-        android:text="@string/title_resultados"
-        android:textColor="@color/danger"
-        />
+        android:layout_below="@id/layout_add"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp">
+
+        <EditText
+            android:id="@+id/buscador"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="@string/title_buscar"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textSize="15sp"
+            android:autofillHints="name"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:id="@+id/txt_contador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/title_resultados"
+            android:textColor="@color/danger"
+            android:layout_marginEnd="5dp"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/layout_cargar"
-        android:layout_below="@id/txt_contador"
+        android:layout_below="@id/layout_buscador"
         >
 
         <ProgressBar
@@ -107,7 +114,7 @@
         android:id="@+id/recyclerview_trabajadores"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/txt_contador">
+        android:layout_below="@id/layout_buscador">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Det_usuario">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -11,8 +14,9 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_profile"
+        app:title="@string/title_user"
         app:titleTextColor="#FFFFFF"
+        app:navigationIcon="@drawable/ic_left"
         />
 
     <ScrollView
@@ -47,7 +51,6 @@
                         android:layout_margin="15dp"
                         android:layout_weight="1"
                         >
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -67,33 +70,11 @@
                         android:background="@color/success"
                         android:padding="10dp"
                         android:src="@drawable/ic_eye"
-                        android:id="@+id/btn_ver_asist"
+                        android:id="@+id/btn_ver_asistencia"
                         android:contentDescription="@string/description_eye"
                         />
 
                 </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rol"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:id="@+id/txt_rol"
-                    android:gravity="center"
-                    android:layout_margin="5dp"
-                    android:textColor="@color/proyecto_night"
-                    />
 
             </androidx.cardview.widget.CardView>
 
@@ -110,28 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usuario"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/txt_nombre"
-                        />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cedula"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:id="@+id/txt_cedula"
-                        />
 
                     <ImageView
                         android:layout_width="150dp"
@@ -153,6 +114,54 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/cedula_name"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/txt_cedula"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/cedula"
+                        android:inputType="textPersonName"
+                        android:maxLength="50"
+                        android:textColorHint="@color/gray"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:autofillHints="no" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_name"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/txt_nombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        android:inputType="textPersonName"
+                        android:maxLength="50"
+                        android:textColorHint="@color/gray"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:autofillHints="username" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/title_correo"
                         android:textStyle="bold"
                         android:textSize="15sp"
@@ -167,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/correo"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPersonName"
                         android:maxLength="50"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
@@ -184,7 +193,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        />
+                        >
+                    </TextView>
 
                     <EditText
                         android:id="@+id/txt_telefono"
@@ -196,7 +206,8 @@
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:autofillHints="phone" />
+                        android:autofillHints="phone"
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -218,6 +229,26 @@
                         android:id="@+id/spinner_canton"
                         />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_rol"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/spinner_rol"
+                        />
+
                     <Button
                         android:id="@+id/btn_actualizar"
                         android:layout_width="match_parent"
@@ -231,15 +262,15 @@
                         />
 
                     <Button
-                        android:id="@+id/btn_salir"
+                        android:id="@+id/btn_eliminar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="20dp"
                         android:backgroundTint="@color/danger"
-                        android:text="@string/title_logout"
+                        android:text="@string/title_remove"
                         android:textColor="@color/white"
                         />
 
@@ -250,6 +281,5 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 </RelativeLayout>

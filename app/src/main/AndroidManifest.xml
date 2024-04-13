@@ -13,6 +13,12 @@
         android:theme="@style/Theme.UPSIPTEEO"
         tools:targetApi="31">
         <activity
+            android:name=".Reportes"
+            android:exported="false" />
+        <activity
+            android:name=".Det_usuario"
+            android:exported="false" />
+        <activity
             android:name=".Principal"
             android:exported="false" />
         <activity

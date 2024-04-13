@@ -1,9 +1,13 @@
 package com.dpilaloa.upsipteeo.Controladores;
 
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.dpilaloa.upsipteeo.Adaptadores.Adapter_usuario;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,6 +90,73 @@ public class Ctl_usuarios {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        });
+
+    }
+
+
+    public void VerUsuarios(Adapter_usuario list_usuarios,final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
+        dbref.child("usuarios").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+
+                    list_usuarios.ClearUsuario();
+
+                    int contador = 0;
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        Ob_usuario usuario = new Ob_usuario();
+                        usuario.uid = snapshot.getKey();
+
+                        if (snapshot.child("cedula").exists()) {
+                            usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
+                        }
+                        if (snapshot.child("nombre").exists()) {
+                            usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                        }
+                        if (snapshot.child("canton").exists()) {
+                            usuario.canton = Objects.requireNonNull(snapshot.child("canton").getValue()).toString();
+                        }
+                        if (snapshot.child("celular").exists()) {
+                            usuario.celular = Objects.requireNonNull(snapshot.child("celular").getValue()).toString();
+                        }
+                        if (snapshot.child("rol").exists()) {
+                            usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
+                        }
+                        if (snapshot.child("foto").exists()) {
+                            usuario.url_foto = Objects.requireNonNull(snapshot.child("foto").getValue()).toString();
+                        }
+
+                        list_usuarios.AddUsuario(usuario);
+                        contador++;
+
+                    }
+
+                    txt_contador.setText(contador + " Usuarios");
+                    progressBar.setVisibility(View.GONE);
+                    textView.setVisibility(list_usuarios.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+                    list_usuarios.notifyDataSetChanged();
+
+                } else {
+                    list_usuarios.ClearUsuario();
+                    list_usuarios.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                    textView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
         });
 
     }

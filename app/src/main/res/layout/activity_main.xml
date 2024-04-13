@@ -82,7 +82,7 @@
             android:paddingBottom="12dp"
             android:textColorHint="@color/gray"
             android:maxLength="10"
-            android:autofillHints="username"
+            android:autofillHints="no"
             />
 
         <TextView

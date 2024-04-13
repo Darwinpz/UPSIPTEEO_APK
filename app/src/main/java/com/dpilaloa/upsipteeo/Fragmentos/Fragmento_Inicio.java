@@ -1,9 +1,11 @@
 package com.dpilaloa.upsipteeo.Fragmentos;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,18 @@ public class Fragmento_Inicio extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_inicio,container,false);
+        final View view = inflater.inflate(R.layout.fragment_inicio,container,false);
+
+        TextView txt_version = view.findViewById(R.id.txt_version);
+
+        try {
+            String version = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+            txt_version.setText("Versión "+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            txt_version.setText("0.0");
+        }
+
+        return view;
 
     }
 }
