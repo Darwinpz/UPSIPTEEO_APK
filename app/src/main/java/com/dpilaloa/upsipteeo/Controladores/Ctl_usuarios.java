@@ -37,7 +37,7 @@ public class Ctl_usuarios {
 
     public void update_usuario(Ob_usuario usuario) {
 
-        if(usuario.uid != null) {
+        if(usuario.uid != null && !usuario.uid.isEmpty()) {
             Map<String, Object> datos = new HashMap<>();
             datos.put("cedula", usuario.cedula);
             datos.put("nombre", usuario.nombre.toUpperCase());
@@ -179,7 +179,7 @@ public class Ctl_usuarios {
     public void cerrar_sesion(SharedPreferences preferences) {
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("user","");
+        editor.putString("uid","");
         editor.putString("rol","");
         editor.apply();
 

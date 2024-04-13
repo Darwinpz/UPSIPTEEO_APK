@@ -13,10 +13,14 @@
     <string name="title_photo">Foto</string>
     <string name="title_icono">icono</string>
     <string name="title_upload">Subir Foto</string>
+    <string name="title_estado">Estado de Asistencia</string>
+    <string name="title_fecha">dd/mm/yyyy</string>
+    <string name="title_hora">hh:mm:ss</string>
     <string name="title_buscar">Buscar Usuario</string>
     <string name="title_sin_resultados">No existen Resultados</string>
     <string name="title_resultados">0 Resultados</string>
     <string name="title_add_user">Agregar Usuario</string>
+    <string name="title_add_asistencia">Agregar Asistencia</string>
     <string name="title_update">Actualizar Perfil</string>
     <string name="title_remove">Eliminar Perfil</string>
     <string name="title_logout">Cerrar Sesión</string>
@@ -35,6 +39,7 @@
     <string name="title_rol">* Rol:</string>
     <string name="rol">ROL DE USUARIO</string>
     <string name="title_asistencia">REGISTRO DE ASISTENCIA</string>
+    <string name="asistencia">Asistencia</string>
     <string name="title_alerta">!Tengo una Alerta!</string>
     <string name="ver_alertas">Ver Alertas</string>
     <string name="version">Versión</string>
