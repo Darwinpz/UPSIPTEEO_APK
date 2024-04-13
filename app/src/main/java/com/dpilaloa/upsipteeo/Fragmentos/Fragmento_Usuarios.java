@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ import java.util.Objects;
 
 public class Fragmento_Usuarios extends Fragment {
 
-
+    Spinner spinner_rol;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class Fragmento_Usuarios extends Fragment {
         EditText buscador = view.findViewById(R.id.buscador);
         Adapter_usuario list_usuarios = new Adapter_usuario(view.getContext());
 
-        Spinner spinner_rol = view.findViewById(R.id.spinner_rol);
+        spinner_rol = view.findViewById(R.id.spinner_rol);
         TextView txt_contador = view.findViewById(R.id.txt_contador);
 
         ArrayAdapter<CharSequence> adapterspinner_rol = ArrayAdapter.createFromResource(view.getContext(), R.array.rol, android.R.layout.simple_spinner_item);
@@ -51,26 +52,32 @@ public class Fragmento_Usuarios extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(list_usuarios);
 
-        Principal.ctlUsuarios.VerUsuarios(list_usuarios,txt_sinresultados,progressBar, txt_contador);
+        if(!Principal.id.isEmpty()) {
 
-        spinner_rol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Principal.ctlUsuarios.VerUsuarios(list_usuarios,txt_sinresultados,progressBar, txt_contador);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            Principal.ctlUsuarios.VerUsuarios(list_usuarios, Principal.id , "Todos","", txt_sinresultados, progressBar, txt_contador);
 
-        });
+            spinner_rol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    Principal.ctlUsuarios.VerUsuarios(list_usuarios, Principal.id ,spinner_rol.getSelectedItem().toString(),buscador.getText().toString(), txt_sinresultados, progressBar, txt_contador);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {}
 
-        buscador.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                ocultar_teclado();
-                Principal.ctlUsuarios.VerUsuarios(list_usuarios,txt_sinresultados,progressBar, txt_contador);
-                return true;
-            }
-            return false;
-        });
+            });
+
+            buscador.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    ocultar_teclado();
+                    Principal.ctlUsuarios.VerUsuarios(list_usuarios, Principal.id ,spinner_rol.getSelectedItem().toString(),buscador.getText().toString(), txt_sinresultados, progressBar, txt_contador);
+                    return true;
+                }
+                return false;
+            });
+
+        }else{
+            Toast.makeText(view.getContext(), "Ocurrió un error al cargar el id",Toast.LENGTH_LONG).show();
+        }
 
         return view;
     }

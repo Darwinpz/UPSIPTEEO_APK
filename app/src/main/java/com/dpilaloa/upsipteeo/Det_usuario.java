@@ -1,6 +1,8 @@
 package com.dpilaloa.upsipteeo;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -44,6 +46,66 @@ public class Det_usuario extends AppCompatActivity {
         spinner_canton.setAdapter(adapterspinner_canton);
 
         if(!UID_USUARIO.isEmpty()){
+
+            txt_cedula.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(editable.toString().trim().length() == 10){
+                        if(!Principal.ctlUsuarios.Validar_Cedula(editable.toString().trim())){
+                            txt_cedula.setError("Cédula Incorrecta");
+                        }
+                    }else{
+                        txt_cedula.setError("Ingresa 10 dígitos");
+                    }
+                }
+            });
+
+            txt_nombre.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Principal.ctlUsuarios.validar_usuario(editable.toString().trim())){
+                        txt_nombre.setError("Ingresa un nombre válido");
+                    }
+                }
+            });
+
+            txt_correo.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Principal.ctlUsuarios.validar_correo(editable.toString().trim())){
+                        txt_correo.setError("Ingresa un correo válido");
+                    }
+                }
+            });
+
+            txt_telefono.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(editable.toString().trim().length() == 10) {
+                        if (!Principal.ctlUsuarios.validar_celular(editable.toString().trim())) {
+                            txt_telefono.setError("Ingresa un celular válido");
+                        }
+                    }else{
+                        txt_telefono.setError("Ingresa 10 dígitos");
+                    }
+                }
+            });
 
             Principal.ctlUsuarios.obtener_datos_perfil(UID_USUARIO,user -> {
 

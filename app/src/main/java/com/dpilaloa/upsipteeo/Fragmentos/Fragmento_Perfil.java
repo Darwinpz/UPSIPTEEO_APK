@@ -1,11 +1,12 @@
 package com.dpilaloa.upsipteeo.Fragmentos;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,6 +40,37 @@ public class Fragmento_Perfil extends Fragment {
         spinner_canton.setAdapter(adapterspinner_canton);
 
         if(!Principal.id.isEmpty()) {
+
+            txt_correo.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Principal.ctlUsuarios.validar_correo(editable.toString().trim())){
+                        txt_correo.setError("Ingresa un correo válido");
+                    }
+                }
+            });
+
+            txt_telefono.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(editable.toString().trim().length() == 10) {
+                        if (!Principal.ctlUsuarios.validar_celular(editable.toString().trim())) {
+                            txt_telefono.setError("Ingresa un celular válido");
+                        }
+                    }else{
+                        txt_telefono.setError("Ingresa 10 dígitos");
+                    }
+                }
+            });
+
 
             Principal.ctlUsuarios.obtener_datos_perfil(Principal.id, user -> {
 

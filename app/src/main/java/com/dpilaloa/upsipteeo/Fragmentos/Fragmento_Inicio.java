@@ -23,7 +23,7 @@ public class Fragmento_Inicio extends Fragment {
         TextView txt_version = view.findViewById(R.id.txt_version);
 
         try {
-            String version = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+            String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
             txt_version.setText("Versión "+version);
         } catch (PackageManager.NameNotFoundException e) {
             txt_version.setText("0.0");

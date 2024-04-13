@@ -95,7 +95,7 @@ public class Ctl_usuarios {
     }
 
 
-    public void VerUsuarios(Adapter_usuario list_usuarios,final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+    public void VerUsuarios(Adapter_usuario list_usuarios, String uid, String rol, String filtro, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -133,8 +133,19 @@ public class Ctl_usuarios {
                             usuario.url_foto = Objects.requireNonNull(snapshot.child("foto").getValue()).toString();
                         }
 
-                        list_usuarios.AddUsuario(usuario);
-                        contador++;
+                        if (usuario.cedula!=null && usuario.cedula.trim().contains(filtro.trim().toLowerCase()) ||
+                            usuario.nombre!=null && usuario.nombre.toLowerCase().trim().contains(filtro.trim().toLowerCase()) ||
+                            usuario.canton!=null && usuario.canton.toLowerCase().trim().contains(filtro.trim().toLowerCase())) {
+
+                            if(usuario.rol!=null && (rol.equals("Todos") || usuario.rol.equals(rol))) {
+                                assert usuario.uid != null;
+                                if (!usuario.uid.equals(uid)) {
+                                    list_usuarios.AddUsuario(usuario);
+                                    contador++;
+                                }
+                            }
+
+                        }
 
                     }
 
@@ -192,6 +203,11 @@ public class Ctl_usuarios {
     public boolean validar_correo(String correo){
         Pattern patron = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+$");
         return patron.matcher(correo).matches();
+    }
+
+    public boolean validar_usuario(String usuario){
+        Pattern patron = Pattern.compile("^[ a-zA-Z]+$");
+        return patron.matcher(usuario).matches();
     }
 
     public boolean validar_celular(String celular){
