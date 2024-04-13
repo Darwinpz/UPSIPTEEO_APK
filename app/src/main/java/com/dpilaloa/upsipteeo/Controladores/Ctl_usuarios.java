@@ -39,9 +39,12 @@ public class Ctl_usuarios {
 
         if(usuario.uid != null) {
             Map<String, Object> datos = new HashMap<>();
+            datos.put("cedula", usuario.cedula);
+            datos.put("nombre", usuario.nombre.toUpperCase());
             datos.put("correo", usuario.correo.toLowerCase());
             datos.put("celular", usuario.celular);
             datos.put("canton", usuario.canton);
+            datos.put("rol", usuario.rol);
             dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
         }
 
@@ -137,7 +140,7 @@ public class Ctl_usuarios {
                             usuario.nombre!=null && usuario.nombre.toLowerCase().trim().contains(filtro.trim().toLowerCase()) ||
                             usuario.canton!=null && usuario.canton.toLowerCase().trim().contains(filtro.trim().toLowerCase())) {
 
-                            if(usuario.rol!=null && (rol.equals("Todos") || usuario.rol.equals(rol))) {
+                            if(usuario.rol!=null && (rol.equals("Rol") || usuario.rol.equals(rol))) {
                                 assert usuario.uid != null;
                                 if (!usuario.uid.equals(uid)) {
                                     list_usuarios.AddUsuario(usuario);

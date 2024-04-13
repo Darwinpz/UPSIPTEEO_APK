@@ -54,7 +54,7 @@ public class Fragmento_Usuarios extends Fragment {
 
         if(!Principal.id.isEmpty()) {
 
-            Principal.ctlUsuarios.VerUsuarios(list_usuarios, Principal.id , "Todos","", txt_sinresultados, progressBar, txt_contador);
+            Principal.ctlUsuarios.VerUsuarios(list_usuarios, Principal.id , "Rol","", txt_sinresultados, progressBar, txt_contador);
 
             spinner_rol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

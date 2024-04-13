@@ -55,7 +55,12 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
         holder.card_canton.setText(list_usuario.get(position).canton);
         holder.card_telefono.setText(list_usuario.get(position).celular);
         holder.card_rol.setText(list_usuario.get(position).rol);
-        Glide.with(context).load(list_usuario.get(position).url_foto).centerCrop().into(holder.foto);
+
+        if(list_usuario.get(position).url_foto!=null && !list_usuario.get(position).url_foto.isEmpty()) {
+            Glide.with(context).load(list_usuario.get(position).url_foto).centerCrop().into(holder.foto);
+        }else{
+            Glide.with(context).load(R.drawable.perfil).fitCenter().into(holder.foto);
+        }
 
         holder.cardView.setOnClickListener(view -> {
 

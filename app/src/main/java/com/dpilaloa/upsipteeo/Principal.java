@@ -15,6 +15,7 @@ import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Perfil;
 import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Usuarios;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.DatabaseReference;
 
 public class Principal extends AppCompatActivity {
 
@@ -34,35 +35,37 @@ public class Principal extends AppCompatActivity {
         id = preferences.getString("uid","");
         rol =  preferences.getString("rol","");
 
-        ctlUsuarios = new Ctl_usuarios(MainActivity.databaseReference);
+        if(!id.isEmpty()) {
+            ctlUsuarios = new Ctl_usuarios(MainActivity.databaseReference);
 
-        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
-        TabLayout tabLayout = findViewById(R.id.tablayout);
+            ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+            TabLayout tabLayout = findViewById(R.id.tablayout);
 
-        ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
+            ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 
-        adaptador.addFragment(new Fragmento_Inicio());
-        adaptador.addFragment(new Fragmento_Usuarios());
-        adaptador.addFragment(new Fragmento_Perfil());
+            adaptador.addFragment(new Fragmento_Inicio());
+            adaptador.addFragment(new Fragmento_Usuarios());
+            adaptador.addFragment(new Fragmento_Perfil());
 
-        viewPager2.setAdapter(adaptador);
-        viewPager2.setOffscreenPageLimit(3);
+            viewPager2.setAdapter(adaptador);
+            viewPager2.setOffscreenPageLimit(3);
 
-        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
 
-            switch (position) {
-                case 0:
-                    tab.setText(R.string.title_home);
-                    break;
-                case 1:
-                    tab.setText(R.string.title_users);
-                    break;
-                case 2:
-                    tab.setText(R.string.title_profile);
-                    break;
-            }
+                switch (position) {
+                    case 0:
+                        tab.setText(R.string.title_home);
+                        break;
+                    case 1:
+                        tab.setText(R.string.title_users);
+                        break;
+                    case 2:
+                        tab.setText(R.string.title_profile);
+                        break;
+                }
 
-        }).attach();
+            }).attach();
+        }
 
     }
 

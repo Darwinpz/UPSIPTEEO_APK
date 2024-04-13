@@ -1,5 +1,7 @@
 package com.dpilaloa.upsipteeo.Fragmentos;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,6 +21,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
+import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
+import com.dpilaloa.upsipteeo.MainActivity;
+import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 
@@ -30,10 +38,15 @@ public class Fragmento_Perfil extends Fragment {
         TextView txt_rol = view.findViewById(R.id.txt_rol);
         TextView txt_nombre = view.findViewById(R.id.txt_nombre);
         TextView txt_cedula = view.findViewById(R.id.txt_cedula);
-        TextView txt_correo = view.findViewById(R.id.txt_correo);
-        TextView txt_telefono = view.findViewById(R.id.txt_telefono);
+        EditText txt_correo = view.findViewById(R.id.txt_correo);
+        EditText txt_telefono = view.findViewById(R.id.txt_telefono);
         ImageView img_perfil = view.findViewById(R.id.img_perfil);
         Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
+        Button btn_actualizar = view.findViewById(R.id.btn_actualizar);
+        Button btn_salir = view.findViewById(R.id.btn_salir);
+
+        Progress_dialog dialog = new Progress_dialog(view.getContext());
+        Alert_dialog alertDialog = new Alert_dialog(view.getContext());
 
         ArrayAdapter<CharSequence> adapterspinner_canton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
         adapterspinner_canton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,12 +98,52 @@ public class Fragmento_Perfil extends Fragment {
                     int spinnerPosition = adapterspinner_canton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition);
 
-                    if (user.url_foto != null) {
+                    if (user.url_foto != null && !user.url_foto.isEmpty()) {
                         Glide.with(this).load(user.url_foto).centerCrop().into(img_perfil);
+                    }else{
+                        Glide.with(this).load(R.drawable.perfil).fitCenter().into(img_perfil);
                     }
 
                 }
 
+            });
+
+            btn_actualizar.setOnClickListener(view1 -> {
+                dialog.mostrar_mensaje("Actualizando...");
+                if(!txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
+                   !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
+                   !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
+                    Ob_usuario user = new Ob_usuario();
+                    user.uid = Principal.id;
+                    user.cedula = txt_cedula.getText().toString();
+                    user.nombre = txt_nombre.getText().toString().toUpperCase();
+                    user.correo = txt_correo.getText().toString().toLowerCase();
+                    user.celular = txt_telefono.getText().toString();
+                    user.canton = spinner_canton.getSelectedItem().toString();
+                    user.rol = txt_rol.getText().toString();
+                    Principal.ctlUsuarios.update_usuario(user);
+                    dialog.ocultar_mensaje();
+                    alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
+                        builder.setCancelable(false);
+                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                        builder.create().show();
+                    });
+                }else{
+                    dialog.ocultar_mensaje();
+                    alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
+                        builder.setCancelable(true);
+                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                        builder.create().show();
+                    });
+                }
+            });
+
+            btn_salir.setOnClickListener(view1 -> {
+                dialog.mostrar_mensaje("Cerrando Sesión...");
+                Principal.ctlUsuarios.cerrar_sesion(Principal.preferences);
+                dialog.ocultar_mensaje();
+                startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                requireActivity().finish();
             });
 
         }else{
