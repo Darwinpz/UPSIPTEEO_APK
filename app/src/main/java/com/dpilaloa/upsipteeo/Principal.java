@@ -43,28 +43,44 @@ public class Principal extends AppCompatActivity {
 
             ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 
-            adaptador.addFragment(new Fragmento_Inicio());
-            adaptador.addFragment(new Fragmento_Usuarios());
-            adaptador.addFragment(new Fragmento_Perfil());
+            if(rol.equals("TICS" )|| rol.equals("TECNICO SUPERVISOR")) {
+                adaptador.addFragment(new Fragmento_Inicio());
+                adaptador.addFragment(new Fragmento_Usuarios());
+                adaptador.addFragment(new Fragmento_Perfil());
+                viewPager2.setAdapter(adaptador);
+                viewPager2.setOffscreenPageLimit(3);
+                new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+                    switch (position) {
+                        case 0:
+                            tab.setText(R.string.title_home);
+                            break;
+                        case 1:
+                            tab.setText(R.string.title_users);
+                            break;
+                        case 2:
+                            tab.setText(R.string.title_profile);
+                            break;
+                    }
 
-            viewPager2.setAdapter(adaptador);
-            viewPager2.setOffscreenPageLimit(3);
+                }).attach();
 
-            new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            }else{
+                adaptador.addFragment(new Fragmento_Inicio());
+                adaptador.addFragment(new Fragmento_Perfil());
+                viewPager2.setAdapter(adaptador);
+                viewPager2.setOffscreenPageLimit(2);
+                new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+                    switch (position) {
+                        case 0:
+                            tab.setText(R.string.title_home);
+                            break;
+                        case 1:
+                            tab.setText(R.string.title_profile);
+                            break;
+                    }
 
-                switch (position) {
-                    case 0:
-                        tab.setText(R.string.title_home);
-                        break;
-                    case 1:
-                        tab.setText(R.string.title_users);
-                        break;
-                    case 2:
-                        tab.setText(R.string.title_profile);
-                        break;
-                }
-
-            }).attach();
+                }).attach();
+            }
         }
 
     }

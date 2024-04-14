@@ -209,7 +209,7 @@ public class Ctl_usuarios {
     }
 
     public boolean validar_usuario(String usuario){
-        Pattern patron = Pattern.compile("^[ a-zA-Z]+$");
+        Pattern patron = Pattern.compile("^[ a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+$");
         return patron.matcher(usuario).matches();
     }
 

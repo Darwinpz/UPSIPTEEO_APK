@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.dpilaloa.upsipteeo.Holders.Holder_asistencia;
 import com.dpilaloa.upsipteeo.Objetos.Ob_asistencia;
 import com.dpilaloa.upsipteeo.R;
@@ -45,6 +46,12 @@ public class Adapter_asistencia extends RecyclerView.Adapter<Holder_asistencia> 
 
         holder.card_fecha.setText(list_asistencia.get(position).fecha);
         holder.card_hora.setText(list_asistencia.get(position).hora);
+
+        if(list_asistencia.get(position).url_foto!=null && !list_asistencia.get(position).url_foto.isEmpty()) {
+            Glide.with(context).load(list_asistencia.get(position).url_foto).centerCrop().into(holder.foto);
+        }else{
+            Glide.with(context).load(R.drawable.perfil).fitCenter().into(holder.foto);
+        }
 
     }
 

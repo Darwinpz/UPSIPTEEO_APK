@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Det_usuario">
+    tools:context=".Add_usuario">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_user"
+        app:title="@string/title_add_user"
         app:titleTextColor="#FFFFFF"
         app:navigationIcon="@drawable/ic_left"
         />
@@ -36,54 +36,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="15dp"
-                        android:layout_weight="1"
-                        >
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/title_asistencia"
-                            android:textStyle="bold"
-                            android:textSize="15sp"
-                            android:gravity="center"
-                            />
-
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@color/success"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_eye"
-                        android:id="@+id/btn_ver_asistencia"
-                        android:contentDescription="@string/description_eye"
-                        />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 >
 
@@ -93,23 +45,6 @@
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
                     >
-
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/upload"
-                        android:background="@color/danger"
-                        android:id="@+id/img_perfil"
-                        android:contentDescription="@string/description_upload"
-                        />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/title_upload"
-                        android:gravity="center"
-                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -133,7 +68,7 @@
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:autofillHints="no" />
+                        android:importantForAutofill="no" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -176,7 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/correo"
-                        android:inputType="textPersonName"
+                        android:inputType="textEmailAddress"
                         android:maxLength="50"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
@@ -193,8 +128,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        >
-                    </TextView>
+                        />
 
                     <EditText
                         android:id="@+id/txt_telefono"
@@ -206,8 +140,7 @@
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:autofillHints="phone"
-                        />
+                        android:autofillHints="phone" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -250,27 +183,15 @@
                         />
 
                     <Button
-                        android:id="@+id/btn_actualizar"
+                        android:id="@+id/btn_crear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="20dp"
-                        android:backgroundTint="@color/success"
-                        android:text="@string/title_update"
-                        android:textColor="@color/white"
-                        />
-
-                    <Button
-                        android:id="@+id/btn_eliminar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="30dp"
                         android:layout_marginBottom="20dp"
-                        android:backgroundTint="@color/danger"
-                        android:text="@string/title_remove"
+                        android:backgroundTint="@color/success"
+                        android:text="@string/title_add_user"
                         android:textColor="@color/white"
                         />
 

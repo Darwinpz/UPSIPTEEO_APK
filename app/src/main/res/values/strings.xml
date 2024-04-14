@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">UPSIPTEEO</string>
-    <string name="proceso">Referendum y Consulta 2024</string>
+    <string name="proceso">Referéndum y Consulta Popular 2024</string>
     <string name="author">\@DarwinPilaloa</string>
     <string name="description_logo">logo</string>
     <string name="description_upload">upload</string>
@@ -8,12 +8,15 @@
     <string name="login">Ingresar</string>
     <string name="cedula_name">* Cédula:</string>
     <string name="title_correo">* Correo:</string>
+    <string name="title_volver">Volver</string>
     <string name="correo">Correo electrónico</string>
     <string name="title_celular">* Celular:</string>
     <string name="title_photo">Foto</string>
     <string name="title_icono">icono</string>
     <string name="title_upload">Subir Foto</string>
-    <string name="title_estado">Estado de Asistencia</string>
+    <string name="title_estado">Asistencia</string>
+    <string name="select_fecha">Selecciona la Fecha</string>
+    <string name="select_hora">Selecciona la Hora</string>
     <string name="title_fecha">dd/mm/yyyy</string>
     <string name="title_hora">hh:mm:ss</string>
     <string name="title_buscar">Buscar Usuario</string>
@@ -21,6 +24,7 @@
     <string name="title_resultados">0 Resultados</string>
     <string name="title_add_user">Agregar Usuario</string>
     <string name="title_add_asistencia">Agregar Asistencia</string>
+    <string name="title_save_asistencia">Guardar Asistencia</string>
     <string name="title_update">Actualizar Perfil</string>
     <string name="title_remove">Eliminar Perfil</string>
     <string name="title_logout">Cerrar Sesión</string>

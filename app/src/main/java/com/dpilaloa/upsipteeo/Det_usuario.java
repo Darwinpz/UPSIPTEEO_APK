@@ -1,11 +1,13 @@
 package com.dpilaloa.upsipteeo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import java.util.Objects;
 
 public class Det_usuario extends AppCompatActivity {
 
+    String UID_USUARIO = "", NOMBRE_USUARIO = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +38,13 @@ public class Det_usuario extends AppCompatActivity {
         ImageView img_perfil = findViewById(R.id.img_perfil);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btn_actualizar = findViewById(R.id.btn_actualizar);
+        Button btn_eliminar = findViewById(R.id.btn_eliminar);
 
-        String UID_USUARIO = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        UID_USUARIO = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
 
         Spinner spinner_rol = findViewById(R.id.spinner_rol);
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
+        ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
         Progress_dialog dialog = new Progress_dialog(this);
         Alert_dialog alertDialog = new Alert_dialog(this);
@@ -124,6 +130,8 @@ public class Det_usuario extends AppCompatActivity {
                     txt_correo.setText(user.correo);
                     txt_telefono.setText(user.celular);
 
+                    NOMBRE_USUARIO = user.nombre;
+
                     int spinnerPosition_rol = adapterspinner_rol.getPosition(user.rol);
                     spinner_rol.setSelection(spinnerPosition_rol);
 
@@ -131,7 +139,7 @@ public class Det_usuario extends AppCompatActivity {
                     spinner_canton.setSelection(spinnerPosition_canton);
 
                     if (user.url_foto != null && !user.url_foto.isEmpty()) {
-                        Glide.with(this).load(user.url_foto).centerCrop().into(img_perfil);
+                        Glide.with(getApplicationContext()).load(user.url_foto).centerCrop().into(img_perfil);
                     }
 
                 }
@@ -171,11 +179,32 @@ public class Det_usuario extends AppCompatActivity {
                 }
             });
 
+            btn_eliminar.setOnClickListener(view -> {
+
+                alertDialog.crear_mensaje("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
+                    builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
+                        dialog.mostrar_mensaje("Eliminando Usuario...");
+                        Principal.ctlUsuarios.eliminar_usuario(UID_USUARIO);
+                        dialog.ocultar_mensaje();
+                        finish();
+                    });
+                    builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
+                    builder.setCancelable(false);
+                    builder.create().show();
+                });
+
+            });
+
+            imageButton.setOnClickListener(view -> {
+                Intent i = new Intent(this, Det_asistencia.class);
+                i.putExtra("uid",UID_USUARIO);
+                i.putExtra("nombre",NOMBRE_USUARIO);
+                startActivity(i);
+            });
 
         }else{
             Toast.makeText(this, "Ocurrió un error al cargar el usuario",Toast.LENGTH_LONG).show();
         }
-
 
     }
 }

@@ -1,6 +1,7 @@
 package com.dpilaloa.upsipteeo.Fragmentos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -22,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpilaloa.upsipteeo.Adaptadores.Adapter_usuario;
+import com.dpilaloa.upsipteeo.Add_usuario;
+import com.dpilaloa.upsipteeo.Det_asistencia;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 
@@ -40,6 +44,7 @@ public class Fragmento_Usuarios extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
         EditText buscador = view.findViewById(R.id.buscador);
         Adapter_usuario list_usuarios = new Adapter_usuario(view.getContext());
+        Button btn_add_usuario = view.findViewById(R.id.btn_agregar);
 
         spinner_rol = view.findViewById(R.id.spinner_rol);
         TextView txt_contador = view.findViewById(R.id.txt_contador);
@@ -73,6 +78,13 @@ public class Fragmento_Usuarios extends Fragment {
                     return true;
                 }
                 return false;
+            });
+
+            btn_add_usuario.setOnClickListener(view1 -> {
+
+                Intent i = new Intent(view.getContext(), Add_usuario.class);
+                startActivity(i);
+
             });
 
         }else{

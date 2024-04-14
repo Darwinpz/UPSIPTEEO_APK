@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
 import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
+import com.dpilaloa.upsipteeo.Det_asistencia;
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
@@ -30,6 +32,7 @@ import com.dpilaloa.upsipteeo.R;
 
 public class Fragmento_Perfil extends Fragment {
 
+    String NOMBRE_USUARIO = "";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class Fragmento_Perfil extends Fragment {
         Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
         Button btn_actualizar = view.findViewById(R.id.btn_actualizar);
         Button btn_salir = view.findViewById(R.id.btn_salir);
+        ImageButton imageButton = view.findViewById(R.id.btn_ver_asist);
 
         Progress_dialog dialog = new Progress_dialog(view.getContext());
         Alert_dialog alertDialog = new Alert_dialog(view.getContext());
@@ -95,18 +99,31 @@ public class Fragmento_Perfil extends Fragment {
                     txt_cedula.setText(user.cedula);
                     txt_rol.setText(user.rol);
 
+                    NOMBRE_USUARIO = user.nombre;
+
                     int spinnerPosition = adapterspinner_canton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition);
 
                     if (user.url_foto != null && !user.url_foto.isEmpty()) {
-                        Glide.with(this).load(user.url_foto).centerCrop().into(img_perfil);
-                    }else{
-                        Glide.with(this).load(R.drawable.perfil).fitCenter().into(img_perfil);
+                        Glide.with(view.getContext()).load(user.url_foto).centerCrop().into(img_perfil);
                     }
 
                 }
 
             });
+
+            imageButton.setOnClickListener(view1 -> {
+                startActivity(new Intent(view.getContext(), Det_asistencia.class)
+                        .putExtra("uid",Principal.id)
+                        .putExtra("nombre", NOMBRE_USUARIO));
+            });
+
+            img_perfil.setOnClickListener(view1 -> {
+
+
+
+            });
+
 
             btn_actualizar.setOnClickListener(view1 -> {
                 dialog.mostrar_mensaje("Actualizando...");
