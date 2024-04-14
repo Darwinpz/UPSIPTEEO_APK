@@ -35,6 +35,7 @@ public class Det_usuario extends AppCompatActivity {
         EditText txt_nombre = findViewById(R.id.txt_nombre);
         EditText txt_correo = findViewById(R.id.txt_correo);
         EditText txt_telefono = findViewById(R.id.txt_telefono);
+        EditText txt_clave = findViewById(R.id.txt_clave);
         ImageView img_perfil = findViewById(R.id.img_perfil);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btn_actualizar = findViewById(R.id.btn_actualizar);
@@ -129,6 +130,7 @@ public class Det_usuario extends AppCompatActivity {
                     txt_nombre.setText(user.nombre);
                     txt_correo.setText(user.correo);
                     txt_telefono.setText(user.celular);
+                    txt_clave.setText(user.clave);
 
                     NOMBRE_USUARIO = user.nombre;
 
@@ -162,6 +164,7 @@ public class Det_usuario extends AppCompatActivity {
                     user.celular = txt_telefono.getText().toString();
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = spinner_rol.getSelectedItem().toString();
+                    user.clave = txt_clave.getText().toString();
                     Principal.ctlUsuarios.update_usuario(user);
                     dialog.ocultar_mensaje();
                     alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {

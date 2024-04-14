@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Alertas">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -11,8 +14,9 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_home"
+        app:title="@string/ver_alertas"
         app:titleTextColor="#FFFFFF"
+        app:navigationIcon="@drawable/ic_left"
         />
 
     <LinearLayout
@@ -29,7 +33,7 @@
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/spinner_rol"
+            android:id="@+id/spinner_estado"
             android:layout_weight="1"
             android:layout_gravity="center"
             />
@@ -37,10 +41,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_agregar"
-            android:text="@string/title_add_user"
+            android:id="@+id/btn_mapa"
+            android:text="@string/ver_mapa"
             android:textColor="@color/white"
-            android:backgroundTint="@color/success"
+            android:backgroundTint="@color/danger"
             android:padding="10dp"
             />
 
@@ -62,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_search"
-            android:hint="@string/title_buscar_user"
+            android:hint="@string/title_buscar_alerta"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:textSize="15sp"
@@ -111,11 +115,12 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_trabajadores"
+        android:id="@+id/recyclerview_alertas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_buscador">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </RelativeLayout>

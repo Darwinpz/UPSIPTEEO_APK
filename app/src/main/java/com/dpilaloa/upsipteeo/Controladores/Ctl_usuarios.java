@@ -45,6 +45,7 @@ public class Ctl_usuarios {
             datos.put("celular", usuario.celular);
             datos.put("canton", usuario.canton);
             datos.put("rol", usuario.rol);
+            datos.put("clave",usuario.clave);
             dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
         }
 
@@ -81,6 +82,9 @@ public class Ctl_usuarios {
                     }
                     if(dataSnapshot.child("foto").exists()){
                         user.url_foto = Objects.requireNonNull(dataSnapshot.child("foto").getValue()).toString();
+                    }
+                    if(dataSnapshot.child("clave").exists()){
+                        user.clave = Objects.requireNonNull(dataSnapshot.child("clave").getValue()).toString();
                     }
 
                     firebase_calldata.datos_usuario(user);

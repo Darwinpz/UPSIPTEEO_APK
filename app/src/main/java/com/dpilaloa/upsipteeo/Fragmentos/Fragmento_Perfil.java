@@ -29,10 +29,11 @@ import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
+import com.dpilaloa.upsipteeo.Ver_imagen;
 
 public class Fragmento_Perfil extends Fragment {
 
-    String NOMBRE_USUARIO = "";
+    String NOMBRE_USUARIO = "", URL_IMAGEN = "";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class Fragmento_Perfil extends Fragment {
         TextView txt_cedula = view.findViewById(R.id.txt_cedula);
         EditText txt_correo = view.findViewById(R.id.txt_correo);
         EditText txt_telefono = view.findViewById(R.id.txt_telefono);
+        EditText txt_clave = view.findViewById(R.id.txt_clave);
         ImageView img_perfil = view.findViewById(R.id.img_perfil);
         Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
         Button btn_actualizar = view.findViewById(R.id.btn_actualizar);
@@ -98,8 +100,10 @@ public class Fragmento_Perfil extends Fragment {
                     txt_telefono.setText(user.celular);
                     txt_cedula.setText(user.cedula);
                     txt_rol.setText(user.rol);
+                    txt_clave.setText(user.clave);
 
                     NOMBRE_USUARIO = user.nombre;
+                    URL_IMAGEN = user.url_foto;
 
                     int spinnerPosition = adapterspinner_canton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition);
@@ -120,10 +124,19 @@ public class Fragmento_Perfil extends Fragment {
 
             img_perfil.setOnClickListener(view1 -> {
 
-
+                if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
+                    alertDialog.crear_mensaje("Información", "Selecciona una opción", builder -> {
+                        builder.setPositiveButton("Ver Foto", (dialogInterface, i) -> {
+                            startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN));
+                        });
+                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> {
+                        });
+                        builder.setCancelable(true);
+                        builder.create().show();
+                    });
+                }
 
             });
-
 
             btn_actualizar.setOnClickListener(view1 -> {
                 dialog.mostrar_mensaje("Actualizando...");
@@ -138,6 +151,7 @@ public class Fragmento_Perfil extends Fragment {
                     user.celular = txt_telefono.getText().toString();
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = txt_rol.getText().toString();
+                    user.clave = txt_clave.getText().toString();
                     Principal.ctlUsuarios.update_usuario(user);
                     dialog.ocultar_mensaje();
                     alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {

@@ -19,7 +19,8 @@
     <string name="select_hora">Selecciona la Hora</string>
     <string name="title_fecha">dd/mm/yyyy</string>
     <string name="title_hora">hh:mm:ss</string>
-    <string name="title_buscar">Buscar Usuario</string>
+    <string name="title_buscar_user">Buscar Usuario</string>
+    <string name="title_buscar_alerta">Buscar Alerta</string>
     <string name="title_sin_resultados">No existen Resultados</string>
     <string name="title_resultados">0 Resultados</string>
     <string name="title_add_user">Agregar Usuario</string>
@@ -46,6 +47,7 @@
     <string name="asistencia">Asistencia</string>
     <string name="title_alerta">!Tengo una Alerta!</string>
     <string name="ver_alertas">Ver Alertas</string>
+    <string name="ver_mapa">Mapa de Alertas</string>
     <string name="version">Versión</string>
     <string name="title_profile">Perfil</string>
 
@@ -61,6 +63,13 @@
         <item>FIRMAS DE ACTAS</item>
         <item>ARCHIVO DE ACTAS</item>
         <item>RECEPTOR DE ACTAS</item>
+    </string-array>
+
+    <string-array name="estados">
+        <item>Estado</item>
+        <item>NUEVO</item>
+        <item>EN CURSO</item>
+        <item>FINALIZADO</item>
     </string-array>
 
     <string-array name="cantones">

@@ -217,6 +217,40 @@
                         android:id="@+id/spinner_canton"
                         />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password_name"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textlayout_clave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:passwordToggleEnabled="true"
+                        app:hintEnabled="false"
+                        >
+
+                        <EditText
+                            android:id="@+id/txt_clave"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:maxLength="12"
+                            android:autofillHints="password" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <Button
                         android:id="@+id/btn_actualizar"
                         android:layout_width="match_parent"

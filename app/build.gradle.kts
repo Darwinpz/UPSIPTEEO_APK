@@ -43,8 +43,9 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.glide)
-    implementation (libs.photoView)
-    implementation (libs.play.services.maps)
-    implementation (libs.play.services.location)
+    implementation(libs.photoView)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation(libs.android.image.cropper)
 
 }

@@ -51,12 +51,13 @@ public class Fragmento_add_asistencia extends DialogFragment {
 
         btn_guardar.setOnClickListener(view1 -> {
 
-            Ob_asistencia obAsistencia = new Ob_asistencia();
-            obAsistencia.fecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(FECHA);
-            obAsistencia.hora = HORA;
-            Det_asistencia.ctlAsistencia.add_asistencia(UID, obAsistencia);
-
-            dialogFragment.dismiss();
+            if(dialogFragment!=null) {
+                Ob_asistencia obAsistencia = new Ob_asistencia();
+                obAsistencia.fecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(FECHA);
+                obAsistencia.hora = HORA;
+                Det_asistencia.ctlAsistencia.add_asistencia(UID, obAsistencia);
+                dialogFragment.dismiss();
+            }
 
         });
 

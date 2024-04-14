@@ -87,7 +87,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:id="@+id/txt_ver_alertas"
+            android:id="@+id/btn_ver_alertas"
             />
 
     </LinearLayout>
