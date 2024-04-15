@@ -1,8 +1,17 @@
 package com.dpilaloa.upsipteeo.Fragmentos;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,11 +26,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
 import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
 import com.dpilaloa.upsipteeo.Det_asistencia;
@@ -31,9 +46,12 @@ import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.Ver_imagen;
 
+import java.io.ByteArrayOutputStream;
+
 public class Fragmento_Perfil extends Fragment {
 
     String NOMBRE_USUARIO = "", URL_IMAGEN = "";
+    ImageView img_perfil;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +63,7 @@ public class Fragmento_Perfil extends Fragment {
         EditText txt_correo = view.findViewById(R.id.txt_correo);
         EditText txt_telefono = view.findViewById(R.id.txt_telefono);
         EditText txt_clave = view.findViewById(R.id.txt_clave);
-        ImageView img_perfil = view.findViewById(R.id.img_perfil);
+        img_perfil = view.findViewById(R.id.img_perfil);
         Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
         Button btn_actualizar = view.findViewById(R.id.btn_actualizar);
         Button btn_salir = view.findViewById(R.id.btn_salir);
@@ -129,11 +147,12 @@ public class Fragmento_Perfil extends Fragment {
                         builder.setPositiveButton("Ver Foto", (dialogInterface, i) -> {
                             startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN));
                         });
-                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> {
-                        });
+                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> upload_foto());
                         builder.setCancelable(true);
                         builder.create().show();
                     });
+                }else{
+                    upload_foto();
                 }
 
             });
@@ -183,4 +202,109 @@ public class Fragmento_Perfil extends Fragment {
 
         return view;
     }
+
+    private void upload_foto(){
+        if (isPermitted()) {
+            getImageFile();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requestAndroid11StoragePermission();
+        } else {
+            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getData() != null) {
+                Uri imageUri = data.getData();
+                launchImageCropper(imageUri);
+            }
+        }
+    });
+
+    private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            getImageFile();
+        } else {
+            permissionDenied();
+        }
+    });
+
+    ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (isPermitted()) {
+            getImageFile();
+        } else {
+            permissionDenied();
+        }
+    });
+
+    ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
+        if (result.isSuccessful()) {
+            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(getContext(), true));
+            Glide.with(getContext()).load(result.getUriContent()).into(img_perfil);
+            saveCroppedImage(cropped);
+        }
+    });
+
+    private void saveCroppedImage(Bitmap bitmap) {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+
+    }
+
+    private void getImageFile() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getImage.launch(intent);
+    }
+
+    @TargetApi(Build.VERSION_CODES.R)
+    private void requestAndroid11StoragePermission() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setData(Uri.parse(String.format("package:%s", getContext().getPackageName())));
+        android11StoragePermission.launch(intent);
+    }
+
+    private boolean isPermitted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void launchImageCropper(Uri uri) {
+        CropImageOptions cropImageOptions = new CropImageOptions();
+        cropImageOptions.imageSourceIncludeGallery = false;
+        cropImageOptions.imageSourceIncludeCamera = true;
+        cropImageOptions.outputCompressFormat = Bitmap.CompressFormat.JPEG;
+        cropImageOptions.outputCompressQuality = 90;
+        cropImageOptions.aspectRatioX = 1;
+        cropImageOptions.aspectRatioY = 1;
+        cropImageOptions.maxCropResultWidth = 512;
+        cropImageOptions.maxCropResultHeight = 512;
+        cropImageOptions.minCropResultHeight = 512;
+        cropImageOptions.minCropResultWidth = 512;
+        CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
+        cropImage.launch(cropImageContractOptions);
+    }
+
+    private void permissionDenied() {
+        Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
+    }
+
+    private void showFailureMessage() {
+        Toast.makeText(getContext(), "Cropped image not saved something went wrong", Toast.LENGTH_LONG).show();
+    }
+
+    private void showSuccessMessage() {
+        Toast.makeText(getContext(), "Image Saved", Toast.LENGTH_LONG).show();
+    }
+
+
 }
