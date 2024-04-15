@@ -16,9 +16,12 @@ import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Usuarios;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Principal extends AppCompatActivity {
 
+    public static StorageReference storageReference;
     private static final int DOUBLE_CLICK_INTERVAL = 2000;
     private boolean doubleBackToExitPressedOnce = false;
     public static SharedPreferences preferences;
@@ -36,7 +39,9 @@ public class Principal extends AppCompatActivity {
         rol =  preferences.getString("rol","");
 
         if(!id.isEmpty()) {
+
             ctlUsuarios = new Ctl_usuarios(MainActivity.databaseReference);
+            storageReference = FirebaseStorage.getInstance().getReference();
 
             ViewPager2 viewPager2 = findViewById(R.id.view_pager);
             TabLayout tabLayout = findViewById(R.id.tablayout);

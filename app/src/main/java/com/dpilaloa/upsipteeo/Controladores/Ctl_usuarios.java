@@ -51,6 +51,16 @@ public class Ctl_usuarios {
 
     }
 
+    public void update_foto(Ob_usuario usuario) {
+
+        if(usuario.uid != null && !usuario.uid.isEmpty()) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("foto", usuario.url_foto);
+            dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
+        }
+
+    }
+
     public void obtener_datos_perfil(String uid, final Interfaces.Firebase_calluser firebase_calldata){
 
         dbref.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {

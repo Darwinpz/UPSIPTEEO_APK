@@ -26,6 +26,7 @@ public class Fragmento_Inicio extends Fragment {
 
         TextView txt_version = view.findViewById(R.id.txt_version);
         Button btn_ver_alertas = view.findViewById(R.id.btn_ver_alertas);
+        Button btn_alerta = view.findViewById(R.id.btn_alerta);
 
         try {
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
@@ -35,6 +36,7 @@ public class Fragmento_Inicio extends Fragment {
         }
 
         btn_ver_alertas.setVisibility(Principal.rol.equals("TICS") || Principal.rol.equals("TECNICO SUPERVISOR") ? View.VISIBLE : View.GONE);
+        btn_alerta.setVisibility(Principal.rol.equals("TICS") || Principal.rol.equals("TECNICO SUPERVISOR") ? View.VISIBLE : View.GONE);
 
         btn_ver_alertas.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), Alertas.class)));
 

@@ -45,13 +45,20 @@ import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.Ver_imagen;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 
 public class Fragmento_Perfil extends Fragment {
 
     String NOMBRE_USUARIO = "", URL_IMAGEN = "";
     ImageView img_perfil;
+    Progress_dialog dialog;
+    Alert_dialog alertDialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,8 +76,8 @@ public class Fragmento_Perfil extends Fragment {
         Button btn_salir = view.findViewById(R.id.btn_salir);
         ImageButton imageButton = view.findViewById(R.id.btn_ver_asist);
 
-        Progress_dialog dialog = new Progress_dialog(view.getContext());
-        Alert_dialog alertDialog = new Alert_dialog(view.getContext());
+        dialog = new Progress_dialog(view.getContext());
+        alertDialog = new Alert_dialog(view.getContext());
 
         ArrayAdapter<CharSequence> adapterspinner_canton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
         adapterspinner_canton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -127,7 +134,7 @@ public class Fragmento_Perfil extends Fragment {
                     spinner_canton.setSelection(spinnerPosition);
 
                     if (user.url_foto != null && !user.url_foto.isEmpty()) {
-                        Glide.with(view.getContext()).load(user.url_foto).centerCrop().into(img_perfil);
+                        Glide.with(view.getContext().getApplicationContext()).load(user.url_foto).centerCrop().into(img_perfil);
                     }
 
                 }
@@ -192,8 +199,8 @@ public class Fragmento_Perfil extends Fragment {
                 dialog.mostrar_mensaje("Cerrando Sesión...");
                 Principal.ctlUsuarios.cerrar_sesion(Principal.preferences);
                 dialog.ocultar_mensaje();
-                startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 requireActivity().finish();
+                startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             });
 
         }else{
@@ -227,7 +234,7 @@ public class Fragmento_Perfil extends Fragment {
         if (isGranted) {
             getImageFile();
         } else {
-            permissionDenied();
+            Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
         }
     });
 
@@ -235,14 +242,13 @@ public class Fragmento_Perfil extends Fragment {
         if (isPermitted()) {
             getImageFile();
         } else {
-            permissionDenied();
+            Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
         }
     });
 
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
-            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(getContext(), true));
-            Glide.with(getContext()).load(result.getUriContent()).into(img_perfil);
+            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(requireContext(), true));
             saveCroppedImage(cropped);
         }
     });
@@ -251,6 +257,34 @@ public class Fragmento_Perfil extends Fragment {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+
+        final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
+        StorageReference ref = Principal.storageReference.child("usuarios").child(Principal.id);
+
+        dialog.mostrar_mensaje("Actualizando Foto...");
+        ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot -> {
+
+            ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                URL_IMAGEN = uri.toString();
+                Ob_usuario user = new Ob_usuario();
+                user.uid = Principal.id;
+                user.url_foto = URL_IMAGEN ;
+                Principal.ctlUsuarios.update_foto(user);
+                dialog.ocultar_mensaje();
+                alertDialog.crear_mensaje("Correcto", "Foto Actualizada Correctamente", builder -> {
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                    builder.create().show();
+                });
+            }).addOnFailureListener(e -> {
+                dialog.ocultar_mensaje();
+                Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
+            });
+
+        }).addOnFailureListener(e -> {
+            dialog.ocultar_mensaje();
+            Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
+        });
 
     }
 
@@ -265,7 +299,7 @@ public class Fragmento_Perfil extends Fragment {
     private void requestAndroid11StoragePermission() {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
         intent.addCategory("android.intent.category.DEFAULT");
-        intent.setData(Uri.parse(String.format("package:%s", getContext().getPackageName())));
+        intent.setData(Uri.parse(String.format("package:%s", requireContext().getPackageName())));
         android11StoragePermission.launch(intent);
     }
 
@@ -273,8 +307,8 @@ public class Fragmento_Perfil extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             return Environment.isExternalStorageManager();
         } else {
-            return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         }
     }
 
@@ -293,18 +327,5 @@ public class Fragmento_Perfil extends Fragment {
         CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
         cropImage.launch(cropImageContractOptions);
     }
-
-    private void permissionDenied() {
-        Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
-    }
-
-    private void showFailureMessage() {
-        Toast.makeText(getContext(), "Cropped image not saved something went wrong", Toast.LENGTH_LONG).show();
-    }
-
-    private void showSuccessMessage() {
-        Toast.makeText(getContext(), "Image Saved", Toast.LENGTH_LONG).show();
-    }
-
 
 }
