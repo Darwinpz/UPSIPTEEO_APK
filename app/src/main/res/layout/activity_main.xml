@@ -83,6 +83,7 @@
             android:textColorHint="@color/gray"
             android:maxLength="10"
             android:autofillHints="no"
+            android:textColor="@color/black"
             />
 
         <TextView
@@ -106,8 +107,9 @@
             android:hint="@string/password"
             android:textColorHint="@color/gray"
             android:inputType="textPassword"
-            android:maxLength="10"
+            android:maxLength="12"
             android:autofillHints="password"
+            android:textColor="@color/black"
             />
 
         <Button

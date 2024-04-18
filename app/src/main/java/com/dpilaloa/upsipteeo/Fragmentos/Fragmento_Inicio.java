@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,11 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.dpilaloa.upsipteeo.Alertas;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
+import com.dpilaloa.upsipteeo.Reportes;
 
 public class Fragmento_Inicio extends Fragment {
 
@@ -27,6 +30,14 @@ public class Fragmento_Inicio extends Fragment {
         TextView txt_version = view.findViewById(R.id.txt_version);
         Button btn_ver_alertas = view.findViewById(R.id.btn_ver_alertas);
         Button btn_alerta = view.findViewById(R.id.btn_alerta);
+
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.menu_perfil);
+
+        toolbar.getMenu().getItem(0).setOnMenuItemClickListener(menuItem -> {
+            startActivity(new Intent(getActivity(), Reportes.class));
+            return false;
+        });
 
         try {
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;

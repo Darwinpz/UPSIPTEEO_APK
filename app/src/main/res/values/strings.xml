@@ -33,6 +33,9 @@
     <string name="celular">Celular o Whatsapp:</string>
     <string name="usuario">USUARIO</string>
     <string name="title_canton">* Cantón:</string>
+    <string name="title_reporte">Reportes</string>
+    <string name="title_rpt_usuario">Reporte de Usuarios</string>
+    <string name="canton">Canton o Recinto</string>
     <string name="ubicacion">Cantón</string>
     <string name="cedula">Cédula de Identidad</string>
     <string name="password_name">* Clave:</string>
@@ -51,6 +54,7 @@
     <string name="ver_mapa">Mapa de Alertas</string>
     <string name="version">Versión</string>
     <string name="title_profile">Perfil</string>
+    <string name="menu_config">Configuracion</string>
 
     <string-array name="rol">
         <item>Rol</item>

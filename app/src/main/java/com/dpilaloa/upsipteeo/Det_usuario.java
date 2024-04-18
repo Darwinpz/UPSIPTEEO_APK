@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class Det_usuario extends AppCompatActivity {
 
-    String UID_USUARIO = "", NOMBRE_USUARIO = "";
+    String UID_USUARIO = "", NOMBRE_USUARIO = "", URL_IMAGEN = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +142,20 @@ public class Det_usuario extends AppCompatActivity {
 
                     if (user.url_foto != null && !user.url_foto.isEmpty()) {
                         Glide.with(getApplicationContext()).load(user.url_foto).centerCrop().into(img_perfil);
+                        URL_IMAGEN = user.url_foto;
+
                     }
 
+                }
+
+            });
+
+            img_perfil.setOnClickListener(view1 -> {
+
+                if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
+                    startActivity(new Intent(this, Ver_imagen.class).putExtra("url", URL_IMAGEN));
+                }else{
+                    Toast.makeText(this,"Sin foto de perfil", Toast.LENGTH_SHORT).show();
                 }
 
             });

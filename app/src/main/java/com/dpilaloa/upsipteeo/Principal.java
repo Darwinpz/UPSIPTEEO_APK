@@ -15,9 +15,9 @@ import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Perfil;
 import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Usuarios;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 
 public class Principal extends AppCompatActivity {
 
@@ -100,5 +100,6 @@ public class Principal extends AppCompatActivity {
         Toast.makeText(this, "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
     }
+
 
 }

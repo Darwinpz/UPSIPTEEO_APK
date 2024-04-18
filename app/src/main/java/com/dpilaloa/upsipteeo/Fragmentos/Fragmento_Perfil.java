@@ -45,13 +45,9 @@ import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.Ver_imagen;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Objects;
 
 public class Fragmento_Perfil extends Fragment {
 

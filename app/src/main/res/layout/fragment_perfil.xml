@@ -171,6 +171,7 @@
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
                         android:autofillHints="emailAddress" />
 
                     <TextView
@@ -195,6 +196,7 @@
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
                         android:autofillHints="phone" />
 
                     <TextView

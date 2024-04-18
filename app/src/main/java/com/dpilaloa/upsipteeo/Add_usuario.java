@@ -30,6 +30,7 @@ public class Add_usuario extends AppCompatActivity {
         EditText txt_nombre = findViewById(R.id.txt_nombre);
         EditText txt_correo = findViewById(R.id.txt_correo);
         EditText txt_telefono = findViewById(R.id.txt_telefono);
+        EditText txt_clave = findViewById(R.id.txt_clave);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btn_crear = findViewById(R.id.btn_crear);
 
@@ -124,6 +125,7 @@ public class Add_usuario extends AppCompatActivity {
                 user.celular = txt_telefono.getText().toString();
                 user.canton = spinner_canton.getSelectedItem().toString();
                 user.rol = spinner_rol.getSelectedItem().toString();
+                user.clave = txt_clave.getText().toString();
                 Principal.ctlUsuarios.crear_usuarios(user);
                 dialog.ocultar_mensaje();
                 alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {

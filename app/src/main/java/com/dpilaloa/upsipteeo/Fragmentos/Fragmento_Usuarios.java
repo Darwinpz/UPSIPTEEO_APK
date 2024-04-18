@@ -26,8 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dpilaloa.upsipteeo.Adaptadores.Adapter_usuario;
 import com.dpilaloa.upsipteeo.Add_usuario;
 import com.dpilaloa.upsipteeo.Det_asistencia;
+import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -84,6 +89,7 @@ public class Fragmento_Usuarios extends Fragment {
 
                 Intent i = new Intent(view.getContext(), Add_usuario.class);
                 startActivity(i);
+                //guardar();
 
             });
 
@@ -99,4 +105,32 @@ public class Fragmento_Usuarios extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(requireActivity().getCurrentFocus()).getWindowToken(), 0);
 
     }
+
+    /*public void guardar(){
+
+        String trabajadores = "";
+
+        try {
+
+            JSONArray jsonArray = new JSONArray(trabajadores);
+
+            for(int i=0; i <jsonArray.length();i++){
+                JSONObject object = jsonArray.getJSONObject(i);
+                Ob_usuario user = new Ob_usuario();
+                user.cedula = object.getString("cedula");
+                user.nombre = object.getString("nombre").toUpperCase();
+                user.rol = "RECEPTOR DE ACTAS";
+                user.canton = "MACHALA";
+                user.celular = object.getString("celular");
+                user.correo = object.getString("correo");
+                user.clave = "Cne.2024";
+                Principal.ctlUsuarios.crear_usuarios(user);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
 }

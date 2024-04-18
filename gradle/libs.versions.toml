@@ -16,6 +16,7 @@ constraintlayout = "2.1.4"
 photoview = "2.1.3"
 playServicesLocation = "21.0.1"
 playServicesMaps = "18.2.0"
+poi = "3.17"
 
 [libraries]
 android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
@@ -34,6 +35,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 photoView = { module = "com.github.chrisbanes:PhotoView", name = "photoview", version.ref = "photoview" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
