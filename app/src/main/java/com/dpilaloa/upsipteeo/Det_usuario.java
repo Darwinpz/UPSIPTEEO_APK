@@ -70,12 +70,11 @@ public class Det_usuario extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(editable.toString().trim().length() == 10){
-                        if(!Principal.ctlUsuarios.Validar_Cedula(editable.toString().trim())){
-                            txt_cedula.setError("Cédula Incorrecta");
-                        }
-                    }else{
+                    String cedula = editable.toString().trim();
+                    if (cedula.length() != 10) {
                         txt_cedula.setError("Ingresa 10 dígitos");
+                    } else if (!Principal.ctlUsuarios.Validar_Cedula(cedula)) {
+                        txt_cedula.setError("Cédula Incorrecta");
                     }
                 }
             });
@@ -113,12 +112,11 @@ public class Det_usuario extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(editable.toString().trim().length() == 10) {
-                        if (!Principal.ctlUsuarios.validar_celular(editable.toString().trim())) {
-                            txt_telefono.setError("Ingresa un celular válido");
-                        }
-                    }else{
+                    String telefono = editable.toString().trim();
+                    if (telefono.length() != 10) {
                         txt_telefono.setError("Ingresa 10 dígitos");
+                    } else if (!Principal.ctlUsuarios.validar_celular(telefono)) {
+                        txt_telefono.setError("Ingresa un celular válido");
                     }
                 }
             });
@@ -214,7 +212,7 @@ public class Det_usuario extends AppCompatActivity {
                 }
             });
 
-            btn_eliminar.setOnClickListener(view -> {
+            btn_eliminar.setOnClickListener(view ->
 
                 alertDialog.crear_mensaje("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
@@ -233,9 +231,9 @@ public class Det_usuario extends AppCompatActivity {
                     builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
                     builder.setCancelable(false);
                     builder.create().show();
-                });
+                })
 
-            });
+            );
 
             imageButton.setOnClickListener(view -> {
                 Intent i = new Intent(this, Det_asistencia.class);

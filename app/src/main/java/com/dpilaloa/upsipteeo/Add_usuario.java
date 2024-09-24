@@ -53,12 +53,11 @@ public class Add_usuario extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().length() == 10){
-                    if(!Principal.ctlUsuarios.Validar_Cedula(editable.toString().trim())){
-                        txt_cedula.setError("Cédula Incorrecta");
-                    }
-                }else{
+                String cedula = editable.toString().trim();
+                if (cedula.length() != 10) {
                     txt_cedula.setError("Ingresa 10 dígitos");
+                } else if (!Principal.ctlUsuarios.Validar_Cedula(cedula)) {
+                    txt_cedula.setError("Cédula Incorrecta");
                 }
 
             }
@@ -97,12 +96,11 @@ public class Add_usuario extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().length() == 10) {
-                    if (!Principal.ctlUsuarios.validar_celular(editable.toString().trim())) {
-                        txt_telefono.setError("Ingresa un celular válido");
-                    }
-                }else{
+                String telefono = editable.toString().trim();
+                if (telefono.length() != 10) {
                     txt_telefono.setError("Ingresa 10 dígitos");
+                } else if (!Principal.ctlUsuarios.validar_celular(telefono)) {
+                    txt_telefono.setError("Ingresa un celular válido");
                 }
             }
         });

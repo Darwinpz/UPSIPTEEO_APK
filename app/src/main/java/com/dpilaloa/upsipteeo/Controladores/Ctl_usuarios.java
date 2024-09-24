@@ -19,7 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Ctl_usuarios {
@@ -70,31 +69,14 @@ public class Ctl_usuarios {
 
                     Ob_usuario user = new Ob_usuario();
                     user.uid = uid;
-
-                    if(dataSnapshot.child("nombre").exists()){
-                        user.nombre = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("cedula").exists()){
-                        user.cedula = Objects.requireNonNull(dataSnapshot.child("cedula").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("rol").exists()){
-                        user.rol = Objects.requireNonNull(dataSnapshot.child("rol").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("correo").exists()){
-                        user.correo = Objects.requireNonNull(dataSnapshot.child("correo").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("celular").exists()){
-                        user.celular = Objects.requireNonNull(dataSnapshot.child("celular").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("canton").exists()){
-                        user.canton = Objects.requireNonNull(dataSnapshot.child("canton").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("foto").exists()){
-                        user.url_foto = Objects.requireNonNull(dataSnapshot.child("foto").getValue()).toString();
-                    }
-                    if(dataSnapshot.child("clave").exists()){
-                        user.clave = Objects.requireNonNull(dataSnapshot.child("clave").getValue()).toString();
-                    }
+                    user.cedula = dataSnapshot.child("cedula").getValue(String.class);
+                    user.nombre = dataSnapshot.child("nombre").getValue(String.class);
+                    user.canton = dataSnapshot.child("canton").getValue(String.class);
+                    user.celular = dataSnapshot.child("celular").getValue(String.class);
+                    user.rol = dataSnapshot.child("rol").getValue(String.class);
+                    user.clave = dataSnapshot.child("clave").getValue(String.class);
+                    user.correo = dataSnapshot.child("correo").getValue(String.class);
+                    user.url_foto = dataSnapshot.child("foto").getValue(String.class);
 
                     firebase_calldata.getUser(user);
 
@@ -110,7 +92,7 @@ public class Ctl_usuarios {
     }
 
 
-    public void VerUsuarios(Adapter_usuario list_usuarios, String uid, String rol, String filtro, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+    public void VerUsuarios(Adapter_usuario list_usuarios, String uid, String rol, String filtro, TextView textView, ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -128,25 +110,12 @@ public class Ctl_usuarios {
 
                         Ob_usuario usuario = new Ob_usuario();
                         usuario.uid = snapshot.getKey();
-
-                        if (snapshot.child("cedula").exists()) {
-                            usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
-                        }
-                        if (snapshot.child("nombre").exists()) {
-                            usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
-                        }
-                        if (snapshot.child("canton").exists()) {
-                            usuario.canton = Objects.requireNonNull(snapshot.child("canton").getValue()).toString();
-                        }
-                        if (snapshot.child("celular").exists()) {
-                            usuario.celular = Objects.requireNonNull(snapshot.child("celular").getValue()).toString();
-                        }
-                        if (snapshot.child("rol").exists()) {
-                            usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
-                        }
-                        if (snapshot.child("foto").exists()) {
-                            usuario.url_foto = Objects.requireNonNull(snapshot.child("foto").getValue()).toString();
-                        }
+                        usuario.cedula = snapshot.child("cedula").getValue(String.class);
+                        usuario.nombre = snapshot.child("nombre").getValue(String.class);
+                        usuario.canton = snapshot.child("canton").getValue(String.class);
+                        usuario.celular = snapshot.child("celular").getValue(String.class);
+                        usuario.rol = snapshot.child("rol").getValue(String.class);
+                        usuario.url_foto = snapshot.child("foto").getValue(String.class);
 
                         if (usuario.cedula!=null && usuario.cedula.trim().contains(filtro.trim().toLowerCase()) ||
                             usuario.nombre!=null && usuario.nombre.toLowerCase().trim().contains(filtro.trim().toLowerCase()) ||
@@ -164,17 +133,17 @@ public class Ctl_usuarios {
 
                     }
 
-                    txt_contador.setText(contador + " Usuarios");
-                    progressBar.setVisibility(View.GONE);
+                    txt_contador.setText(String.valueOf(contador));
+                    txt_contador.append("\tUsuarios");
                     textView.setVisibility(list_usuarios.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-                    list_usuarios.notifyDataSetChanged();
 
                 } else {
                     list_usuarios.ClearUsuario();
-                    list_usuarios.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
                     textView.setVisibility(View.VISIBLE);
                 }
+
+                list_usuarios.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
 
             }
 

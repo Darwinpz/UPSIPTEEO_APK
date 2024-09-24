@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
         holder.card_telefono.setText(list_usuario.get(position).celular);
         holder.card_rol.setText(list_usuario.get(position).rol);
 
-        if(list_usuario.get(position).url_foto!=null && !list_usuario.get(position).url_foto.isEmpty()) {
+        if(!TextUtils.isEmpty(list_usuario.get(position).url_foto)) {
             Glide.with(context).load(list_usuario.get(position).url_foto).centerCrop().into(holder.foto);
         }else{
             Glide.with(context).load(R.drawable.perfil).fitCenter().into(holder.foto);

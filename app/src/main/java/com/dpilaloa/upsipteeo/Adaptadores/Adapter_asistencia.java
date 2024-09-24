@@ -1,6 +1,7 @@
 package com.dpilaloa.upsipteeo.Adaptadores;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class Adapter_asistencia extends RecyclerView.Adapter<Holder_asistencia> 
         holder.card_fecha.setText(list_asistencia.get(position).fecha);
         holder.card_hora.setText(list_asistencia.get(position).hora);
 
-        if(list_asistencia.get(position).url_foto!=null && !list_asistencia.get(position).url_foto.isEmpty()) {
+        if(!TextUtils.isEmpty(list_asistencia.get(position).url_foto)) {
             Glide.with(context).load(list_asistencia.get(position).url_foto).centerCrop().into(holder.foto);
         }else{
             Glide.with(context).load(R.drawable.perfil).fitCenter().into(holder.foto);

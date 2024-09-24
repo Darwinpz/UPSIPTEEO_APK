@@ -16,7 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Ctl_asistencia {
 
@@ -48,16 +47,9 @@ public class Ctl_asistencia {
 
                                 Ob_asistencia asistencia = new Ob_asistencia();
                                 asistencia.uid = snapshot.getKey();
-
-                                if (snapshot.child("fecha").exists()) {
-                                    asistencia.fecha = Objects.requireNonNull(snapshot.child("fecha").getValue()).toString();
-                                }
-                                if (snapshot.child("hora").exists()) {
-                                    asistencia.hora = Objects.requireNonNull(snapshot.child("hora").getValue()).toString();
-                                }
-                                if (dataSnapshot.child("foto").exists()) {
-                                    asistencia.url_foto = Objects.requireNonNull(dataSnapshot.child("foto").getValue()).toString();
-                                }
+                                asistencia.fecha = snapshot.child("fecha").getValue(String.class);
+                                asistencia.hora = snapshot.child("hora").getValue(String.class);
+                                asistencia.url_foto = dataSnapshot.child("foto").getValue(String.class);
 
                                 list_asistencia.AddAsistencia(asistencia);
                                 contador++;
@@ -67,18 +59,18 @@ public class Ctl_asistencia {
 
                     }
 
-                    txt_contador.setText(contador + " Asistencias");
-                    progressBar.setVisibility(View.GONE);
+                    txt_contador.setText(String.valueOf(contador));
+                    txt_contador.append("\tAsistencias");
                     textView.setVisibility(list_asistencia.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-                    list_asistencia.notifyDataSetChanged();
 
                 } else {
                     list_asistencia.ClearAsistencia();
-                    list_asistencia.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
                     textView.setVisibility(View.VISIBLE);
 
                 }
+
+                list_asistencia.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -99,11 +91,8 @@ public class Ctl_asistencia {
 
     }
 
-    public void eliminar_asistencia(String uid_usuario, String uid_asistencia){
-
-        if(uid_usuario != null && !uid_usuario.isEmpty() && uid_asistencia != null && !uid_asistencia.isEmpty()) {
-            databaseReference.child("usuarios").child(uid_usuario).child("asistencia").child(uid_asistencia).removeValue();
-        }
+    public Task<Void> eliminar_asistencia(String uid_usuario, String uid_asistencia){
+        return databaseReference.child("usuarios").child(uid_usuario).child("asistencia").child(uid_asistencia).removeValue();
     }
 
 
