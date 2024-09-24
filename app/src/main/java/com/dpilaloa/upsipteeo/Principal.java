@@ -49,7 +49,7 @@ public class Principal extends AppCompatActivity {
 
             ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 
-            if(rol.equals("TICS" )|| rol.equals("TECNICO SUPERVISOR")) {
+            if(rol.equals(getString(R.string.admin_one))|| rol.equals(getString(R.string.admin_two))) {
                 adaptador.addFragment(new Fragmento_Inicio());
                 adaptador.addFragment(new Fragmento_Usuarios());
                 adaptador.addFragment(new Fragmento_Perfil());

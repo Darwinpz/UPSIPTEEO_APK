@@ -51,7 +51,7 @@ public class Det_asistencia extends AppCompatActivity {
         if(!UID_USUARIO.isEmpty()) {
             ctlAsistencia.VerAsistencia(list_asistencia,UID_USUARIO,txt_sinresultados,progressBar,txt_contador);
 
-            btn_add_asistencia.setVisibility(Principal.rol.equals("TICS") ? View.VISIBLE : View.GONE);
+            btn_add_asistencia.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
 
             btn_add_asistencia.setOnClickListener(view -> {
                 Fragmento_add_asistencia.UID = UID_USUARIO;

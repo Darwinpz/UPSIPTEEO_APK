@@ -32,7 +32,7 @@
             android:contentDescription="@string/description_logo" />
 
         <TextView
-            android:id="@+id/text_version"
+            android:id="@+id/txt_proceso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/proceso"

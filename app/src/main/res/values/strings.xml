@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">UPSIPTEEO</string>
-    <string name="proceso">Referéndum y Consulta Popular 2024</string>
+    <string name="proceso">Consejo Nacional Electoral</string>
     <string name="author">\@DarwinPilaloa</string>
     <string name="description_logo">logo</string>
     <string name="description_upload">upload</string>
@@ -55,6 +55,9 @@
     <string name="version">Versión</string>
     <string name="title_profile">Perfil</string>
     <string name="menu_config">Configuracion</string>
+    <string name="admin_one">TICS</string>
+    <string name="admin_two">TECNICO SUPERVISOR</string>
+
 
     <string-array name="rol">
         <item>Rol</item>

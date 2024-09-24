@@ -71,7 +71,7 @@ public class Reportes extends AppCompatActivity {
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                            if (!Objects.requireNonNull(snapshot.child("rol").getValue()).toString().equals("TICS")) {
+                            if (!Objects.requireNonNull(snapshot.child("rol").getValue()).toString().equals(getString(R.string.admin_one))) {
 
                                 HSSFRow hssfRow = hssfSheet.createRow(contador);
                                 HSSFCell hssfCell0 = hssfRow.createCell(0);
