@@ -8,12 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
 import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
@@ -64,6 +60,7 @@ public class Add_usuario extends AppCompatActivity {
                 }else{
                     txt_cedula.setError("Ingresa 10 dígitos");
                 }
+
             }
         });
 
@@ -126,13 +123,25 @@ public class Add_usuario extends AppCompatActivity {
                 user.canton = spinner_canton.getSelectedItem().toString();
                 user.rol = spinner_rol.getSelectedItem().toString();
                 user.clave = txt_clave.getText().toString();
-                Principal.ctlUsuarios.crear_usuarios(user);
-                dialog.ocultar_mensaje();
-                alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
-                    builder.setCancelable(false);
-                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                    builder.create().show();
+
+                Principal.ctlUsuarios.crear_usuarios(user).addOnCompleteListener(task -> {
+                    dialog.ocultar_mensaje();
+                    if(task.isSuccessful()){
+                        alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
+                            builder.setCancelable(false);
+                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                            builder.create().show();
+                        });
+                    }else{
+                        alertDialog.crear_mensaje("¡Advertencia!", "Error al crear el Usuario", builder -> {
+                            builder.setCancelable(true);
+                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                            builder.create().show();
+                        });
+                    }
+
                 });
+
             }else{
                 dialog.ocultar_mensaje();
                 alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {

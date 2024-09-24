@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,19 +138,19 @@ public class Fragmento_Perfil extends Fragment {
 
             });
 
-            imageButton.setOnClickListener(view1 -> {
+            imageButton.setOnClickListener(view1 ->
                 startActivity(new Intent(view.getContext(), Det_asistencia.class)
                         .putExtra("uid",Principal.id)
-                        .putExtra("nombre", NOMBRE_USUARIO));
-            });
+                        .putExtra("nombre", NOMBRE_USUARIO))
+            );
 
             img_perfil.setOnClickListener(view1 -> {
 
                 if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
                     alertDialog.crear_mensaje("Información", "Selecciona una opción", builder -> {
-                        builder.setPositiveButton("Ver Foto", (dialogInterface, i) -> {
-                            startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN));
-                        });
+                        builder.setPositiveButton("Ver Foto", (dialogInterface, i) ->
+                            startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN))
+                        );
                         builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> upload_foto());
                         builder.setCancelable(true);
                         builder.create().show();
@@ -165,6 +166,7 @@ public class Fragmento_Perfil extends Fragment {
                 if(!txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
                    !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
                    !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
+
                     Ob_usuario user = new Ob_usuario();
                     user.uid = Principal.id;
                     user.cedula = txt_cedula.getText().toString();
@@ -174,13 +176,32 @@ public class Fragmento_Perfil extends Fragment {
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = txt_rol.getText().toString();
                     user.clave = txt_clave.getText().toString();
-                    Principal.ctlUsuarios.update_usuario(user);
-                    dialog.ocultar_mensaje();
-                    alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
-                        builder.setCancelable(false);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
+
+                    if(!TextUtils.isEmpty(Principal.id)) {
+                        Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("Correcto", "Perfil Actualizado Correctamente", builder -> {
+                                    builder.setCancelable(false);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                    });
+                                    builder.create().show();
+                                });
+                            } else {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
+                                    builder.setCancelable(true);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                    });
+                                    builder.create().show();
+                                });
+                            }
+                        });
+                    }else{
+                        dialog.ocultar_mensaje();
+                        Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
+                    }
+
                 }else{
                     dialog.ocultar_mensaje();
                     alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
@@ -200,7 +221,7 @@ public class Fragmento_Perfil extends Fragment {
             });
 
         }else{
-            Toast.makeText(view.getContext(), "Ocurrió un error al cargar el perfil",Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), "Ocurrió un error al cargar el Perfil",Toast.LENGTH_LONG).show();
         }
 
         return view;
@@ -227,11 +248,13 @@ public class Fragmento_Perfil extends Fragment {
     });
 
     private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+
         if (isGranted) {
             getImageFile();
         } else {
             Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
         }
+
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -258,26 +281,36 @@ public class Fragmento_Perfil extends Fragment {
         StorageReference ref = Principal.storageReference.child("usuarios").child(Principal.id);
 
         dialog.mostrar_mensaje("Actualizando Foto...");
-        ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot -> {
+
+        ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
 
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 URL_IMAGEN = uri.toString();
-                Ob_usuario user = new Ob_usuario();
-                user.uid = Principal.id;
-                user.url_foto = URL_IMAGEN ;
-                Principal.ctlUsuarios.update_foto(user);
-                dialog.ocultar_mensaje();
-                alertDialog.crear_mensaje("Correcto", "Foto Actualizada Correctamente", builder -> {
-                    builder.setCancelable(false);
-                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                    builder.create().show();
-                });
+                if(!TextUtils.isEmpty(Principal.id)) {
+                    Principal.ctlUsuarios.update_foto(Principal.id, URL_IMAGEN).addOnCompleteListener(task -> {
+                        dialog.ocultar_mensaje();
+                        if (task.isSuccessful()) {
+                            alertDialog.crear_mensaje("Correcto", "Foto Actualizada Correctamente", builder -> {
+                                builder.setCancelable(false);
+                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                });
+                                builder.create().show();
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto", Toast.LENGTH_LONG).show();
+                        }
+
+                    });
+                }else{
+                    dialog.ocultar_mensaje();
+                    Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
+                }
             }).addOnFailureListener(e -> {
                 dialog.ocultar_mensaje();
-                Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
-            });
+                Toast.makeText(getContext(), "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
+            })
 
-        }).addOnFailureListener(e -> {
+        ).addOnFailureListener(e -> {
             dialog.ocultar_mensaje();
             Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
         });

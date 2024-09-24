@@ -3,6 +3,7 @@ package com.dpilaloa.upsipteeo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -177,13 +178,32 @@ public class Det_usuario extends AppCompatActivity {
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = spinner_rol.getSelectedItem().toString();
                     user.clave = txt_clave.getText().toString();
-                    Principal.ctlUsuarios.update_usuario(user);
-                    dialog.ocultar_mensaje();
-                    alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
-                        builder.setCancelable(false);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
+
+                    if(!TextUtils.isEmpty(UID_USUARIO)) {
+                        Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
+                                    builder.setCancelable(false);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                    });
+                                    builder.create().show();
+                                });
+                            } else {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", builder -> {
+                                    builder.setCancelable(true);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                    });
+                                    builder.create().show();
+                                });
+                            }
+                        });
+                    }else{
+                        dialog.ocultar_mensaje();
+                        Toast.makeText(this, "Ocurrió un error al obtener la id del Usuario",Toast.LENGTH_LONG).show();
+                    }
+
                 }else{
                     dialog.ocultar_mensaje();
                     alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
@@ -199,9 +219,16 @@ public class Det_usuario extends AppCompatActivity {
                 alertDialog.crear_mensaje("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
                         dialog.mostrar_mensaje("Eliminando Usuario...");
-                        Principal.ctlUsuarios.eliminar_usuario(UID_USUARIO);
-                        dialog.ocultar_mensaje();
-                        finish();
+
+                        Principal.ctlUsuarios.eliminar_usuario(UID_USUARIO).addOnCompleteListener(task -> {
+                            dialog.ocultar_mensaje();
+                            if(task.isSuccessful()){
+                                finish();
+                            }else{
+                                Toast.makeText(this, "Ocurrió un error al eliminar el Usuario",Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     });
                     builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
                     builder.setCancelable(false);
@@ -218,7 +245,7 @@ public class Det_usuario extends AppCompatActivity {
             });
 
         }else{
-            Toast.makeText(this, "Ocurrió un error al cargar el usuario",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ocurrió un error al cargar el Usuario",Toast.LENGTH_LONG).show();
         }
 
     }

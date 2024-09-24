@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
-import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
 import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -8,12 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.dpilaloa.upsipteeo.Adaptadores.Adapter_usuario;
+import com.dpilaloa.upsipteeo.Interfaces.UserInterface;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,41 +30,37 @@ public class Ctl_usuarios {
         this.dbref = dbref;
     }
 
-    public void crear_usuarios(Ob_usuario obUsuario){
-        dbref.child("usuarios").push().setValue(obUsuario);
+    public Task<Void> crear_usuarios(Ob_usuario obUsuario){
+        return dbref.child("usuarios").push().setValue(obUsuario);
     }
 
-    public void eliminar_usuario(String uid){
-        dbref.child("usuarios").child(uid).removeValue();
+    public Task<Void> eliminar_usuario(String uid){
+        return dbref.child("usuarios").child(uid).removeValue();
     }
 
-    public void update_usuario(Ob_usuario usuario) {
+    public Task<Void> update_usuario(Ob_usuario usuario) {
 
-        if(usuario.uid != null && !usuario.uid.isEmpty()) {
-            Map<String, Object> datos = new HashMap<>();
-            datos.put("cedula", usuario.cedula);
-            datos.put("nombre", usuario.nombre.toUpperCase());
-            datos.put("correo", usuario.correo.toLowerCase());
-            datos.put("celular", usuario.celular);
-            datos.put("canton", usuario.canton);
-            datos.put("rol", usuario.rol);
-            datos.put("clave",usuario.clave);
-            dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
-        }
+        Map<String, Object> datos = new HashMap<>();
+        datos.put("cedula", usuario.cedula);
+        datos.put("nombre", usuario.nombre.toUpperCase());
+        datos.put("correo", usuario.correo.toLowerCase());
+        datos.put("celular", usuario.celular);
+        datos.put("canton", usuario.canton);
+        datos.put("rol", usuario.rol);
+        datos.put("clave",usuario.clave);
 
-    }
-
-    public void update_foto(Ob_usuario usuario) {
-
-        if(usuario.uid != null && !usuario.uid.isEmpty()) {
-            Map<String, Object> datos = new HashMap<>();
-            datos.put("foto", usuario.url_foto);
-            dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
-        }
+        return dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
 
     }
 
-    public void obtener_datos_perfil(String uid, final Interfaces.Firebase_calluser firebase_calldata){
+    public Task<Void> update_foto(String uid, String url_foto) {
+
+        return dbref.child("usuarios").child(uid).updateChildren(Collections.singletonMap("foto", url_foto));
+
+    }
+
+
+    public void obtener_datos_perfil(String uid, UserInterface firebase_calldata){
 
         dbref.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -97,16 +96,15 @@ public class Ctl_usuarios {
                         user.clave = Objects.requireNonNull(dataSnapshot.child("clave").getValue()).toString();
                     }
 
-                    firebase_calldata.datos_usuario(user);
+                    firebase_calldata.getUser(user);
 
                 }
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {throw databaseError.toException();}
 
-            }
         });
 
     }
@@ -181,9 +179,7 @@ public class Ctl_usuarios {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
 
         });
 

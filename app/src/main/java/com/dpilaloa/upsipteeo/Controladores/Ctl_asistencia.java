@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.dpilaloa.upsipteeo.Adaptadores.Adapter_asistencia;
 import com.dpilaloa.upsipteeo.Objetos.Ob_asistencia;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,23 +83,20 @@ public class Ctl_asistencia {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
 
         });
 
     }
 
-    public void add_asistencia(String uid_user, Ob_asistencia asistencia) {
+    public Task<Void> add_asistencia(String uid_user, Ob_asistencia asistencia) {
 
         Map<String, Object> datos = new HashMap<>();
         datos.put("fecha",asistencia.fecha);
         datos.put("hora",asistencia.hora);
 
-        if(uid_user != null && !uid_user.isEmpty()) {
-            databaseReference.child("usuarios").child(uid_user).child("asistencia").push().setValue(datos);
-        }
+        return databaseReference.child("usuarios").child(uid_user).child("asistencia").push().setValue(datos);
+
     }
 
     public void eliminar_asistencia(String uid_usuario, String uid_asistencia){

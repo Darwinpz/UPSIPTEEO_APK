@@ -26,10 +26,7 @@ public class Alertas extends AppCompatActivity {
         adapterspinner_estado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterspinner_estado);
 
-        btn_mapa.setOnClickListener(view -> {
-            startActivity(new Intent(this, Mapa.class));
-        });
-
+        btn_mapa.setOnClickListener(view ->  startActivity(new Intent(this, Mapa.class)));
 
     }
 }

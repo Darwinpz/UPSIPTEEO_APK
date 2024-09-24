@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpilaloa.upsipteeo.R;
 
-
 public class Holder_asistencia extends RecyclerView.ViewHolder{
 
     public TextView card_fecha, card_hora;
