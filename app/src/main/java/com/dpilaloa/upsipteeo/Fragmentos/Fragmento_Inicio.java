@@ -40,9 +40,11 @@ public class Fragmento_Inicio extends Fragment {
 
         try {
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
-            txt_version.setText("Versión "+version);
+            txt_version.setText(getString(R.string.version));
+            txt_version.append("\t"+version);
+
         } catch (PackageManager.NameNotFoundException e) {
-            txt_version.setText("0.0");
+            txt_version.setText("-");
         }
 
         btn_ver_alertas.setVisibility(Principal.rol.equals("TICS") || Principal.rol.equals("TECNICO SUPERVISOR") ? View.VISIBLE : View.GONE);

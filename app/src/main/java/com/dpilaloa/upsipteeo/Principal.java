@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -88,18 +89,21 @@ public class Principal extends AppCompatActivity {
             }
         }
 
-    }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
 
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
-    }
+                if(doubleBackToExitPressedOnce){
+                    finish();
+                }else{
+                    doubleBackToExitPressedOnce = true;
+                    Toast.makeText(getBaseContext(), "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
+                }
 
+            }
+        });
+
+    }
 
 }

@@ -100,11 +100,10 @@ public class Ctl_usuarios {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                list_usuarios.ClearUsuario();
+                int contador = 0;
+
                 if (dataSnapshot.exists()) {
-
-                    list_usuarios.ClearUsuario();
-
-                    int contador = 0;
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
@@ -138,7 +137,6 @@ public class Ctl_usuarios {
                     textView.setVisibility(list_usuarios.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                 } else {
-                    list_usuarios.ClearUsuario();
                     textView.setVisibility(View.VISIBLE);
                 }
 

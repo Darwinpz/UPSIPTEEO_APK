@@ -21,8 +21,8 @@ import com.dpilaloa.upsipteeo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Fragmento_add_asistencia extends DialogFragment {
 
@@ -45,12 +45,13 @@ public class Fragmento_add_asistencia extends DialogFragment {
         TimePicker horario = view.findViewById(R.id.horario);
         CalendarView calendario = view.findViewById(R.id.calendario);
 
-        Date dia = new Date();
+        Calendar dia = Calendar.getInstance();
+        dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil")); // Zona horaria de Ecuador
 
-        calendario.setMinDate(dia.getTime());
+        calendario.setMinDate(dia.getTimeInMillis());
 
-        FECHA = dia.getTime();
-        HORA = String.format(Locale.getDefault(),"%02d:%02d", dia.getHours(), dia.getMinutes())+ " "+ ((dia.getHours()<12) ? "am":"pm");
+        FECHA = dia.getTimeInMillis();
+        HORA = String.format(Locale.getDefault(),"%02d:%02d", dia.get(Calendar.HOUR_OF_DAY), dia.get(Calendar.MINUTE))+ " "+ ((dia.get(Calendar.HOUR_OF_DAY)<12) ? "am":"pm");
 
         btn_guardar.setOnClickListener(view1 -> {
 

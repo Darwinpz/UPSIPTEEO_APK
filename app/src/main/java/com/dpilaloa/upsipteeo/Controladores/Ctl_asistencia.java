@@ -34,10 +34,10 @@ public class Ctl_asistencia {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.exists()) {
+                list_asistencia.ClearAsistencia();
+                int contador = 0;
 
-                    list_asistencia.ClearAsistencia();
-                    int contador = 0;
+                if (dataSnapshot.exists()) {
 
                     if(dataSnapshot.child("asistencia").exists()) {
 
@@ -64,9 +64,7 @@ public class Ctl_asistencia {
                     textView.setVisibility(list_asistencia.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                 } else {
-                    list_asistencia.ClearAsistencia();
                     textView.setVisibility(View.VISIBLE);
-
                 }
 
                 list_asistencia.notifyDataSetChanged();
