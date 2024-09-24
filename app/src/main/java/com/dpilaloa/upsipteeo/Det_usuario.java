@@ -18,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
-import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 
 import java.util.Objects;
@@ -48,7 +47,6 @@ public class Det_usuario extends AppCompatActivity {
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
         ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
-        Progress_dialog dialog = new Progress_dialog(this);
         Alert_dialog alertDialog = new Alert_dialog(this);
 
         toolbar.setOnClickListener(view -> finish());
@@ -160,7 +158,7 @@ public class Det_usuario extends AppCompatActivity {
             });
 
             btn_actualizar.setOnClickListener(view1 -> {
-                dialog.mostrar_mensaje("Actualizando...");
+                alertDialog.mostrar_progreso("Actualizando...");
                 if(!txt_cedula.getText().toString().trim().isEmpty() && txt_cedula.getError() == null &&
                         !txt_nombre.getText().toString().trim().isEmpty() && txt_nombre.getError() == null &&
                         !txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
@@ -180,7 +178,7 @@ public class Det_usuario extends AppCompatActivity {
                     if(!TextUtils.isEmpty(UID_USUARIO)) {
                         Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                dialog.ocultar_mensaje();
+                                alertDialog.ocultar_progreso();
                                 alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
                                     builder.setCancelable(false);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
@@ -188,7 +186,7 @@ public class Det_usuario extends AppCompatActivity {
                                     builder.create().show();
                                 });
                             } else {
-                                dialog.ocultar_mensaje();
+                                alertDialog.ocultar_progreso();
                                 alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", builder -> {
                                     builder.setCancelable(true);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
@@ -198,12 +196,12 @@ public class Det_usuario extends AppCompatActivity {
                             }
                         });
                     }else{
-                        dialog.ocultar_mensaje();
+                        alertDialog.ocultar_progreso();
                         Toast.makeText(this, "Ocurrió un error al obtener la id del Usuario",Toast.LENGTH_LONG).show();
                     }
 
                 }else{
-                    dialog.ocultar_mensaje();
+                    alertDialog.ocultar_progreso();
                     alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
                         builder.setCancelable(true);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
@@ -216,10 +214,10 @@ public class Det_usuario extends AppCompatActivity {
 
                 alertDialog.crear_mensaje("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                        dialog.mostrar_mensaje("Eliminando Usuario...");
 
+                        alertDialog.mostrar_progreso("Eliminando Usuario...");
                         Principal.ctlUsuarios.eliminar_usuario(UID_USUARIO).addOnCompleteListener(task -> {
-                            dialog.ocultar_mensaje();
+                            alertDialog.ocultar_progreso();
                             if(task.isSuccessful()){
                                 finish();
                             }else{

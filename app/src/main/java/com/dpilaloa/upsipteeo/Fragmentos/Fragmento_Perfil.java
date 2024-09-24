@@ -39,7 +39,6 @@ import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
-import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
 import com.dpilaloa.upsipteeo.Det_asistencia;
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
@@ -54,7 +53,6 @@ public class Fragmento_Perfil extends Fragment {
 
     String NOMBRE_USUARIO = "", URL_IMAGEN = "";
     ImageView img_perfil;
-    Progress_dialog dialog;
     Alert_dialog alertDialog;
     @Nullable
     @Override
@@ -73,7 +71,6 @@ public class Fragmento_Perfil extends Fragment {
         Button btn_salir = view.findViewById(R.id.btn_salir);
         ImageButton imageButton = view.findViewById(R.id.btn_ver_asist);
 
-        dialog = new Progress_dialog(view.getContext());
         alertDialog = new Alert_dialog(view.getContext());
 
         ArrayAdapter<CharSequence> adapterspinner_canton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
@@ -161,7 +158,7 @@ public class Fragmento_Perfil extends Fragment {
             });
 
             btn_actualizar.setOnClickListener(view1 -> {
-                dialog.mostrar_mensaje("Actualizando...");
+                alertDialog.mostrar_progreso("Actualizando...");
                 if(!txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
                    !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
                    !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
@@ -179,7 +176,7 @@ public class Fragmento_Perfil extends Fragment {
                     if(!TextUtils.isEmpty(Principal.id)) {
                         Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                dialog.ocultar_mensaje();
+                                alertDialog.ocultar_progreso();
                                 alertDialog.crear_mensaje("Correcto", "Perfil Actualizado Correctamente", builder -> {
                                     builder.setCancelable(false);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
@@ -187,7 +184,7 @@ public class Fragmento_Perfil extends Fragment {
                                     builder.create().show();
                                 });
                             } else {
-                                dialog.ocultar_mensaje();
+                                alertDialog.ocultar_progreso();
                                 alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
                                     builder.setCancelable(true);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
@@ -197,12 +194,12 @@ public class Fragmento_Perfil extends Fragment {
                             }
                         });
                     }else{
-                        dialog.ocultar_mensaje();
+                        alertDialog.ocultar_progreso();
                         Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
                     }
 
                 }else{
-                    dialog.ocultar_mensaje();
+                    alertDialog.ocultar_progreso();
                     alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
                         builder.setCancelable(true);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
@@ -212,9 +209,9 @@ public class Fragmento_Perfil extends Fragment {
             });
 
             btn_salir.setOnClickListener(view1 -> {
-                dialog.mostrar_mensaje("Cerrando Sesión...");
+                alertDialog.mostrar_progreso("Cerrando Sesión...");
                 Principal.ctlUsuarios.cerrar_sesion(Principal.preferences);
-                dialog.ocultar_mensaje();
+                alertDialog.ocultar_progreso();
                 requireActivity().finish();
                 startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             });
@@ -279,7 +276,7 @@ public class Fragmento_Perfil extends Fragment {
         final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
         StorageReference ref = Principal.storageReference.child("usuarios").child(Principal.id);
 
-        dialog.mostrar_mensaje("Actualizando Foto...");
+        alertDialog.mostrar_progreso("Actualizando Foto...");
 
         ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
 
@@ -287,7 +284,7 @@ public class Fragmento_Perfil extends Fragment {
                 URL_IMAGEN = uri.toString();
                 if(!TextUtils.isEmpty(Principal.id)) {
                     Principal.ctlUsuarios.update_foto(Principal.id, URL_IMAGEN).addOnCompleteListener(task -> {
-                        dialog.ocultar_mensaje();
+                        alertDialog.ocultar_progreso();
                         if (task.isSuccessful()) {
                             alertDialog.crear_mensaje("Correcto", "Foto Actualizada Correctamente", builder -> {
                                 builder.setCancelable(false);
@@ -301,16 +298,16 @@ public class Fragmento_Perfil extends Fragment {
 
                     });
                 }else{
-                    dialog.ocultar_mensaje();
+                    alertDialog.ocultar_progreso();
                     Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(e -> {
-                dialog.ocultar_mensaje();
+                alertDialog.ocultar_progreso();
                 Toast.makeText(getContext(), "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
             })
 
         ).addOnFailureListener(e -> {
-            dialog.ocultar_mensaje();
+            alertDialog.ocultar_progreso();
             Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
         });
 

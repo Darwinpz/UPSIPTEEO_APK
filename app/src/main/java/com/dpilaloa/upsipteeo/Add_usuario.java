@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
-import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
 import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
 
 public class Add_usuario extends AppCompatActivity {
@@ -33,7 +32,6 @@ public class Add_usuario extends AppCompatActivity {
         Spinner spinner_rol = findViewById(R.id.spinner_rol);
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
 
-        Progress_dialog dialog = new Progress_dialog(this);
         Alert_dialog alertDialog = new Alert_dialog(this);
 
         toolbar.setOnClickListener(view -> finish());
@@ -106,7 +104,7 @@ public class Add_usuario extends AppCompatActivity {
         });
 
         btn_crear.setOnClickListener(view -> {
-            dialog.mostrar_mensaje("Creando...");
+            alertDialog.mostrar_progreso("Creando...");
             if(!txt_cedula.getText().toString().trim().isEmpty() && txt_cedula.getError() == null &&
                     !txt_nombre.getText().toString().trim().isEmpty() && txt_nombre.getError() == null &&
                     !txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
@@ -123,7 +121,7 @@ public class Add_usuario extends AppCompatActivity {
                 user.clave = txt_clave.getText().toString();
 
                 Principal.ctlUsuarios.crear_usuarios(user).addOnCompleteListener(task -> {
-                    dialog.ocultar_mensaje();
+                    alertDialog.ocultar_progreso();
                     if(task.isSuccessful()){
                         alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
                             builder.setCancelable(false);
@@ -141,7 +139,7 @@ public class Add_usuario extends AppCompatActivity {
                 });
 
             }else{
-                dialog.ocultar_mensaje();
+                alertDialog.ocultar_progreso();
                 alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
                     builder.setCancelable(true);
                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});

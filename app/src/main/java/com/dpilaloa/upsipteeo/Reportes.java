@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
-import com.dpilaloa.upsipteeo.Controladores.Progress_dialog;
+import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -47,7 +47,7 @@ public class Reportes extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        Progress_dialog dialog = new Progress_dialog(this);
+        Alert_dialog dialog = new Alert_dialog(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         CardView txt_consolidado = findViewById(R.id.txt_consolidado);
 
@@ -57,7 +57,7 @@ public class Reportes extends AppCompatActivity {
 
         txt_consolidado.setOnClickListener(view -> {
 
-            dialog.mostrar_mensaje("Creando Reporte...");
+            dialog.mostrar_progreso("Creando Reporte...");
 
             hssfSheet = hssfWorkbook.createSheet("CONSOLIDADO");
             encabezado(hssfSheet);
@@ -114,7 +114,7 @@ public class Reportes extends AppCompatActivity {
                             hssfWorkbook.close();
                             fileOutputStream.close();
 
-                            dialog.ocultar_mensaje();
+                            dialog.ocultar_progreso();
                             Intent i = new Intent(Intent.ACTION_VIEW);
                             i.setDataAndType(Uri.fromFile(file),"application/vnd.ms-excel");
                             startActivity(i);
