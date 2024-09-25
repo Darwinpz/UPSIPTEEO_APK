@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_home"
+        app:title="@string/tab_title_home"
         app:titleTextColor="#FFFFFF"
         />
 
@@ -35,7 +35,7 @@
             android:id="@+id/txt_proceso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/proceso"
+            android:text="@string/process"
             android:textColor="@color/danger"
             android:textSize="20sp"
             android:gravity="center"
@@ -69,7 +69,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_alerta"
+            android:text="@string/btn_add_alert"
             android:backgroundTint="@color/danger"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
@@ -81,7 +81,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ver_alertas"
+            android:text="@string/btn_show_alert"
             android:backgroundTint="@color/proyecto_night"
             android:textColor="@color/white"
             android:layout_marginTop="5dp"

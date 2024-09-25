@@ -30,7 +30,7 @@ public class AssistanceController {
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
 
-        databaseReference.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -39,17 +39,17 @@ public class AssistanceController {
 
                 if (dataSnapshot.exists()) {
 
-                    if(dataSnapshot.child("asistencia").exists()) {
+                    if(dataSnapshot.child("assistance").exists()) {
 
-                        for (DataSnapshot snapshot : dataSnapshot.child("asistencia").getChildren()) {
+                        for (DataSnapshot snapshot : dataSnapshot.child("assistance").getChildren()) {
 
-                            if(snapshot.child("fecha").exists() && snapshot.child("hora").exists()) {
+                            if(snapshot.child("date").exists() && snapshot.child("time").exists()) {
 
                                 Assistance assistance = new Assistance();
                                 assistance.uid = snapshot.getKey();
-                                assistance.date = snapshot.child("fecha").getValue(String.class);
-                                assistance.time = snapshot.child("hora").getValue(String.class);
-                                assistance.photo = dataSnapshot.child("foto").getValue(String.class);
+                                assistance.date = snapshot.child("date").getValue(String.class);
+                                assistance.time = snapshot.child("time").getValue(String.class);
+                                assistance.photo = dataSnapshot.child("photo").getValue(String.class);
                                 assistanceAdapter.add(assistance);
 
                                 contador++;
@@ -82,15 +82,15 @@ public class AssistanceController {
     public Task<Void> createAssistance(String uid, Assistance assistance) {
 
         Map<String, Object> data = new HashMap<>();
-        data.put("fecha",assistance.date);
-        data.put("hora",assistance.time);
+        data.put("date",assistance.date);
+        data.put("time",assistance.time);
 
-        return databaseReference.child("usuarios").child(uid).child("asistencia").push().setValue(data);
+        return databaseReference.child("users").child(uid).child("assistance").push().setValue(data);
 
     }
 
     public Task<Void> deleteAssistance(String uidUser, String uidAssistance){
-        return databaseReference.child("usuarios").child(uidUser).child("asistencia").child(uidAssistance).removeValue();
+        return databaseReference.child("users").child(uidUser).child("assistance").child(uidAssistance).removeValue();
     }
 
 

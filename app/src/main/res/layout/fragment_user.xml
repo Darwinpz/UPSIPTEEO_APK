@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_home"
+        app:title="@string/tab_title_users"
         app:titleTextColor="#FFFFFF"
         />
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_agregar"
-            android:text="@string/title_add_user"
+            android:text="@string/btn_save_user"
             android:textColor="@color/white"
             android:backgroundTint="@color/success"
             android:padding="10dp"
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_search"
-            android:hint="@string/title_buscar_user"
+            android:hint="@string/input_search_user"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:textSize="15sp"
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/title_resultados"
+            android:text="@string/label_count_result"
             android:textColor="@color/danger"
             android:layout_marginEnd="5dp"
             />
@@ -105,7 +105,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_sin_resultados"
+            android:text="@string/label_not_result"
             android:visibility="gone"
             />
 

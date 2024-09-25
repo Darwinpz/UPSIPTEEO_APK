@@ -38,7 +38,7 @@ public class AssistanceAdapter extends RecyclerView.Adapter<AssistanceHolder> {
     @NonNull
     @Override
     public AssistanceHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.cardview_asistencia,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_assistance,parent,false);
         return new AssistanceHolder(view);
     }
 

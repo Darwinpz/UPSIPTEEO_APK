@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.dpilaloa.upsipteeo.Det_usuario;
+import com.dpilaloa.upsipteeo.DetUserView;
 import com.dpilaloa.upsipteeo.Holders.UserHolder;
 import com.dpilaloa.upsipteeo.Objects.User;
 import com.dpilaloa.upsipteeo.R;
@@ -43,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
     @NonNull
     @Override
     public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.cardview_usuario,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_user,parent,false);
         return new UserHolder(view);
     }
 
@@ -64,7 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
         }
 
         holder.cardViewUser.setOnClickListener(view -> {
-            Intent i = new Intent(context, Det_usuario.class).putExtra("uid",userList.get(position).uid);
+            Intent i = new Intent(context, DetUserView.class).putExtra("uid",userList.get(position).uid);
             context.startActivity(i);
         });
 

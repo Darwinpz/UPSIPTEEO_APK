@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Det_asistencia">
+    tools:context=".DetAssistanceView">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/asistencia"
+        app:title="@string/title_assistance"
         app:titleTextColor="#FFFFFF"
         app:navigationIcon="@drawable/ic_left"
         />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_add_asistencia"
-            android:text="@string/title_add_asistencia"
+            android:text="@string/btn_add_assistance"
             android:textColor="@color/white"
             android:backgroundTint="@color/success"
             android:padding="10dp"
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/usuario"
+            android:text="@string/label_user_name"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:textStyle="bold"
@@ -68,7 +68,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_resultados"
+        android:text="@string/label_count_result"
         android:gravity="end"
         android:layout_below="@id/cardview_nombre"
         android:id="@+id/txt_contador"
@@ -98,7 +98,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aún no hay Asistencia..."
+            android:text="@string/label_not_result"
             android:visibility="gone"
             />
 

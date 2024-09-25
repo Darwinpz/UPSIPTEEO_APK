@@ -30,38 +30,38 @@ public class UserController {
     }
 
     public Task<Void> createUser(User user){
-        return databaseReference.child("usuarios").push().setValue(user);
+        return databaseReference.child("users").push().setValue(user);
     }
 
     public Task<Void> deleteUser(String uid){
-        return databaseReference.child("usuarios").child(uid).removeValue();
+        return databaseReference.child("users").child(uid).removeValue();
     }
 
     public Task<Void> updateUser(User user) {
 
         Map<String, Object> data = new HashMap<>();
-        data.put("cedula", user.ced);
-        data.put("nombre", user.name.toUpperCase());
-        data.put("correo", user.email.toLowerCase());
-        data.put("celular", user.phone);
+        data.put("ced", user.ced);
+        data.put("name", user.name.toUpperCase());
+        data.put("email", user.email.toLowerCase());
+        data.put("phone", user.phone);
         data.put("canton", user.canton);
         data.put("rol", user.rol);
-        data.put("clave",user.password);
+        data.put("password",user.password);
 
-        return databaseReference.child("usuarios").child(user.uid).updateChildren(data);
+        return databaseReference.child("users").child(user.uid).updateChildren(data);
 
     }
 
     public Task<Void> updatePhoto(String uid, String photo) {
 
-        return databaseReference.child("usuarios").child(uid).updateChildren(Collections.singletonMap("foto", photo));
+        return databaseReference.child("users").child(uid).updateChildren(Collections.singletonMap("photo", photo));
 
     }
 
 
     public void getProfile(String uid, UserInterface userInterface){
 
-        databaseReference.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -69,14 +69,14 @@ public class UserController {
 
                     User user = new User();
                     user.uid = uid;
-                    user.ced = dataSnapshot.child("cedula").getValue(String.class);
-                    user.name = dataSnapshot.child("nombre").getValue(String.class);
+                    user.ced = dataSnapshot.child("ced").getValue(String.class);
+                    user.name = dataSnapshot.child("name").getValue(String.class);
                     user.canton = dataSnapshot.child("canton").getValue(String.class);
-                    user.phone = dataSnapshot.child("celular").getValue(String.class);
+                    user.phone = dataSnapshot.child("phone").getValue(String.class);
                     user.rol = dataSnapshot.child("rol").getValue(String.class);
-                    user.password = dataSnapshot.child("clave").getValue(String.class);
-                    user.email = dataSnapshot.child("correo").getValue(String.class);
-                    user.photo = dataSnapshot.child("foto").getValue(String.class);
+                    user.password = dataSnapshot.child("password").getValue(String.class);
+                    user.email = dataSnapshot.child("email").getValue(String.class);
+                    user.photo = dataSnapshot.child("photo").getValue(String.class);
 
                     userInterface.getUser(user);
 
@@ -96,7 +96,7 @@ public class UserController {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
-        databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -109,12 +109,12 @@ public class UserController {
 
                         User user = new User();
                         user.uid = snapshot.getKey();
-                        user.ced = snapshot.child("cedula").getValue(String.class);
-                        user.name = snapshot.child("nombre").getValue(String.class);
+                        user.ced = snapshot.child("ced").getValue(String.class);
+                        user.name = snapshot.child("name").getValue(String.class);
                         user.canton = snapshot.child("canton").getValue(String.class);
-                        user.phone = snapshot.child("celular").getValue(String.class);
+                        user.phone = snapshot.child("phone").getValue(String.class);
                         user.rol = snapshot.child("rol").getValue(String.class);
-                        user.photo = snapshot.child("foto").getValue(String.class);
+                        user.photo = snapshot.child("photo").getValue(String.class);
 
                         if (user.ced !=null && user.ced.trim().contains(filter.trim().toLowerCase()) ||
                                 user.name !=null && user.name.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||

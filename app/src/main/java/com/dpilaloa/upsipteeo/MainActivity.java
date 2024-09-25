@@ -33,20 +33,20 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         databaseReference = DB.getReference();
         alertDialog = new AlertDialogController(this);
-        EditText txt_usuario = findViewById(R.id.txt_cedula);
-        EditText txt_clave = findViewById(R.id.txt_clave);
-        Button btn_ingreso = findViewById(R.id.btn_ingresar);
+        EditText editTextUser = findViewById(R.id.txt_cedula);
+        EditText editTextPassword = findViewById(R.id.txt_clave);
+        Button btnLogIn = findViewById(R.id.btn_ingresar);
 
-        btn_ingreso.setOnClickListener(view -> Login(txt_usuario.getText().toString(),txt_clave.getText().toString()));
+        btnLogIn.setOnClickListener(view -> Login(editTextUser.getText().toString(),editTextPassword.getText().toString()));
 
     }
 
-    public void Login(String usuario, String clave){
+    public void Login(String username, String password){
 
         alertDialog.showProgressMessage("Iniciando sesión...");
 
-        if (!usuario.isEmpty() && !clave.isEmpty()) {
-            databaseReference.child("usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+        if (!username.isEmpty() && !password.isEmpty()) {
+            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot datasnapshot) {
 
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
                         boolean existe = false;
                         for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-                            if(snapshot.child("cedula").exists() && snapshot.child("clave").exists() && snapshot.child("rol").exists() ) {
-                                if (Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().equals(usuario) &&
-                                        Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(clave)) {
+                            if(snapshot.child("ced").exists() && snapshot.child("password").exists() && snapshot.child("rol").exists() ) {
+                                if (Objects.requireNonNull(snapshot.child("ced").getValue()).toString().equals(username) &&
+                                        Objects.requireNonNull(snapshot.child("password").getValue()).toString().equals(password)) {
 
                                     existe = true;
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                         editor.apply();
                                         alertDialog.hideProgressMessage();
-                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                        startActivity(new Intent(getBaseContext(), PrimaryView.class));
                                         finish();
 
                                     }
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty()) {
 
-            startActivity(new Intent(this, Principal.class));
+            startActivity(new Intent(this, PrimaryView.class));
             finish();
 
         }

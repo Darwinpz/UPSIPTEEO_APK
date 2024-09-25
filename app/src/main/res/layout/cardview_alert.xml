@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:id="@+id/cardview_alerta"
@@ -18,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center"
-            >
+            tools:ignore="UselessParent">
 
             <TextView
                 android:layout_marginTop="5dp"
@@ -26,7 +28,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/usuario"
+                android:text="@string/label_user_name"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:id="@+id/card_nombre"
@@ -37,7 +39,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cedula"
+                android:text="@string/label_user_ced"
                 android:textSize="13sp"
                 android:id="@+id/card_cedula"
                 />
@@ -47,7 +49,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/canton"
+                android:text="@string/label_card_alert_canton"
                 android:textSize="13sp"
                 android:id="@+id/card_canton"
                 />
@@ -56,7 +58,7 @@
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_alerta"
+                android:text="@string/label_card_alert_message"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:id="@+id/card_alerta"
@@ -73,7 +75,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_fecha"
+                    android:text="@string/label_format_date"
                     android:textSize="15sp"
                     android:layout_weight="1"
                     />
@@ -83,7 +85,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/estado"
+                    android:text="@string/label_card_alert_state"
                     android:textSize="15sp"
                     android:gravity="end"
                     android:textStyle="bold"

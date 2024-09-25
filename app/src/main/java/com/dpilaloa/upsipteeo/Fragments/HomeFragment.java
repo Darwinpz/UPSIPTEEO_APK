@@ -14,11 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.dpilaloa.upsipteeo.Alertas;
+import com.dpilaloa.upsipteeo.AlertView;
 import com.dpilaloa.upsipteeo.MainActivity;
-import com.dpilaloa.upsipteeo.Principal;
+import com.dpilaloa.upsipteeo.PrimaryView;
 import com.dpilaloa.upsipteeo.R;
-import com.dpilaloa.upsipteeo.Reportes;
+import com.dpilaloa.upsipteeo.ReportView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -36,14 +36,14 @@ public class HomeFragment extends Fragment {
         Button btnAlert = view.findViewById(R.id.btn_alerta);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_perfil);
+        toolbar.inflateMenu(R.menu.menu_profile);
 
         toolbar.getMenu().getItem(0).setOnMenuItemClickListener(menuItem -> {
-            startActivity(new Intent(getActivity(), Reportes.class));
+            startActivity(new Intent(getActivity(), ReportView.class));
             return false;
         });
 
-        MainActivity.databaseReference.child("proceso").addListenerForSingleValueEvent(new ValueEventListener() {
+        MainActivity.databaseReference.child("process").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -66,10 +66,10 @@ public class HomeFragment extends Fragment {
             txtVersion.setText("-");
         }
 
-        btnShowAlert.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
-        btnAlert.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
+        btnShowAlert.setVisibility(PrimaryView.rol.equals(getString(R.string.admin_one)) || PrimaryView.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
+        btnAlert.setVisibility(PrimaryView.rol.equals(getString(R.string.admin_one)) || PrimaryView.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
 
-        btnShowAlert.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), Alertas.class)));
+        btnShowAlert.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), AlertView.class)));
 
         return view;
 

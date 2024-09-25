@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_profile"
+        app:title="@string/tab_title_profile"
         app:titleTextColor="#FFFFFF"
         />
 
@@ -51,7 +51,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/title_asistencia"
+                            android:text="@string/label_reg_assistance"
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:gravity="center"
@@ -86,7 +86,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rol"
+                    android:text="@string/label_user_rol"
                     android:textStyle="bold"
                     android:textSize="15sp"
                     android:id="@+id/txt_rol"
@@ -114,7 +114,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/usuario"
+                        android:text="@string/label_user_name"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:gravity="center"
@@ -125,10 +125,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/cedula"
+                        android:text="@string/label_user_ced"
                         android:textSize="15sp"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:id="@+id/txt_cedula"
                         />
 
@@ -143,16 +144,17 @@
                         />
 
                     <TextView
+                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_upload"
+                        android:text="@string/label_upload_photo"
                         android:gravity="center"
                         />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_correo"
+                        android:text="@string/label_email"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_marginTop="10dp"
@@ -165,7 +167,7 @@
                         android:id="@+id/txt_correo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/correo"
+                        android:hint="@string/input_email"
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
                         android:textColorHint="@color/gray"
@@ -177,7 +179,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_celular"
+                        android:text="@string/label_phone"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_marginTop="10dp"
@@ -190,7 +192,7 @@
                         android:id="@+id/txt_telefono"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/celular"
+                        android:hint="@string/input_phone"
                         android:inputType="numberSigned"
                         android:maxLength="10"
                         android:textColorHint="@color/gray"
@@ -202,7 +204,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_canton"
+                        android:text="@string/label_canton"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_marginTop="10dp"
@@ -222,7 +224,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/password_name"
+                        android:text="@string/label_password"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_marginTop="10dp"
@@ -246,7 +248,7 @@
                             android:textColor="@color/black"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:hint="@string/password"
+                            android:hint="@string/input_password"
                             android:inputType="textPassword"
                             android:maxLength="12"
                             android:autofillHints="password" />
@@ -261,7 +263,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="20dp"
                         android:backgroundTint="@color/success"
-                        android:text="@string/title_update"
+                        android:text="@string/btn_update_profile"
                         android:textColor="@color/white"
                         />
 
@@ -274,7 +276,7 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="20dp"
                         android:backgroundTint="@color/danger"
-                        android:text="@string/title_logout"
+                        android:text="@string/btn_logout"
                         android:textColor="@color/white"
                         />
 

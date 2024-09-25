@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:layout_margin="3dp"
-            android:contentDescription="@string/title_photo" />
+            android:contentDescription="@string/description_photo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/usuario"
+                android:text="@string/label_user_name"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 />
@@ -51,7 +51,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cedula"
+                android:text="@string/label_user_ced"
                 android:textSize="15sp"
                 />
 
@@ -67,14 +67,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_location"
-                    android:contentDescription="@string/title_icono" />
+                    android:contentDescription="@string/description_icon" />
 
                 <TextView
                     android:id="@+id/card_canton"
                     android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ubicacion"
+                    android:text="@string/label_user_canton"
                     android:textSize="15sp"
                     />
 
@@ -92,14 +92,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_phone"
-                    android:contentDescription="@string/title_icono" />
+                    android:contentDescription="@string/description_icon" />
 
                 <TextView
                     android:id="@+id/card_celular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@string/celular"
+                    android:text="@string/label_user_phone"
                     android:textSize="15sp"
                     />
 
@@ -117,14 +117,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_work"
-                    android:contentDescription="@string/title_icono" />
+                    android:contentDescription="@string/description_icon" />
 
                 <TextView
                     android:id="@+id/card_rol"
                     android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rol"
+                    android:text="@string/label_user_rol"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     />

@@ -20,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-public class Principal extends AppCompatActivity {
+public class PrimaryView extends AppCompatActivity {
 
     public static StorageReference storageReference;
     private static final int DOUBLE_CLICK_INTERVAL = 2000;
@@ -28,12 +28,12 @@ public class Principal extends AppCompatActivity {
     public static SharedPreferences preferences;
     public static String id = "";
     public static String rol = "";
-    public static UserController ctlUsuarios;
+    public static UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_principal);
+        setContentView(R.layout.activity_primary);
 
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         id = preferences.getString("uid","");
@@ -41,47 +41,47 @@ public class Principal extends AppCompatActivity {
 
         if(!id.isEmpty()) {
 
-            ctlUsuarios = new UserController(MainActivity.databaseReference);
+            userController = new UserController(MainActivity.databaseReference);
             storageReference = FirebaseStorage.getInstance().getReference();
 
             ViewPager2 viewPager2 = findViewById(R.id.view_pager);
             TabLayout tabLayout = findViewById(R.id.tablayout);
 
-            ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
+            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 
             if(rol.equals(getString(R.string.admin_one))|| rol.equals(getString(R.string.admin_two))) {
-                adaptador.addFragment(new HomeFragment());
-                adaptador.addFragment(new UserFragment());
-                adaptador.addFragment(new ProfileFragment());
-                viewPager2.setAdapter(adaptador);
+                viewPageAdapter.addFragment(new HomeFragment());
+                viewPageAdapter.addFragment(new UserFragment());
+                viewPageAdapter.addFragment(new ProfileFragment());
+                viewPager2.setAdapter(viewPageAdapter);
                 viewPager2.setOffscreenPageLimit(3);
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
                     switch (position) {
                         case 0:
-                            tab.setText(R.string.title_home);
+                            tab.setText(R.string.tab_title_home);
                             break;
                         case 1:
-                            tab.setText(R.string.title_users);
+                            tab.setText(R.string.tab_title_users);
                             break;
                         case 2:
-                            tab.setText(R.string.title_profile);
+                            tab.setText(R.string.tab_title_profile);
                             break;
                     }
 
                 }).attach();
 
             }else{
-                adaptador.addFragment(new HomeFragment());
-                adaptador.addFragment(new ProfileFragment());
-                viewPager2.setAdapter(adaptador);
+                viewPageAdapter.addFragment(new HomeFragment());
+                viewPageAdapter.addFragment(new ProfileFragment());
+                viewPager2.setAdapter(viewPageAdapter);
                 viewPager2.setOffscreenPageLimit(2);
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
                     switch (position) {
                         case 0:
-                            tab.setText(R.string.title_home);
+                            tab.setText(R.string.tab_title_home);
                             break;
                         case 1:
-                            tab.setText(R.string.title_profile);
+                            tab.setText(R.string.tab_title_profile);
                             break;
                     }
 

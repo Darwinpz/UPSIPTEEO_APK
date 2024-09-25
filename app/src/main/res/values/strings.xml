@@ -1,63 +1,79 @@
 <resources>
     <string name="app_name">UPSIPTEEO</string>
-    <string name="proceso">Consejo Nacional Electoral</string>
+    <string name="process">Consejo Nacional Electoral</string>
     <string name="author">\@DarwinPilaloa</string>
+    <string name="version">Versión</string>
+
     <string name="description_logo">logo</string>
     <string name="description_upload">upload</string>
     <string name="description_eye">eye</string>
-    <string name="login">Ingresar</string>
-    <string name="cedula_name">* Cédula:</string>
-    <string name="title_correo">* Correo:</string>
-    <string name="title_volver">Volver</string>
-    <string name="correo">Correo electrónico</string>
-    <string name="title_celular">* Celular:</string>
-    <string name="title_photo">Foto</string>
-    <string name="title_icono">icono</string>
-    <string name="title_upload">Subir Foto</string>
-    <string name="title_estado">Asistencia</string>
-    <string name="estado">Estado</string>
-    <string name="select_fecha">Selecciona la Fecha</string>
-    <string name="select_hora">Selecciona la Hora</string>
-    <string name="title_fecha">dd/mm/yyyy</string>
-    <string name="title_hora">hh:mm:ss</string>
-    <string name="title_buscar_user">Buscar Usuario</string>
-    <string name="title_buscar_alerta">Buscar Alerta</string>
-    <string name="title_sin_resultados">No existen Resultados</string>
-    <string name="title_resultados">0 Resultados</string>
-    <string name="title_add_user">Agregar Usuario</string>
-    <string name="title_add_asistencia">Agregar Asistencia</string>
-    <string name="title_save_asistencia">Guardar Asistencia</string>
-    <string name="title_update">Actualizar Perfil</string>
-    <string name="title_remove">Eliminar Perfil</string>
-    <string name="title_logout">Cerrar Sesión</string>
-    <string name="celular">Celular o Whatsapp:</string>
-    <string name="usuario">USUARIO</string>
-    <string name="title_canton">* Cantón:</string>
-    <string name="title_reporte">Reportes</string>
-    <string name="title_rpt_usuario">Reporte de Usuarios</string>
-    <string name="canton">Canton o Recinto</string>
-    <string name="ubicacion">Cantón</string>
-    <string name="cedula">Cédula de Identidad</string>
-    <string name="password_name">* Clave:</string>
-    <string name="title_name">* Nombre:</string>
-    <string name="name">Apellidos y Nombres</string>
-    <string name="password">Clave de Acceso</string>
-    <string name="title_home">Inicio</string>
-    <string name="title_users">Usuarios</string>
-    <string name="title_user">Usuario</string>
-    <string name="title_rol">* Rol:</string>
-    <string name="rol">ROL DE USUARIO</string>
-    <string name="title_asistencia">REGISTRO DE ASISTENCIA</string>
-    <string name="asistencia">Asistencia</string>
-    <string name="title_alerta">!Tengo una Alerta!</string>
-    <string name="ver_alertas">Ver Alertas</string>
-    <string name="ver_mapa">Mapa de Alertas</string>
-    <string name="version">Versión</string>
-    <string name="title_profile">Perfil</string>
-    <string name="menu_config">Configuracion</string>
+    <string name="description_photo">foto</string>
+    <string name="description_icon">icono</string>
+
     <string name="admin_one">TICS</string>
     <string name="admin_two">TECNICO SUPERVISOR</string>
 
+    <string name="label_ced">* Cédula:</string>
+    <string name="label_email">* Correo:</string>
+    <string name="label_phone">* Celular:</string>
+    <string name="label_password">* Clave:</string>
+    <string name="label_name">* Nombre:</string>
+    <string name="label_rol">* Rol:</string>
+    <string name="label_canton">* Cantón:</string>
+    <string name="label_select_date">Selecciona la Fecha</string>
+    <string name="label_select_time">Selecciona la Hora</string>
+    <string name="label_reg_assistance">REGISTRO DE ASISTENCIA</string>
+    <string name="label_not_result">No existen Resultados</string>
+    <string name="label_count_result">0 Resultados</string>
+    <string name="label_format_date">dd/mm/yyyy</string>
+    <string name="label_format_time">hh:mm:ss</string>
+    <string name="label_upload_photo">Subir Foto</string>
+
+    <string name="label_user_rol">ROL DE USUARIO</string>
+    <string name="label_user_name">NOMBRE DEL USUARIO</string>
+    <string name="label_user_ced">CEDULA DEL USUARIO</string>
+    <string name="label_user_phone">TELEFONO DEL USUARIO</string>
+    <string name="label_user_canton">CANTON DEL USUARIO</string>
+
+    <string name="label_card_alert_canton">Canton o Recinto de alerta</string>
+    <string name="label_card_alert_message">Mensaje de alerta</string>
+    <string name="label_card_alert_state">Estado de alerta</string>
+    <string name="label_card_assistance_state">Asistencia</string>
+
+    <string name="btn_login">Ingresar</string>
+    <string name="btn_update_profile">Actualizar Perfil</string>
+    <string name="btn_delete_profile">Eliminar Perfil</string>
+    <string name="btn_logout">Cerrar Sesión</string>
+    <string name="btn_save_user">Guardar Usuario</string>
+    <string name="btn_add_assistance">Agregar Asistencia</string>
+    <string name="btn_save_assistance">Guardar Asistencia</string>
+    <string name="btn_add_alert">!Tengo una Alerta!</string>
+    <string name="btn_show_alert">Ver Alertas</string>
+    <string name="btn_show_map">Mapa de Alertas</string>
+    <string name="btn_report_user">Reporte de Usuarios</string>
+
+    <string name="menu_config">Configuración</string>
+
+    <string name="tab_title_home">Inicio</string>
+    <string name="tab_title_users">Usuarios</string>
+    <string name="tab_title_profile">Perfil</string>
+
+    <string name="title_report">Reportes</string>
+    <string name="title_add_user">Agregar Usuario</string>
+    <string name="title_image">Vista de Imagen</string>
+    <string name="title_user">Usuario</string>
+    <string name="title_assistance">Asistencia</string>
+    <string name="title_alert">Alertas</string>
+    <string name="title_map">Mapa con Alertas</string>
+
+    <string name="input_search_user">Buscar Usuario</string>
+    <string name="input_search_alert">Buscar Alerta</string>
+
+    <string name="input_ced">Cédula de Identidad</string>
+    <string name="input_name">Apellidos y Nombres</string>
+    <string name="input_email">Correo electrónico</string>
+    <string name="input_phone">Celular o Whatsapp:</string>
+    <string name="input_password">Clave de Acceso</string>
 
     <string-array name="rol">
         <item>Rol</item>
@@ -73,14 +89,14 @@
         <item>RECEPTOR DE ACTAS</item>
     </string-array>
 
-    <string-array name="estados">
+    <string-array name="state">
         <item>Estado</item>
         <item>NUEVO</item>
         <item>EN CURSO</item>
         <item>FINALIZADO</item>
     </string-array>
 
-    <string-array name="cantones">
+    <string-array name="canton">
         <item>Cantones</item>
         <item>MACHALA</item>
         <item>PASAJE</item>

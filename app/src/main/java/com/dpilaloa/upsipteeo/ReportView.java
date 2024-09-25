@@ -32,14 +32,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Reportes extends AppCompatActivity {
+public class ReportView extends AppCompatActivity {
 
     HSSFWorkbook hssfWorkbook;
     HSSFSheet hssfSheet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reportes);
+        setContentView(R.layout.activity_report);
 
         ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
@@ -49,19 +49,19 @@ public class Reportes extends AppCompatActivity {
 
         AlertDialogController dialog = new AlertDialogController(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        CardView txt_consolidado = findViewById(R.id.txt_consolidado);
+        CardView cardSummary = findViewById(R.id.txt_consolidado);
 
         toolbar.setOnClickListener(view -> finish());
 
         hssfWorkbook = new HSSFWorkbook();
 
-        txt_consolidado.setOnClickListener(view -> {
+        cardSummary.setOnClickListener(view -> {
 
             dialog.showProgressMessage("Creando Reporte...");
 
             hssfSheet = hssfWorkbook.createSheet("CONSOLIDADO");
             encabezado(hssfSheet);
-            MainActivity.databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
+            MainActivity.databaseReference.child("users").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -83,16 +83,16 @@ public class Reportes extends AppCompatActivity {
                                 HSSFCell hssfCell6 = hssfRow.createCell(6);
                                 HSSFCell hssfCell7 = hssfRow.createCell(7);
 
-                                hssfCell0.setCellValue(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
-                                hssfCell1.setCellValue(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
-                                hssfCell2.setCellValue(Objects.requireNonNull(snapshot.child("celular").getValue()).toString());
-                                hssfCell3.setCellValue(Objects.requireNonNull(snapshot.child("correo").getValue()).toString());
-                                hssfCell4.setCellValue(Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
-                                hssfCell5.setCellValue(Objects.requireNonNull(snapshot.child("canton").getValue()).toString());
+                                hssfCell0.setCellValue(snapshot.child("ced").getValue(String.class));
+                                hssfCell1.setCellValue(snapshot.child("name").getValue(String.class));
+                                hssfCell2.setCellValue(snapshot.child("phone").getValue(String.class));
+                                hssfCell3.setCellValue(snapshot.child("email").getValue(String.class));
+                                hssfCell4.setCellValue(snapshot.child("rol").getValue(String.class));
+                                hssfCell5.setCellValue(snapshot.child("canton").getValue(String.class));
 
-                                if(snapshot.child("foto").exists()){
+                                if(snapshot.child("photo").exists()){
                                     hssfCell6.setCellValue("SI");
-                                    hssfCell7.setCellValue(Objects.requireNonNull(snapshot.child("foto").getValue()).toString());
+                                    hssfCell7.setCellValue(snapshot.child("photo").getValue(String.class));
                                 }else{
                                     hssfCell6.setCellValue("NO");
                                     hssfCell7.setCellValue("");
@@ -106,8 +106,8 @@ public class Reportes extends AppCompatActivity {
 
                         try {
 
-                            String nombre = "/rpt_consolidado_"+(new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.getDefault()).format(new Date()))+".xls";
-                            File file = new File(Environment.getExternalStorageDirectory()+nombre);
+                            String reportName = "/rpt_consolidado_"+(new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.getDefault()).format(new Date()))+".xls";
+                            File file = new File(Environment.getExternalStorageDirectory()+reportName);
 
                             FileOutputStream fileOutputStream = new FileOutputStream(file);
                             hssfWorkbook.write(fileOutputStream);
@@ -126,9 +126,7 @@ public class Reportes extends AppCompatActivity {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) {throw  error.toException();}
 
             });
 
@@ -140,12 +138,12 @@ public class Reportes extends AppCompatActivity {
 
     public void encabezado(HSSFSheet hssfSheet){
 
-        String [] columnas = {"cedula","nombre","celular","correo","rol","canton","foto","url"};
+        String [] columns = {"cedula","nombre","celular","correo","rol","canton","foto","url"};
         HSSFRow hssfRow0 = hssfSheet.createRow(0);
 
-        for (int i = 0; i < columnas.length ; i++) {
+        for (int i = 0; i < columns.length ; i++) {
             HSSFCell hssfCell = hssfRow0.createCell(i);
-            hssfCell.setCellValue(columnas[i]);
+            hssfCell.setCellValue(columns[i]);
         }
     }
 }

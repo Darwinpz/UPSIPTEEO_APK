@@ -22,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,20 +38,20 @@ import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
-import com.dpilaloa.upsipteeo.Det_asistencia;
+import com.dpilaloa.upsipteeo.DetAssistanceView;
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.Objects.User;
-import com.dpilaloa.upsipteeo.Principal;
+import com.dpilaloa.upsipteeo.PrimaryView;
 import com.dpilaloa.upsipteeo.R;
-import com.dpilaloa.upsipteeo.Ver_imagen;
+import com.dpilaloa.upsipteeo.ImageView;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 
 public class ProfileFragment extends Fragment {
 
-    String NOMBRE_USUARIO = "", URL_IMAGEN = "";
-    ImageView imgProfile;
+    String USERNAME = "", URL_PHOTO = "";
+    android.widget.ImageView imgProfile;
     AlertDialogController alertDialog;
     @Nullable
     @Override
@@ -73,11 +72,11 @@ public class ProfileFragment extends Fragment {
 
         alertDialog = new AlertDialogController(view.getContext());
 
-        ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(view.getContext(), R.array.canton, android.R.layout.simple_spinner_item);
         adapterSpinnerCanton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_canton.setAdapter(adapterSpinnerCanton);
 
-        if(!Principal.id.isEmpty()) {
+        if(!PrimaryView.id.isEmpty()) {
 
             editTextEmail.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -86,7 +85,7 @@ public class ProfileFragment extends Fragment {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.valEmail(editable.toString().trim())){
+                    if(!PrimaryView.userController.valEmail(editable.toString().trim())){
                         editTextEmail.setError("Ingresa un correo válido");
                     }
                 }
@@ -102,14 +101,14 @@ public class ProfileFragment extends Fragment {
                     String phone = editable.toString().trim();
                     if (phone.length() != 10) {
                         editTextPhone.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.valPhone(phone)) {
+                    } else if (!PrimaryView.userController.valPhone(phone)) {
                         editTextPhone.setError("Ingresa un celular válido");
                     }
                 }
             });
 
 
-            Principal.ctlUsuarios.getProfile(Principal.id, user -> {
+            PrimaryView.userController.getProfile(PrimaryView.id, user -> {
 
                 if (user != null) {
 
@@ -120,13 +119,13 @@ public class ProfileFragment extends Fragment {
                     txtRol.setText(user.rol);
                     editTextPassword.setText(user.password);
 
-                    NOMBRE_USUARIO = user.name;
-                    URL_IMAGEN = user.photo;
+                    USERNAME = user.name;
+                    URL_PHOTO = user.photo;
 
                     int spinnerPosition = adapterSpinnerCanton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition);
 
-                    if (user.photo != null && !user.photo.isEmpty()) {
+                    if (!TextUtils.isEmpty(user.photo)) {
                         Glide.with(view.getContext().getApplicationContext()).load(user.photo).centerCrop().into(imgProfile);
                     }
 
@@ -135,17 +134,17 @@ public class ProfileFragment extends Fragment {
             });
 
             imageButton.setOnClickListener(view1 ->
-                startActivity(new Intent(view.getContext(), Det_asistencia.class)
-                        .putExtra("uid",Principal.id)
-                        .putExtra("nombre", NOMBRE_USUARIO))
+                startActivity(new Intent(view.getContext(), DetAssistanceView.class)
+                        .putExtra("uid", PrimaryView.id)
+                        .putExtra("nombre", USERNAME))
             );
 
             imgProfile.setOnClickListener(view1 -> {
 
-                if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
+                if(!TextUtils.isEmpty(URL_PHOTO)) {
                     alertDialog.createMessage("Información", "Selecciona una opción", builder -> {
                         builder.setPositiveButton("Ver Foto", (dialogInterface, i) ->
-                            startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN))
+                            startActivity(new Intent(getContext(), ImageView.class).putExtra("url", URL_PHOTO))
                         );
                         builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> uploadPhoto());
                         builder.setCancelable(true);
@@ -164,7 +163,7 @@ public class ProfileFragment extends Fragment {
                    !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
 
                     User user = new User();
-                    user.uid = Principal.id;
+                    user.uid = PrimaryView.id;
                     user.ced = txtCed.getText().toString();
                     user.name = txtName.getText().toString().toUpperCase();
                     user.email = editTextEmail.getText().toString().toLowerCase();
@@ -173,8 +172,8 @@ public class ProfileFragment extends Fragment {
                     user.rol = txtRol.getText().toString();
                     user.password = editTextPassword.getText().toString();
 
-                    if(!TextUtils.isEmpty(Principal.id)) {
-                        Principal.ctlUsuarios.updateUser(user).addOnCompleteListener(task -> {
+                    if(!TextUtils.isEmpty(PrimaryView.id)) {
+                        PrimaryView.userController.updateUser(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 alertDialog.hideProgressMessage();
                                 alertDialog.createMessage("Correcto", "Perfil Actualizado Correctamente", builder -> {
@@ -210,7 +209,7 @@ public class ProfileFragment extends Fragment {
 
             btnLogOut.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage("Cerrando Sesión...");
-                Principal.ctlUsuarios.logOut(Principal.preferences);
+                PrimaryView.userController.logOut(PrimaryView.preferences);
                 alertDialog.hideProgressMessage();
                 requireActivity().finish();
                 startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -274,16 +273,16 @@ public class ProfileFragment extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
 
         final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
-        StorageReference ref = Principal.storageReference.child("usuarios").child(Principal.id);
+        StorageReference ref = PrimaryView.storageReference.child("usuarios").child(PrimaryView.id);
 
         alertDialog.showProgressMessage("Actualizando Foto...");
 
         ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
 
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                URL_IMAGEN = uri.toString();
-                if(!TextUtils.isEmpty(Principal.id)) {
-                    Principal.ctlUsuarios.updatePhoto(Principal.id, URL_IMAGEN).addOnCompleteListener(task -> {
+                URL_PHOTO = uri.toString();
+                if(!TextUtils.isEmpty(PrimaryView.id)) {
+                    PrimaryView.userController.updatePhoto(PrimaryView.id, URL_PHOTO).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             alertDialog.createMessage("Correcto", "Foto Actualizada Correctamente", builder -> {
@@ -347,8 +346,8 @@ public class ProfileFragment extends Fragment {
         cropImageOptions.aspectRatioY = 1;
         cropImageOptions.maxCropResultWidth = 512;
         cropImageOptions.maxCropResultHeight = 512;
-        cropImageOptions.minCropResultHeight = 512;
-        cropImageOptions.minCropResultWidth = 512;
+        //cropImageOptions.minCropResultHeight = 512;
+        //cropImageOptions.minCropResultWidth = 512;
         CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
         cropImage.launch(cropImageContractOptions);
     }

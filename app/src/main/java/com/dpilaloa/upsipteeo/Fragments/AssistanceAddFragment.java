@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.dpilaloa.upsipteeo.Det_asistencia;
+import com.dpilaloa.upsipteeo.DetAssistanceView;
 import com.dpilaloa.upsipteeo.Objects.Assistance;
 import com.dpilaloa.upsipteeo.R;
 
@@ -27,8 +27,8 @@ import java.util.TimeZone;
 public class AssistanceAddFragment extends DialogFragment {
 
     public static DialogFragment dialogFragment;
-    private long FECHA;
-    private String HORA;
+    private long DATE;
+    private String TIME;
     public static String UID;
 
     @NonNull
@@ -50,19 +50,19 @@ public class AssistanceAddFragment extends DialogFragment {
 
         calendarView.setMinDate(dia.getTimeInMillis());
 
-        FECHA = dia.getTimeInMillis();
-        HORA = String.format(Locale.getDefault(),"%02d:%02d", dia.get(Calendar.HOUR_OF_DAY), dia.get(Calendar.MINUTE))+ " "+ ((dia.get(Calendar.HOUR_OF_DAY)<12) ? "am":"pm");
+        DATE = dia.getTimeInMillis();
+        TIME = String.format(Locale.getDefault(),"%02d:%02d", dia.get(Calendar.HOUR_OF_DAY), dia.get(Calendar.MINUTE))+ " "+ ((dia.get(Calendar.HOUR_OF_DAY)<12) ? "am":"pm");
 
         btnSave.setOnClickListener(view1 -> {
 
             if(dialogFragment!=null) {
                 Assistance assistance = new Assistance();
-                assistance.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(FECHA);
-                assistance.time = HORA;
+                assistance.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(DATE);
+                assistance.time = TIME;
 
                 if(!TextUtils.isEmpty(UID)) {
 
-                    Det_asistencia.ctlAsistencia.createAssistance(UID, assistance).addOnCompleteListener(task -> {
+                    DetAssistanceView.assistanceController.createAssistance(UID, assistance).addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()) {
                             dialogFragment.dismiss();
@@ -84,10 +84,10 @@ public class AssistanceAddFragment extends DialogFragment {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year,month,dayOfMonth);
             calendarView1.setDate(calendar.getTimeInMillis());
-            FECHA = calendarView1.getDate();
+            DATE = calendarView1.getDate();
         });
 
-        schedule.setOnTimeChangedListener((timePicker, hour, minute) ->  HORA = String.format(Locale.getDefault(),"%02d:%02d", hour, minute)+ " "+ ((hour<12) ? "am":"pm"));
+        schedule.setOnTimeChangedListener((timePicker, hour, minute) ->  TIME = String.format(Locale.getDefault(),"%02d:%02d", hour, minute)+ " "+ ((hour<12) ? "am":"pm"));
         dialogFragment = this;
 
         return builder.create();

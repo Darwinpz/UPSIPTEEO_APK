@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpilaloa.upsipteeo.Adapters.UserAdapter;
-import com.dpilaloa.upsipteeo.Add_usuario;
-import com.dpilaloa.upsipteeo.Principal;
+import com.dpilaloa.upsipteeo.AddUserView;
+import com.dpilaloa.upsipteeo.PrimaryView;
 import com.dpilaloa.upsipteeo.R;
 
 import java.util.Objects;
@@ -56,14 +56,14 @@ public class UserFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(userAdapter);
 
-        if(!Principal.id.isEmpty()) {
+        if(!PrimaryView.id.isEmpty()) {
 
-            Principal.ctlUsuarios.getUsers(userAdapter, Principal.id , "Rol","", txtResult, progressBar, txtCount);
+            PrimaryView.userController.getUsers(userAdapter, PrimaryView.id , "Rol","", txtResult, progressBar, txtCount);
 
             spinnerRol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    Principal.ctlUsuarios.getUsers(userAdapter, Principal.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
+                    PrimaryView.userController.getUsers(userAdapter, PrimaryView.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -73,7 +73,7 @@ public class UserFragment extends Fragment {
             editTextSearch.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     hideKeyboard();
-                    Principal.ctlUsuarios.getUsers(userAdapter, Principal.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
+                    PrimaryView.userController.getUsers(userAdapter, PrimaryView.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
                     return true;
                 }
                 return false;
@@ -81,7 +81,7 @@ public class UserFragment extends Fragment {
 
             btnAddUser.setOnClickListener(view1 -> {
 
-                Intent i = new Intent(view.getContext(), Add_usuario.class);
+                Intent i = new Intent(view.getContext(), AddUserView.class);
                 startActivity(i);
                 //guardar();
 
@@ -118,7 +118,7 @@ public class UserFragment extends Fragment {
                 user.celular = object.getString("celular");
                 user.correo = object.getString("correo");
                 user.clave = "Cne.2024";
-                Principal.ctlUsuarios.crear_usuarios(user);
+                PrimaryView.ctlUsuarios.crear_usuarios(user);
             }
 
         } catch (JSONException e) {

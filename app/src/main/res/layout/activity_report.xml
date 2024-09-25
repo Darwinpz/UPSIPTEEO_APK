@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Reportes">
+    tools:context=".ReportView">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_reporte"
+        app:title="@string/title_report"
         app:titleTextColor="#FFFFFF"
         app:navigationIcon="@drawable/ic_left"
         />
@@ -40,7 +40,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_rpt_usuario"
+                    android:text="@string/btn_report_user"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_margin="15dp"

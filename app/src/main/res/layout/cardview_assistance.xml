@@ -21,7 +21,7 @@
             android:layout_margin="2dp"
             android:scaleType="fitCenter"
             android:src="@drawable/perfil"
-            android:contentDescription="@string/title_photo"
+            android:contentDescription="@string/description_photo"
             />
 
         <LinearLayout
@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_estado"
+                android:text="@string/label_card_assistance_state"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/success"
@@ -50,7 +50,7 @@
                     android:id="@+id/card_fecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_fecha"
+                    android:text="@string/label_format_date"
                     android:textSize="15sp"
                     android:layout_marginEnd="5dp"
                     />
@@ -59,7 +59,7 @@
                     android:id="@+id/card_hora"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_hora"
+                    android:text="@string/label_format_time"
                     android:textSize="15sp"
                     />
 

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,26 +21,26 @@ import com.dpilaloa.upsipteeo.Objects.User;
 
 import java.util.Objects;
 
-public class Det_usuario extends AppCompatActivity {
+public class DetUserView extends AppCompatActivity {
 
-    String UID_USUARIO = "", NOMBRE_USUARIO = "", URL_IMAGEN = "";
+    String UID_USER = "", USERNAME = "", URL_PHOTO = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_det_usuario);
+        setContentView(R.layout.activity_det_user);
 
-        EditText txt_cedula = findViewById(R.id.txt_cedula);
-        EditText txt_nombre = findViewById(R.id.txt_nombre);
-        EditText txt_correo = findViewById(R.id.txt_correo);
-        EditText txt_telefono = findViewById(R.id.txt_telefono);
-        EditText txt_clave = findViewById(R.id.txt_clave);
-        ImageView img_perfil = findViewById(R.id.img_perfil);
+        EditText editTextCed = findViewById(R.id.txt_cedula);
+        EditText editTextName = findViewById(R.id.txt_nombre);
+        EditText editTextEmail = findViewById(R.id.txt_correo);
+        EditText editTextPhone = findViewById(R.id.txt_telefono);
+        EditText editTextPassword = findViewById(R.id.txt_clave);
+        android.widget.ImageView img_perfil = findViewById(R.id.img_perfil);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Button btn_actualizar = findViewById(R.id.btn_actualizar);
-        Button btn_eliminar = findViewById(R.id.btn_eliminar);
+        Button btnUpdate = findViewById(R.id.btn_actualizar);
+        Button btnDelete = findViewById(R.id.btn_eliminar);
 
-        UID_USUARIO = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
 
         Spinner spinner_rol = findViewById(R.id.spinner_rol);
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
@@ -51,95 +50,95 @@ public class Det_usuario extends AppCompatActivity {
 
         toolbar.setOnClickListener(view -> finish());
 
-        ArrayAdapter<CharSequence> adapterspinner_rol = ArrayAdapter.createFromResource(this, R.array.rol, android.R.layout.simple_spinner_item);
-        adapterspinner_rol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_rol.setAdapter(adapterspinner_rol);
+        ArrayAdapter<CharSequence> adapterSpinnerRol = ArrayAdapter.createFromResource(this, R.array.rol, android.R.layout.simple_spinner_item);
+        adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_rol.setAdapter(adapterSpinnerRol);
 
-        ArrayAdapter<CharSequence> adapterspinner_canton = ArrayAdapter.createFromResource(this, R.array.cantones, android.R.layout.simple_spinner_item);
-        adapterspinner_canton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_canton.setAdapter(adapterspinner_canton);
+        ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(this, R.array.canton, android.R.layout.simple_spinner_item);
+        adapterSpinnerCanton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_canton.setAdapter(adapterSpinnerCanton);
 
-        if(!UID_USUARIO.isEmpty()){
+        if(!UID_USER.isEmpty()){
 
-            txt_cedula.addTextChangedListener(new TextWatcher() {
+            editTextCed.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    String cedula = editable.toString().trim();
-                    if (cedula.length() != 10) {
-                        txt_cedula.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.valCed(cedula)) {
-                        txt_cedula.setError("Cédula Incorrecta");
+                    String ced = editable.toString().trim();
+                    if (ced.length() != 10) {
+                        editTextCed.setError("Ingresa 10 dígitos");
+                    } else if (!PrimaryView.userController.valCed(ced)) {
+                        editTextCed.setError("Cédula Incorrecta");
                     }
                 }
             });
 
-            txt_nombre.addTextChangedListener(new TextWatcher() {
+            editTextName.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.valUser(editable.toString().trim())){
-                        txt_nombre.setError("Ingresa un nombre válido");
+                    if(!PrimaryView.userController.valUser(editable.toString().trim())){
+                        editTextName.setError("Ingresa un nombre válido");
                     }
                 }
             });
 
-            txt_correo.addTextChangedListener(new TextWatcher() {
+            editTextEmail.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.valEmail(editable.toString().trim())){
-                        txt_correo.setError("Ingresa un correo válido");
+                    if(!PrimaryView.userController.valEmail(editable.toString().trim())){
+                        editTextEmail.setError("Ingresa un correo válido");
                     }
                 }
             });
 
-            txt_telefono.addTextChangedListener(new TextWatcher() {
+            editTextPhone.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    String telefono = editable.toString().trim();
-                    if (telefono.length() != 10) {
-                        txt_telefono.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.valPhone(telefono)) {
-                        txt_telefono.setError("Ingresa un celular válido");
+                    String phone = editable.toString().trim();
+                    if (phone.length() != 10) {
+                        editTextPhone.setError("Ingresa 10 dígitos");
+                    } else if (!PrimaryView.userController.valPhone(phone)) {
+                        editTextPhone.setError("Ingresa un celular válido");
                     }
                 }
             });
 
-            Principal.ctlUsuarios.getProfile(UID_USUARIO, user -> {
+            PrimaryView.userController.getProfile(UID_USER, user -> {
 
                 if(user!=null){
 
-                    txt_cedula.setText(user.ced);
-                    txt_nombre.setText(user.name);
-                    txt_correo.setText(user.email);
-                    txt_telefono.setText(user.phone);
-                    txt_clave.setText(user.password);
+                    editTextCed.setText(user.ced);
+                    editTextName.setText(user.name);
+                    editTextEmail.setText(user.email);
+                    editTextPhone.setText(user.phone);
+                    editTextPassword.setText(user.password);
 
-                    NOMBRE_USUARIO = user.name;
+                    USERNAME = user.name;
 
-                    int spinnerPosition_rol = adapterspinner_rol.getPosition(user.rol);
+                    int spinnerPosition_rol = adapterSpinnerRol.getPosition(user.rol);
                     spinner_rol.setSelection(spinnerPosition_rol);
 
-                    int spinnerPosition_canton = adapterspinner_canton.getPosition(user.canton);
+                    int spinnerPosition_canton = adapterSpinnerCanton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition_canton);
 
-                    if (user.photo != null && !user.photo.isEmpty()) {
+                    if (!TextUtils.isEmpty(user.photo)) {
                         Glide.with(getApplicationContext()).load(user.photo).centerCrop().into(img_perfil);
-                        URL_IMAGEN = user.photo;
+                        URL_PHOTO = user.photo;
 
                     }
 
@@ -149,34 +148,34 @@ public class Det_usuario extends AppCompatActivity {
 
             img_perfil.setOnClickListener(view1 -> {
 
-                if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
-                    startActivity(new Intent(this, Ver_imagen.class).putExtra("url", URL_IMAGEN));
+                if(!TextUtils.isEmpty(URL_PHOTO)) {
+                    startActivity(new Intent(this, ImageView.class).putExtra("url", URL_PHOTO));
                 }else{
                     Toast.makeText(this,"Sin foto de perfil", Toast.LENGTH_SHORT).show();
                 }
 
             });
 
-            btn_actualizar.setOnClickListener(view1 -> {
+            btnUpdate.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage("Actualizando...");
-                if(!txt_cedula.getText().toString().trim().isEmpty() && txt_cedula.getError() == null &&
-                        !txt_nombre.getText().toString().trim().isEmpty() && txt_nombre.getError() == null &&
-                        !txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
-                        !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
+                if(!editTextCed.getText().toString().trim().isEmpty() && editTextCed.getError() == null &&
+                        !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
+                        !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
+                        !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
                         !spinner_rol.getSelectedItem().toString().equals("Rol")) {
                     User user = new User();
-                    user.uid = UID_USUARIO;
-                    user.ced = txt_cedula.getText().toString();
-                    user.name = txt_nombre.getText().toString().toUpperCase();
-                    user.email = txt_correo.getText().toString().toLowerCase();
-                    user.phone = txt_telefono.getText().toString();
+                    user.uid = UID_USER;
+                    user.ced = editTextCed.getText().toString();
+                    user.name = editTextName.getText().toString().toUpperCase();
+                    user.email = editTextEmail.getText().toString().toLowerCase();
+                    user.phone = editTextPhone.getText().toString();
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = spinner_rol.getSelectedItem().toString();
-                    user.password = txt_clave.getText().toString();
+                    user.password = editTextPassword.getText().toString();
 
-                    if(!TextUtils.isEmpty(UID_USUARIO)) {
-                        Principal.ctlUsuarios.updateUser(user).addOnCompleteListener(task -> {
+                    if(!TextUtils.isEmpty(UID_USER)) {
+                        PrimaryView.userController.updateUser(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 alertDialog.hideProgressMessage();
                                 alertDialog.createMessage("Correcto", "Usuario Actualizado Correctamente", builder -> {
@@ -210,13 +209,13 @@ public class Det_usuario extends AppCompatActivity {
                 }
             });
 
-            btn_eliminar.setOnClickListener(view ->
+            btnDelete.setOnClickListener(view ->
 
                 alertDialog.createMessage("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
 
                         alertDialog.showProgressMessage("Eliminando Usuario...");
-                        Principal.ctlUsuarios.deleteUser(UID_USUARIO).addOnCompleteListener(task -> {
+                        PrimaryView.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if(task.isSuccessful()){
                                 finish();
@@ -234,9 +233,9 @@ public class Det_usuario extends AppCompatActivity {
             );
 
             imageButton.setOnClickListener(view -> {
-                Intent i = new Intent(this, Det_asistencia.class);
-                i.putExtra("uid",UID_USUARIO);
-                i.putExtra("nombre",NOMBRE_USUARIO);
+                Intent i = new Intent(this, DetAssistanceView.class);
+                i.putExtra("uid",UID_USER);
+                i.putExtra("nombre",USERNAME);
                 startActivity(i);
             });
 

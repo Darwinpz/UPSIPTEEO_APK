@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Ver_imagen">
+    tools:context=".MapView">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,19 +14,17 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="@string/title_volver"
+        app:title="@string/title_map"
         app:titleTextColor="#FFFFFF"
         app:navigationIcon="@drawable/ic_left"
         />
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/imagen"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
         android:layout_below="@id/toolbar"
-        android:background="@color/black"
-
         />
 
 </RelativeLayout>
