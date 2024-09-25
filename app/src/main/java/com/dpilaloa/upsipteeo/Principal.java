@@ -9,11 +9,11 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.dpilaloa.upsipteeo.Adaptadores.ViewPageAdapter;
-import com.dpilaloa.upsipteeo.Controladores.Ctl_usuarios;
-import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Inicio;
-import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Perfil;
-import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_Usuarios;
+import com.dpilaloa.upsipteeo.Adapters.ViewPageAdapter;
+import com.dpilaloa.upsipteeo.Controllers.UserController;
+import com.dpilaloa.upsipteeo.Fragments.HomeFragment;
+import com.dpilaloa.upsipteeo.Fragments.ProfileFragment;
+import com.dpilaloa.upsipteeo.Fragments.UserFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,7 +28,7 @@ public class Principal extends AppCompatActivity {
     public static SharedPreferences preferences;
     public static String id = "";
     public static String rol = "";
-    public static Ctl_usuarios ctlUsuarios;
+    public static UserController ctlUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class Principal extends AppCompatActivity {
 
         if(!id.isEmpty()) {
 
-            ctlUsuarios = new Ctl_usuarios(MainActivity.databaseReference);
+            ctlUsuarios = new UserController(MainActivity.databaseReference);
             storageReference = FirebaseStorage.getInstance().getReference();
 
             ViewPager2 viewPager2 = findViewById(R.id.view_pager);
@@ -50,9 +50,9 @@ public class Principal extends AppCompatActivity {
             ViewPageAdapter adaptador = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 
             if(rol.equals(getString(R.string.admin_one))|| rol.equals(getString(R.string.admin_two))) {
-                adaptador.addFragment(new Fragmento_Inicio());
-                adaptador.addFragment(new Fragmento_Usuarios());
-                adaptador.addFragment(new Fragmento_Perfil());
+                adaptador.addFragment(new HomeFragment());
+                adaptador.addFragment(new UserFragment());
+                adaptador.addFragment(new ProfileFragment());
                 viewPager2.setAdapter(adaptador);
                 viewPager2.setOffscreenPageLimit(3);
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
@@ -71,8 +71,8 @@ public class Principal extends AppCompatActivity {
                 }).attach();
 
             }else{
-                adaptador.addFragment(new Fragmento_Inicio());
-                adaptador.addFragment(new Fragmento_Perfil());
+                adaptador.addFragment(new HomeFragment());
+                adaptador.addFragment(new ProfileFragment());
                 viewPager2.setAdapter(adaptador);
                 viewPager2.setOffscreenPageLimit(2);
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {

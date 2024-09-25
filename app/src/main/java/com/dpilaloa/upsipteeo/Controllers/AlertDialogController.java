@@ -1,4 +1,4 @@
-package com.dpilaloa.upsipteeo.Controladores;
+package com.dpilaloa.upsipteeo.Controllers;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,30 +9,30 @@ import android.widget.TextView;
 import com.dpilaloa.upsipteeo.Interfaces.DialogInterface;
 import com.dpilaloa.upsipteeo.R;
 
-public class Alert_dialog {
+public class AlertDialogController {
 
     private AlertDialog dialog;
     Context context;
 
-    public Alert_dialog(Context context) {
+    public AlertDialogController(Context context) {
         this.context = context;
     }
 
-    public void crear_mensaje(String titulo, String mensaje, DialogInterface build){
+    public void createMessage(String title, String message, DialogInterface build){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(titulo).setMessage(mensaje);
+        builder.setTitle(title).setMessage(message);
         build.getBuilder(builder);
 
     }
 
-    public void mostrar_progreso(String mensaje) {
+    public void showProgressMessage(String message) {
         if (dialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.dialog_progress, null);
-            TextView textViewMensaje = view.findViewById(R.id.text_mensaje);
-            textViewMensaje.setText(mensaje);
+            TextView textViewMessage = view.findViewById(R.id.text_mensaje);
+            textViewMessage.setText(message);
             builder.setView(view);
             builder.setCancelable(false);
             dialog = builder.create();
@@ -43,10 +43,10 @@ public class Alert_dialog {
         }
     }
 
-    public void ocultar_progreso() {
+    public void hideProgressMessage() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
-            dialog = null; // Libera la referencia
+            dialog = null;
         }
     }
 

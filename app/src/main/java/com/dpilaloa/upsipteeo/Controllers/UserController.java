@@ -1,0 +1,196 @@
+package com.dpilaloa.upsipteeo.Controllers;
+
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import com.dpilaloa.upsipteeo.Adapters.UserAdapter;
+import com.dpilaloa.upsipteeo.Interfaces.UserInterface;
+import com.dpilaloa.upsipteeo.Objects.User;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+public class UserController {
+
+    DatabaseReference databaseReference;
+
+    public UserController(DatabaseReference databaseReference) {
+        this.databaseReference = databaseReference;
+    }
+
+    public Task<Void> createUser(User user){
+        return databaseReference.child("usuarios").push().setValue(user);
+    }
+
+    public Task<Void> deleteUser(String uid){
+        return databaseReference.child("usuarios").child(uid).removeValue();
+    }
+
+    public Task<Void> updateUser(User user) {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("cedula", user.ced);
+        data.put("nombre", user.name.toUpperCase());
+        data.put("correo", user.email.toLowerCase());
+        data.put("celular", user.phone);
+        data.put("canton", user.canton);
+        data.put("rol", user.rol);
+        data.put("clave",user.password);
+
+        return databaseReference.child("usuarios").child(user.uid).updateChildren(data);
+
+    }
+
+    public Task<Void> updatePhoto(String uid, String photo) {
+
+        return databaseReference.child("usuarios").child(uid).updateChildren(Collections.singletonMap("foto", photo));
+
+    }
+
+
+    public void getProfile(String uid, UserInterface userInterface){
+
+        databaseReference.child("usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+
+                    User user = new User();
+                    user.uid = uid;
+                    user.ced = dataSnapshot.child("cedula").getValue(String.class);
+                    user.name = dataSnapshot.child("nombre").getValue(String.class);
+                    user.canton = dataSnapshot.child("canton").getValue(String.class);
+                    user.phone = dataSnapshot.child("celular").getValue(String.class);
+                    user.rol = dataSnapshot.child("rol").getValue(String.class);
+                    user.password = dataSnapshot.child("clave").getValue(String.class);
+                    user.email = dataSnapshot.child("correo").getValue(String.class);
+                    user.photo = dataSnapshot.child("foto").getValue(String.class);
+
+                    userInterface.getUser(user);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {throw databaseError.toException();}
+
+        });
+
+    }
+
+
+    public void getUsers(UserAdapter userAdapter, String uid, String rol, String filter, TextView textViewResult, ProgressBar progressBar, TextView txtCount) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        textViewResult.setVisibility(View.VISIBLE);
+        databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                userAdapter.clear();
+                int contador = 0;
+
+                if (dataSnapshot.exists()) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        User user = new User();
+                        user.uid = snapshot.getKey();
+                        user.ced = snapshot.child("cedula").getValue(String.class);
+                        user.name = snapshot.child("nombre").getValue(String.class);
+                        user.canton = snapshot.child("canton").getValue(String.class);
+                        user.phone = snapshot.child("celular").getValue(String.class);
+                        user.rol = snapshot.child("rol").getValue(String.class);
+                        user.photo = snapshot.child("foto").getValue(String.class);
+
+                        if (user.ced !=null && user.ced.trim().contains(filter.trim().toLowerCase()) ||
+                                user.name !=null && user.name.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
+                                user.canton!=null && user.canton.toLowerCase().trim().contains(filter.trim().toLowerCase())) {
+
+                            if(user.rol!=null && (rol.equals("Rol") || user.rol.equals(rol))) {
+                                assert user.uid != null;
+                                if (!user.uid.equals(uid)) {
+                                    userAdapter.add(user);
+                                    contador++;
+                                }
+                            }
+
+                        }
+
+                    }
+
+                    txtCount.setText(String.valueOf(contador));
+                    txtCount.append("\tUsuarios");
+                    textViewResult.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+
+                } else {
+                    textViewResult.setVisibility(View.VISIBLE);
+                }
+
+                userAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
+
+        });
+
+    }
+
+
+    public void logOut(SharedPreferences preferences) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("uid","");
+        editor.putString("rol","");
+        editor.apply();
+    }
+
+    public boolean valCed(String ced){
+
+        int suma = 0;
+
+        for (int i = 0; i < 9; i++)
+        {
+            int coefficient = ((i % 2) == 0) ? 2 : 1;
+            int cal = Integer.parseInt(String.valueOf(ced.charAt(i))) * coefficient;
+            suma += (cal >= 10) ? cal - 9 : cal;
+        }
+
+        int res = suma % 10;
+        int valor = (res == 0) ? 0 : (10 - res);
+
+        return Integer.parseInt(String.valueOf(ced.charAt(9))) == valor;
+
+    }
+
+    public boolean valEmail(String email){
+        Pattern patron = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+$");
+        return patron.matcher(email).matches();
+    }
+
+    public boolean valUser(String username){
+        Pattern patron = Pattern.compile("^[ a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+$");
+        return patron.matcher(username).matches();
+    }
+
+    public boolean valPhone(String phone){
+        Pattern patron = Pattern.compile("^(0|593)?9[0-9]\\d{7}$");
+        return patron.matcher(phone).matches();
+    }
+    
+}

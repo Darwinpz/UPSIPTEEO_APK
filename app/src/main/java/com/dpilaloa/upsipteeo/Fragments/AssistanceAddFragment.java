@@ -1,4 +1,4 @@
-package com.dpilaloa.upsipteeo.Fragmentos;
+package com.dpilaloa.upsipteeo.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.dpilaloa.upsipteeo.Det_asistencia;
-import com.dpilaloa.upsipteeo.Objetos.Ob_asistencia;
+import com.dpilaloa.upsipteeo.Objects.Assistance;
 import com.dpilaloa.upsipteeo.R;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class Fragmento_add_asistencia extends DialogFragment {
+public class AssistanceAddFragment extends DialogFragment {
 
     public static DialogFragment dialogFragment;
     private long FECHA;
@@ -38,31 +38,31 @@ public class Fragmento_add_asistencia extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_add_asistencia, null);
+        View view = inflater.inflate(R.layout.fragment_add_assistance, null);
         builder.setView(view);
 
-        Button btn_guardar = view.findViewById(R.id.btn_guardar);
-        TimePicker horario = view.findViewById(R.id.horario);
-        CalendarView calendario = view.findViewById(R.id.calendario);
+        Button btnSave = view.findViewById(R.id.btn_guardar);
+        TimePicker schedule = view.findViewById(R.id.horario);
+        CalendarView calendarView = view.findViewById(R.id.calendario);
 
         Calendar dia = Calendar.getInstance();
-        dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil")); // Zona horaria de Ecuador
+        dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil")); // Zone of Ecuador
 
-        calendario.setMinDate(dia.getTimeInMillis());
+        calendarView.setMinDate(dia.getTimeInMillis());
 
         FECHA = dia.getTimeInMillis();
         HORA = String.format(Locale.getDefault(),"%02d:%02d", dia.get(Calendar.HOUR_OF_DAY), dia.get(Calendar.MINUTE))+ " "+ ((dia.get(Calendar.HOUR_OF_DAY)<12) ? "am":"pm");
 
-        btn_guardar.setOnClickListener(view1 -> {
+        btnSave.setOnClickListener(view1 -> {
 
             if(dialogFragment!=null) {
-                Ob_asistencia obAsistencia = new Ob_asistencia();
-                obAsistencia.fecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(FECHA);
-                obAsistencia.hora = HORA;
+                Assistance assistance = new Assistance();
+                assistance.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(FECHA);
+                assistance.time = HORA;
 
                 if(!TextUtils.isEmpty(UID)) {
 
-                    Det_asistencia.ctlAsistencia.add_asistencia(UID, obAsistencia).addOnCompleteListener(task -> {
+                    Det_asistencia.ctlAsistencia.createAssistance(UID, assistance).addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()) {
                             dialogFragment.dismiss();
@@ -80,13 +80,14 @@ public class Fragmento_add_asistencia extends DialogFragment {
 
         });
 
-        calendario.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {
+        calendarView.setOnDateChangeListener((calendarView1, year, month, dayOfMonth) -> {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year,month,dayOfMonth);
-            calendarView.setDate(calendar.getTimeInMillis());
-            FECHA = calendarView.getDate();
+            calendarView1.setDate(calendar.getTimeInMillis());
+            FECHA = calendarView1.getDate();
         });
-        horario.setOnTimeChangedListener((timePicker, hour, minute) ->  HORA = String.format(Locale.getDefault(),"%02d:%02d", hour, minute)+ " "+ ((hour<12) ? "am":"pm"));
+
+        schedule.setOnTimeChangedListener((timePicker, hour, minute) ->  HORA = String.format(Locale.getDefault(),"%02d:%02d", hour, minute)+ " "+ ((hour<12) ? "am":"pm"));
         dialogFragment = this;
 
         return builder.create();

@@ -11,8 +11,8 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
-import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
+import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.Objects.User;
 
 public class Add_usuario extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class Add_usuario extends AppCompatActivity {
         Spinner spinner_rol = findViewById(R.id.spinner_rol);
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
 
-        Alert_dialog alertDialog = new Alert_dialog(this);
+        AlertDialogController alertDialog = new AlertDialogController(this);
 
         toolbar.setOnClickListener(view -> finish());
 
@@ -54,7 +54,7 @@ public class Add_usuario extends AppCompatActivity {
                 String cedula = editable.toString().trim();
                 if (cedula.length() != 10) {
                     txt_cedula.setError("Ingresa 10 dígitos");
-                } else if (!Principal.ctlUsuarios.Validar_Cedula(cedula)) {
+                } else if (!Principal.ctlUsuarios.valCed(cedula)) {
                     txt_cedula.setError("Cédula Incorrecta");
                 }
 
@@ -68,7 +68,7 @@ public class Add_usuario extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Principal.ctlUsuarios.validar_usuario(editable.toString().trim())){
+                if(!Principal.ctlUsuarios.valUser(editable.toString().trim())){
                     txt_nombre.setError("Ingresa un nombre válido");
                 }
             }
@@ -81,7 +81,7 @@ public class Add_usuario extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Principal.ctlUsuarios.validar_correo(editable.toString().trim())){
+                if(!Principal.ctlUsuarios.valEmail(editable.toString().trim())){
                     txt_correo.setError("Ingresa un correo válido");
                 }
             }
@@ -97,39 +97,40 @@ public class Add_usuario extends AppCompatActivity {
                 String telefono = editable.toString().trim();
                 if (telefono.length() != 10) {
                     txt_telefono.setError("Ingresa 10 dígitos");
-                } else if (!Principal.ctlUsuarios.validar_celular(telefono)) {
+                } else if (!Principal.ctlUsuarios.valPhone(telefono)) {
                     txt_telefono.setError("Ingresa un celular válido");
                 }
             }
         });
 
         btn_crear.setOnClickListener(view -> {
-            alertDialog.mostrar_progreso("Creando...");
+            alertDialog.showProgressMessage("Creando...");
             if(!txt_cedula.getText().toString().trim().isEmpty() && txt_cedula.getError() == null &&
                     !txt_nombre.getText().toString().trim().isEmpty() && txt_nombre.getError() == null &&
                     !txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
                     !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
                     !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
                     !spinner_rol.getSelectedItem().toString().equals("Rol")) {
-                Ob_usuario user = new Ob_usuario();
-                user.cedula = txt_cedula.getText().toString();
-                user.nombre = txt_nombre.getText().toString().toUpperCase();
-                user.correo = txt_correo.getText().toString().toLowerCase();
-                user.celular = txt_telefono.getText().toString();
+
+                User user = new User();
+                user.ced = txt_cedula.getText().toString();
+                user.name = txt_nombre.getText().toString().toUpperCase();
+                user.email = txt_correo.getText().toString().toLowerCase();
+                user.phone = txt_telefono.getText().toString();
                 user.canton = spinner_canton.getSelectedItem().toString();
                 user.rol = spinner_rol.getSelectedItem().toString();
-                user.clave = txt_clave.getText().toString();
+                user.password = txt_clave.getText().toString();
 
-                Principal.ctlUsuarios.crear_usuarios(user).addOnCompleteListener(task -> {
-                    alertDialog.ocultar_progreso();
+                Principal.ctlUsuarios.createUser(user).addOnCompleteListener(task -> {
+                    alertDialog.hideProgressMessage();
                     if(task.isSuccessful()){
-                        alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
+                        alertDialog.createMessage("Correcto", "Usuario Creado Correctamente", builder -> {
                             builder.setCancelable(false);
                             builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
                             builder.create().show();
                         });
                     }else{
-                        alertDialog.crear_mensaje("¡Advertencia!", "Error al crear el Usuario", builder -> {
+                        alertDialog.createMessage("¡Advertencia!", "Error al crear el Usuario", builder -> {
                             builder.setCancelable(true);
                             builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                             builder.create().show();
@@ -139,8 +140,8 @@ public class Add_usuario extends AppCompatActivity {
                 });
 
             }else{
-                alertDialog.ocultar_progreso();
-                alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
+                alertDialog.hideProgressMessage();
+                alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
                     builder.setCancelable(true);
                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                     builder.create().show();

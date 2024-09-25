@@ -1,4 +1,4 @@
-package com.dpilaloa.upsipteeo.Fragmentos;
+package com.dpilaloa.upsipteeo.Fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,17 +23,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-public class Fragmento_Inicio extends Fragment {
+public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_inicio,container,false);
+        final View view = inflater.inflate(R.layout.fragment_home,container,false);
 
-        TextView txt_version = view.findViewById(R.id.txt_version);
-        TextView txt_proceso = view.findViewById(R.id.txt_proceso);
-        Button btn_ver_alertas = view.findViewById(R.id.btn_ver_alertas);
-        Button btn_alerta = view.findViewById(R.id.btn_alerta);
+        TextView txtVersion = view.findViewById(R.id.txt_version);
+        TextView txtProcess = view.findViewById(R.id.txt_proceso);
+        Button btnShowAlert = view.findViewById(R.id.btn_ver_alertas);
+        Button btnAlert = view.findViewById(R.id.btn_alerta);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_perfil);
@@ -47,7 +47,7 @@ public class Fragmento_Inicio extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    txt_proceso.setText(snapshot.getValue(String.class));
+                    txtProcess.setText(snapshot.getValue(String.class));
                 }
             }
 
@@ -59,17 +59,17 @@ public class Fragmento_Inicio extends Fragment {
         try {
 
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
-            txt_version.setText(getString(R.string.version));
-            txt_version.append("\t"+version);
+            txtVersion.setText(getString(R.string.version));
+            txtVersion.append("\t"+version);
 
         } catch (PackageManager.NameNotFoundException e) {
-            txt_version.setText("-");
+            txtVersion.setText("-");
         }
 
-        btn_ver_alertas.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
-        btn_alerta.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
+        btnShowAlert.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
+        btnAlert.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) || Principal.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);
 
-        btn_ver_alertas.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), Alertas.class)));
+        btnShowAlert.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), Alertas.class)));
 
         return view;
 

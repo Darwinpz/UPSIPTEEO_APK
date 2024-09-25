@@ -1,4 +1,4 @@
-package com.dpilaloa.upsipteeo.Adaptadores;
+package com.dpilaloa.upsipteeo.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

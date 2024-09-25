@@ -9,7 +9,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
+import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static FirebaseDatabase DB = FirebaseDatabase.getInstance();
     public static DatabaseReference databaseReference;
     SharedPreferences preferences;
-    Alert_dialog alertDialog;
+    AlertDialogController alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         databaseReference = DB.getReference();
-        alertDialog = new Alert_dialog(this);
+        alertDialog = new AlertDialogController(this);
         EditText txt_usuario = findViewById(R.id.txt_cedula);
         EditText txt_clave = findViewById(R.id.txt_clave);
         Button btn_ingreso = findViewById(R.id.btn_ingresar);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Login(String usuario, String clave){
 
-        alertDialog.mostrar_progreso("Iniciando sesión...");
+        alertDialog.showProgressMessage("Iniciando sesión...");
 
         if (!usuario.isEmpty() && !clave.isEmpty()) {
             databaseReference.child("usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putString("uid", snapshot.getKey());
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                         editor.apply();
-                                        alertDialog.ocultar_progreso();
+                                        alertDialog.hideProgressMessage();
                                         startActivity(new Intent(getBaseContext(), Principal.class));
                                         finish();
 
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
                         if(!existe) {
                             if (preferences.getString("uid", "").isEmpty()) {
-                                alertDialog.ocultar_progreso();
-                                alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
+                                alertDialog.hideProgressMessage();
+                                alertDialog.createMessage("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
                                     builder.setCancelable(true);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                     });
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    alertDialog.ocultar_progreso();
-                    alertDialog.crear_mensaje("Advertencia", "Error al Iniciar Sesión",builder -> {
+                    alertDialog.hideProgressMessage();
+                    alertDialog.createMessage("Advertencia", "Error al Iniciar Sesión", builder -> {
                         builder.setCancelable(true);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                         builder.create().show();

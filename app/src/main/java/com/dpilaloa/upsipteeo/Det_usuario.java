@@ -17,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
-import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
+import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.Objects.User;
 
 import java.util.Objects;
 
@@ -47,7 +47,7 @@ public class Det_usuario extends AppCompatActivity {
         Spinner spinner_canton = findViewById(R.id.spinner_canton);
         ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
-        Alert_dialog alertDialog = new Alert_dialog(this);
+        AlertDialogController alertDialog = new AlertDialogController(this);
 
         toolbar.setOnClickListener(view -> finish());
 
@@ -71,7 +71,7 @@ public class Det_usuario extends AppCompatActivity {
                     String cedula = editable.toString().trim();
                     if (cedula.length() != 10) {
                         txt_cedula.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.Validar_Cedula(cedula)) {
+                    } else if (!Principal.ctlUsuarios.valCed(cedula)) {
                         txt_cedula.setError("Cédula Incorrecta");
                     }
                 }
@@ -84,7 +84,7 @@ public class Det_usuario extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.validar_usuario(editable.toString().trim())){
+                    if(!Principal.ctlUsuarios.valUser(editable.toString().trim())){
                         txt_nombre.setError("Ingresa un nombre válido");
                     }
                 }
@@ -97,7 +97,7 @@ public class Det_usuario extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.validar_correo(editable.toString().trim())){
+                    if(!Principal.ctlUsuarios.valEmail(editable.toString().trim())){
                         txt_correo.setError("Ingresa un correo válido");
                     }
                 }
@@ -113,23 +113,23 @@ public class Det_usuario extends AppCompatActivity {
                     String telefono = editable.toString().trim();
                     if (telefono.length() != 10) {
                         txt_telefono.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.validar_celular(telefono)) {
+                    } else if (!Principal.ctlUsuarios.valPhone(telefono)) {
                         txt_telefono.setError("Ingresa un celular válido");
                     }
                 }
             });
 
-            Principal.ctlUsuarios.obtener_datos_perfil(UID_USUARIO,user -> {
+            Principal.ctlUsuarios.getProfile(UID_USUARIO, user -> {
 
                 if(user!=null){
 
-                    txt_cedula.setText(user.cedula);
-                    txt_nombre.setText(user.nombre);
-                    txt_correo.setText(user.correo);
-                    txt_telefono.setText(user.celular);
-                    txt_clave.setText(user.clave);
+                    txt_cedula.setText(user.ced);
+                    txt_nombre.setText(user.name);
+                    txt_correo.setText(user.email);
+                    txt_telefono.setText(user.phone);
+                    txt_clave.setText(user.password);
 
-                    NOMBRE_USUARIO = user.nombre;
+                    NOMBRE_USUARIO = user.name;
 
                     int spinnerPosition_rol = adapterspinner_rol.getPosition(user.rol);
                     spinner_rol.setSelection(spinnerPosition_rol);
@@ -137,9 +137,9 @@ public class Det_usuario extends AppCompatActivity {
                     int spinnerPosition_canton = adapterspinner_canton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition_canton);
 
-                    if (user.url_foto != null && !user.url_foto.isEmpty()) {
-                        Glide.with(getApplicationContext()).load(user.url_foto).centerCrop().into(img_perfil);
-                        URL_IMAGEN = user.url_foto;
+                    if (user.photo != null && !user.photo.isEmpty()) {
+                        Glide.with(getApplicationContext()).load(user.photo).centerCrop().into(img_perfil);
+                        URL_IMAGEN = user.photo;
 
                     }
 
@@ -158,36 +158,36 @@ public class Det_usuario extends AppCompatActivity {
             });
 
             btn_actualizar.setOnClickListener(view1 -> {
-                alertDialog.mostrar_progreso("Actualizando...");
+                alertDialog.showProgressMessage("Actualizando...");
                 if(!txt_cedula.getText().toString().trim().isEmpty() && txt_cedula.getError() == null &&
                         !txt_nombre.getText().toString().trim().isEmpty() && txt_nombre.getError() == null &&
                         !txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
                         !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
                         !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
                         !spinner_rol.getSelectedItem().toString().equals("Rol")) {
-                    Ob_usuario user = new Ob_usuario();
+                    User user = new User();
                     user.uid = UID_USUARIO;
-                    user.cedula = txt_cedula.getText().toString();
-                    user.nombre = txt_nombre.getText().toString().toUpperCase();
-                    user.correo = txt_correo.getText().toString().toLowerCase();
-                    user.celular = txt_telefono.getText().toString();
+                    user.ced = txt_cedula.getText().toString();
+                    user.name = txt_nombre.getText().toString().toUpperCase();
+                    user.email = txt_correo.getText().toString().toLowerCase();
+                    user.phone = txt_telefono.getText().toString();
                     user.canton = spinner_canton.getSelectedItem().toString();
                     user.rol = spinner_rol.getSelectedItem().toString();
-                    user.clave = txt_clave.getText().toString();
+                    user.password = txt_clave.getText().toString();
 
                     if(!TextUtils.isEmpty(UID_USUARIO)) {
-                        Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
+                        Principal.ctlUsuarios.updateUser(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                alertDialog.ocultar_progreso();
-                                alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
+                                alertDialog.hideProgressMessage();
+                                alertDialog.createMessage("Correcto", "Usuario Actualizado Correctamente", builder -> {
                                     builder.setCancelable(false);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                     });
                                     builder.create().show();
                                 });
                             } else {
-                                alertDialog.ocultar_progreso();
-                                alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", builder -> {
+                                alertDialog.hideProgressMessage();
+                                alertDialog.createMessage("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", builder -> {
                                     builder.setCancelable(true);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                     });
@@ -196,13 +196,13 @@ public class Det_usuario extends AppCompatActivity {
                             }
                         });
                     }else{
-                        alertDialog.ocultar_progreso();
+                        alertDialog.hideProgressMessage();
                         Toast.makeText(this, "Ocurrió un error al obtener la id del Usuario",Toast.LENGTH_LONG).show();
                     }
 
                 }else{
-                    alertDialog.ocultar_progreso();
-                    alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
+                    alertDialog.hideProgressMessage();
+                    alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
                         builder.setCancelable(true);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                         builder.create().show();
@@ -212,12 +212,12 @@ public class Det_usuario extends AppCompatActivity {
 
             btn_eliminar.setOnClickListener(view ->
 
-                alertDialog.crear_mensaje("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
+                alertDialog.createMessage("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
 
-                        alertDialog.mostrar_progreso("Eliminando Usuario...");
-                        Principal.ctlUsuarios.eliminar_usuario(UID_USUARIO).addOnCompleteListener(task -> {
-                            alertDialog.ocultar_progreso();
+                        alertDialog.showProgressMessage("Eliminando Usuario...");
+                        Principal.ctlUsuarios.deleteUser(UID_USUARIO).addOnCompleteListener(task -> {
+                            alertDialog.hideProgressMessage();
                             if(task.isSuccessful()){
                                 finish();
                             }else{

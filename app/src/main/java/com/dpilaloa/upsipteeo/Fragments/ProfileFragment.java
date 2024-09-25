@@ -1,4 +1,4 @@
-package com.dpilaloa.upsipteeo.Fragmentos;
+package com.dpilaloa.upsipteeo.Fragments;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -38,10 +38,10 @@ import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
-import com.dpilaloa.upsipteeo.Controladores.Alert_dialog;
+import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.Det_asistencia;
 import com.dpilaloa.upsipteeo.MainActivity;
-import com.dpilaloa.upsipteeo.Objetos.Ob_usuario;
+import com.dpilaloa.upsipteeo.Objects.User;
 import com.dpilaloa.upsipteeo.Principal;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.Ver_imagen;
@@ -49,85 +49,85 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 
-public class Fragmento_Perfil extends Fragment {
+public class ProfileFragment extends Fragment {
 
     String NOMBRE_USUARIO = "", URL_IMAGEN = "";
-    ImageView img_perfil;
-    Alert_dialog alertDialog;
+    ImageView imgProfile;
+    AlertDialogController alertDialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_perfil,container,false);
+        final View view = inflater.inflate(R.layout.fragment_profile,container,false);
 
-        TextView txt_rol = view.findViewById(R.id.txt_rol);
-        TextView txt_nombre = view.findViewById(R.id.txt_nombre);
-        TextView txt_cedula = view.findViewById(R.id.txt_cedula);
-        EditText txt_correo = view.findViewById(R.id.txt_correo);
-        EditText txt_telefono = view.findViewById(R.id.txt_telefono);
-        EditText txt_clave = view.findViewById(R.id.txt_clave);
-        img_perfil = view.findViewById(R.id.img_perfil);
+        TextView txtRol = view.findViewById(R.id.txt_rol);
+        TextView txtName = view.findViewById(R.id.txt_nombre);
+        TextView txtCed = view.findViewById(R.id.txt_cedula);
+        EditText editTextEmail = view.findViewById(R.id.txt_correo);
+        EditText editTextPhone = view.findViewById(R.id.txt_telefono);
+        EditText editTextPassword = view.findViewById(R.id.txt_clave);
+        imgProfile = view.findViewById(R.id.img_perfil);
         Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
-        Button btn_actualizar = view.findViewById(R.id.btn_actualizar);
-        Button btn_salir = view.findViewById(R.id.btn_salir);
+        Button btnUpdate = view.findViewById(R.id.btn_actualizar);
+        Button btnLogOut = view.findViewById(R.id.btn_salir);
         ImageButton imageButton = view.findViewById(R.id.btn_ver_asist);
 
-        alertDialog = new Alert_dialog(view.getContext());
+        alertDialog = new AlertDialogController(view.getContext());
 
-        ArrayAdapter<CharSequence> adapterspinner_canton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
-        adapterspinner_canton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_canton.setAdapter(adapterspinner_canton);
+        ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(view.getContext(), R.array.cantones, android.R.layout.simple_spinner_item);
+        adapterSpinnerCanton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_canton.setAdapter(adapterSpinnerCanton);
 
         if(!Principal.id.isEmpty()) {
 
-            txt_correo.addTextChangedListener(new TextWatcher() {
+            editTextEmail.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Principal.ctlUsuarios.validar_correo(editable.toString().trim())){
-                        txt_correo.setError("Ingresa un correo válido");
+                    if(!Principal.ctlUsuarios.valEmail(editable.toString().trim())){
+                        editTextEmail.setError("Ingresa un correo válido");
                     }
                 }
             });
 
-            txt_telefono.addTextChangedListener(new TextWatcher() {
+            editTextPhone.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    String telefono = editable.toString().trim();
-                    if (telefono.length() != 10) {
-                        txt_telefono.setError("Ingresa 10 dígitos");
-                    } else if (!Principal.ctlUsuarios.validar_celular(telefono)) {
-                        txt_telefono.setError("Ingresa un celular válido");
+                    String phone = editable.toString().trim();
+                    if (phone.length() != 10) {
+                        editTextPhone.setError("Ingresa 10 dígitos");
+                    } else if (!Principal.ctlUsuarios.valPhone(phone)) {
+                        editTextPhone.setError("Ingresa un celular válido");
                     }
                 }
             });
 
 
-            Principal.ctlUsuarios.obtener_datos_perfil(Principal.id, user -> {
+            Principal.ctlUsuarios.getProfile(Principal.id, user -> {
 
                 if (user != null) {
 
-                    txt_nombre.setText(user.nombre);
-                    txt_correo.setText(user.correo);
-                    txt_telefono.setText(user.celular);
-                    txt_cedula.setText(user.cedula);
-                    txt_rol.setText(user.rol);
-                    txt_clave.setText(user.clave);
+                    txtName.setText(user.name);
+                    editTextEmail.setText(user.email);
+                    editTextPhone.setText(user.phone);
+                    txtCed.setText(user.ced);
+                    txtRol.setText(user.rol);
+                    editTextPassword.setText(user.password);
 
-                    NOMBRE_USUARIO = user.nombre;
-                    URL_IMAGEN = user.url_foto;
+                    NOMBRE_USUARIO = user.name;
+                    URL_IMAGEN = user.photo;
 
-                    int spinnerPosition = adapterspinner_canton.getPosition(user.canton);
+                    int spinnerPosition = adapterSpinnerCanton.getPosition(user.canton);
                     spinner_canton.setSelection(spinnerPosition);
 
-                    if (user.url_foto != null && !user.url_foto.isEmpty()) {
-                        Glide.with(view.getContext().getApplicationContext()).load(user.url_foto).centerCrop().into(img_perfil);
+                    if (user.photo != null && !user.photo.isEmpty()) {
+                        Glide.with(view.getContext().getApplicationContext()).load(user.photo).centerCrop().into(imgProfile);
                     }
 
                 }
@@ -140,52 +140,52 @@ public class Fragmento_Perfil extends Fragment {
                         .putExtra("nombre", NOMBRE_USUARIO))
             );
 
-            img_perfil.setOnClickListener(view1 -> {
+            imgProfile.setOnClickListener(view1 -> {
 
                 if( URL_IMAGEN!=null && !URL_IMAGEN.isEmpty()) {
-                    alertDialog.crear_mensaje("Información", "Selecciona una opción", builder -> {
+                    alertDialog.createMessage("Información", "Selecciona una opción", builder -> {
                         builder.setPositiveButton("Ver Foto", (dialogInterface, i) ->
                             startActivity(new Intent(getContext(), Ver_imagen.class).putExtra("url", URL_IMAGEN))
                         );
-                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> upload_foto());
+                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> uploadPhoto());
                         builder.setCancelable(true);
                         builder.create().show();
                     });
                 }else{
-                    upload_foto();
+                    uploadPhoto();
                 }
 
             });
 
-            btn_actualizar.setOnClickListener(view1 -> {
-                alertDialog.mostrar_progreso("Actualizando...");
-                if(!txt_correo.getText().toString().trim().isEmpty() && txt_correo.getError() == null &&
-                   !txt_telefono.getText().toString().trim().isEmpty() && txt_telefono.getError() == null &&
+            btnUpdate.setOnClickListener(view1 -> {
+                alertDialog.showProgressMessage("Actualizando...");
+                if(!editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
+                   !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                    !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
 
-                    Ob_usuario user = new Ob_usuario();
+                    User user = new User();
                     user.uid = Principal.id;
-                    user.cedula = txt_cedula.getText().toString();
-                    user.nombre = txt_nombre.getText().toString().toUpperCase();
-                    user.correo = txt_correo.getText().toString().toLowerCase();
-                    user.celular = txt_telefono.getText().toString();
+                    user.ced = txtCed.getText().toString();
+                    user.name = txtName.getText().toString().toUpperCase();
+                    user.email = editTextEmail.getText().toString().toLowerCase();
+                    user.phone = editTextPhone.getText().toString();
                     user.canton = spinner_canton.getSelectedItem().toString();
-                    user.rol = txt_rol.getText().toString();
-                    user.clave = txt_clave.getText().toString();
+                    user.rol = txtRol.getText().toString();
+                    user.password = editTextPassword.getText().toString();
 
                     if(!TextUtils.isEmpty(Principal.id)) {
-                        Principal.ctlUsuarios.update_usuario(user).addOnCompleteListener(task -> {
+                        Principal.ctlUsuarios.updateUser(user).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                alertDialog.ocultar_progreso();
-                                alertDialog.crear_mensaje("Correcto", "Perfil Actualizado Correctamente", builder -> {
+                                alertDialog.hideProgressMessage();
+                                alertDialog.createMessage("Correcto", "Perfil Actualizado Correctamente", builder -> {
                                     builder.setCancelable(false);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                     });
                                     builder.create().show();
                                 });
                             } else {
-                                alertDialog.ocultar_progreso();
-                                alertDialog.crear_mensaje("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
+                                alertDialog.hideProgressMessage();
+                                alertDialog.createMessage("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
                                     builder.setCancelable(true);
                                     builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                     });
@@ -194,13 +194,13 @@ public class Fragmento_Perfil extends Fragment {
                             }
                         });
                     }else{
-                        alertDialog.ocultar_progreso();
+                        alertDialog.hideProgressMessage();
                         Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
                     }
 
                 }else{
-                    alertDialog.ocultar_progreso();
-                    alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
+                    alertDialog.hideProgressMessage();
+                    alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
                         builder.setCancelable(true);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                         builder.create().show();
@@ -208,10 +208,10 @@ public class Fragmento_Perfil extends Fragment {
                 }
             });
 
-            btn_salir.setOnClickListener(view1 -> {
-                alertDialog.mostrar_progreso("Cerrando Sesión...");
-                Principal.ctlUsuarios.cerrar_sesion(Principal.preferences);
-                alertDialog.ocultar_progreso();
+            btnLogOut.setOnClickListener(view1 -> {
+                alertDialog.showProgressMessage("Cerrando Sesión...");
+                Principal.ctlUsuarios.logOut(Principal.preferences);
+                alertDialog.hideProgressMessage();
                 requireActivity().finish();
                 startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             });
@@ -223,7 +223,7 @@ public class Fragmento_Perfil extends Fragment {
         return view;
     }
 
-    private void upload_foto(){
+    private void uploadPhoto(){
         if (isPermitted()) {
             getImageFile();
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -276,17 +276,17 @@ public class Fragmento_Perfil extends Fragment {
         final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
         StorageReference ref = Principal.storageReference.child("usuarios").child(Principal.id);
 
-        alertDialog.mostrar_progreso("Actualizando Foto...");
+        alertDialog.showProgressMessage("Actualizando Foto...");
 
         ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
 
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 URL_IMAGEN = uri.toString();
                 if(!TextUtils.isEmpty(Principal.id)) {
-                    Principal.ctlUsuarios.update_foto(Principal.id, URL_IMAGEN).addOnCompleteListener(task -> {
-                        alertDialog.ocultar_progreso();
+                    Principal.ctlUsuarios.updatePhoto(Principal.id, URL_IMAGEN).addOnCompleteListener(task -> {
+                        alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
-                            alertDialog.crear_mensaje("Correcto", "Foto Actualizada Correctamente", builder -> {
+                            alertDialog.createMessage("Correcto", "Foto Actualizada Correctamente", builder -> {
                                 builder.setCancelable(false);
                                 builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
                                 });
@@ -298,16 +298,16 @@ public class Fragmento_Perfil extends Fragment {
 
                     });
                 }else{
-                    alertDialog.ocultar_progreso();
+                    alertDialog.hideProgressMessage();
                     Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(e -> {
-                alertDialog.ocultar_progreso();
+                alertDialog.hideProgressMessage();
                 Toast.makeText(getContext(), "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
             })
 
         ).addOnFailureListener(e -> {
-            alertDialog.ocultar_progreso();
+            alertDialog.hideProgressMessage();
             Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
         });
 

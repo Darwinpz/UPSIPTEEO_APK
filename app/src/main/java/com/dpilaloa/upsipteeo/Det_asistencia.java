@@ -12,23 +12,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dpilaloa.upsipteeo.Adaptadores.Adapter_asistencia;
-import com.dpilaloa.upsipteeo.Controladores.Ctl_asistencia;
-import com.dpilaloa.upsipteeo.Fragmentos.Fragmento_add_asistencia;
+import com.dpilaloa.upsipteeo.Adapters.AssistanceAdapter;
+import com.dpilaloa.upsipteeo.Controllers.AssistanceController;
+import com.dpilaloa.upsipteeo.Fragments.AssistanceAddFragment;
 
 import java.util.Objects;
 
 public class Det_asistencia extends AppCompatActivity {
 
     String UID_USUARIO = "", NOMBRE_USUARIO = "";
-    public static Ctl_asistencia ctlAsistencia;
+    public static AssistanceController ctlAsistencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_det_asistencia);
 
-        Adapter_asistencia list_asistencia = new Adapter_asistencia(this);
+        AssistanceAdapter list_asistencia = new AssistanceAdapter(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerview_asistencia);
         TextView txt_sinresultados = findViewById(R.id.txt_sinresultados);
         ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -37,7 +37,7 @@ public class Det_asistencia extends AppCompatActivity {
         Button btn_add_asistencia = findViewById(R.id.btn_add_asistencia);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        ctlAsistencia = new Ctl_asistencia(MainActivity.databaseReference);
+        ctlAsistencia = new AssistanceController(MainActivity.databaseReference);
         toolbar.setOnClickListener(view -> finish());
 
         UID_USUARIO = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
@@ -49,13 +49,13 @@ public class Det_asistencia extends AppCompatActivity {
         recyclerView.setAdapter(list_asistencia);
 
         if(!UID_USUARIO.isEmpty()) {
-            ctlAsistencia.VerAsistencia(list_asistencia,UID_USUARIO,txt_sinresultados,progressBar,txt_contador);
+            ctlAsistencia.getAssistance(list_asistencia,UID_USUARIO,txt_sinresultados,progressBar,txt_contador);
 
             btn_add_asistencia.setVisibility(Principal.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
 
             btn_add_asistencia.setOnClickListener(view -> {
-                Fragmento_add_asistencia.UID = UID_USUARIO;
-                Fragmento_add_asistencia fragment_add_asistencia = new Fragmento_add_asistencia();
+                AssistanceAddFragment.UID = UID_USUARIO;
+                AssistanceAddFragment fragment_add_asistencia = new AssistanceAddFragment();
                 fragment_add_asistencia.show(getSupportFragmentManager(),"ASISTENCIA");
             });
 
