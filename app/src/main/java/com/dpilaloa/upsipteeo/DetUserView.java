@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +20,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.Objects.User;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
 public class DetUserView extends AppCompatActivity {
 
-    String UID_USER = "", USERNAME = "", URL_PHOTO = "";
+    String UID_USER = "", USERNAME = "", URL_PHOTO = "" , ROL_USER = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,16 @@ public class DetUserView extends AppCompatActivity {
         EditText editTextName = findViewById(R.id.textViewName);
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         EditText editTextPhone = findViewById(R.id.editTextPhone);
+        TextView textViewPassword = findViewById(R.id.labelPassword);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
+        TextInputLayout textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
         android.widget.ImageView img_perfil = findViewById(R.id.imageViewProfile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btnUpdate = findViewById(R.id.buttonUpdate);
         Button btnDelete = findViewById(R.id.btn_eliminar);
 
         UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        ROL_USER = Objects.requireNonNull(getIntent().getExtras()).getString("rol","");
 
         Spinner spinner_rol = findViewById(R.id.spinnerRol);
         Spinner spinner_canton = findViewById(R.id.spinnerCanton);
@@ -145,6 +151,21 @@ public class DetUserView extends AppCompatActivity {
                 }
 
             });
+
+            boolean isAdminOneDiffUid = PrimaryView.rol.equals(getString(R.string.admin_one)) && !getString(R.string.admin_uid).equals(UID_USER);
+
+            btnDelete.setVisibility( isAdminOneDiffUid? View.VISIBLE : View.GONE);
+            btnUpdate.setVisibility(
+                    (isAdminOneDiffUid) ||
+                            (PrimaryView.rol.equals(getString(R.string.admin_two)) &&
+                                    !getString(R.string.admin_uid).equals(UID_USER) &&
+                                    !ROL_USER.equals(getString(R.string.admin_one)))
+                            ? View.VISIBLE
+                            : View.GONE
+            );
+
+            textViewPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
+            textInputLayoutPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
 
             img_perfil.setOnClickListener(view1 -> {
 

@@ -228,7 +228,7 @@
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:id="@+id/spinnerCanton"
@@ -248,19 +248,20 @@
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:id="@+id/spinnerRol"
+                        android:layout_marginBottom="10dp"
                         />
 
                     <TextView
+                        android:id="@+id/labelPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/label_password"
                         android:textStyle="bold"
                         android:textSize="15sp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -272,6 +273,7 @@
                         android:layout_height="wrap_content"
                         app:passwordToggleEnabled="true"
                         app:hintEnabled="false"
+                        android:layout_marginBottom="10dp"
                         >
 
                         <EditText
@@ -293,18 +295,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginRight="20dp"
                         android:backgroundTint="@color/success"
                         android:text="@string/btn_update_profile"
                         android:textColor="@color/white"
+                        android:layout_marginBottom="10dp"
                         />
 
                     <Button
                         android:id="@+id/btn_eliminar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="20dp"

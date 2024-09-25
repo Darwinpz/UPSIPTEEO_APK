@@ -64,7 +64,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
         }
 
         holder.cardViewUser.setOnClickListener(view -> {
-            Intent i = new Intent(context, DetUserView.class).putExtra("uid",userList.get(position).uid);
+            Intent i = new Intent(context, DetUserView.class)
+                    .putExtra("uid",userList.get(position).uid)
+                    .putExtra("rol",userList.get(position).rol);
             context.startActivity(i);
         });
 

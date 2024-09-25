@@ -57,11 +57,9 @@ public class HomeFragment extends Fragment {
         });
 
         try {
-
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
             txtVersion.setText(getString(R.string.version));
             txtVersion.append("\t"+version);
-
         } catch (PackageManager.NameNotFoundException e) {
             txtVersion.setText("-");
         }
