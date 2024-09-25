@@ -59,12 +59,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_cedula"
+                        android:id="@+id/textViewCed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_ced"
                         android:inputType="number"
                         android:maxLength="10"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
@@ -84,12 +85,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_nombre"
+                        android:id="@+id/textViewName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_name"
                         android:inputType="textPersonName"
                         android:maxLength="50"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -109,12 +111,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_correo"
+                        android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_email"
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -134,12 +137,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_telefono"
+                        android:id="@+id/editTextPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_phone"
-                        android:inputType="numberSigned"
+                        android:inputType="phone"
                         android:maxLength="10"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -160,10 +164,10 @@
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:id="@+id/spinner_canton"
+                        android:id="@+id/spinnerCanton"
                         />
 
                     <TextView
@@ -180,10 +184,10 @@
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:id="@+id/spinner_rol"
+                        android:id="@+id/spinnerRol"
                         />
 
                     <TextView
@@ -199,7 +203,7 @@
                         />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textlayout_clave"
+                        android:id="@+id/textInputLayoutPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:passwordToggleEnabled="true"
@@ -207,7 +211,7 @@
                         >
 
                         <EditText
-                            android:id="@+id/txt_clave"
+                            android:id="@+id/editTextPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
@@ -221,7 +225,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
-                        android:id="@+id/btn_crear"
+                        android:id="@+id/buttonSaveUser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"

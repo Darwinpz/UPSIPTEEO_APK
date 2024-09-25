@@ -31,9 +31,9 @@ public class HomeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_home,container,false);
 
         TextView txtVersion = view.findViewById(R.id.txt_version);
-        TextView txtProcess = view.findViewById(R.id.txt_proceso);
-        Button btnShowAlert = view.findViewById(R.id.btn_ver_alertas);
-        Button btnAlert = view.findViewById(R.id.btn_alerta);
+        TextView txtProcess = view.findViewById(R.id.textViewProcess);
+        Button btnShowAlert = view.findViewById(R.id.buttonShowAlerts);
+        Button btnAlert = view.findViewById(R.id.buttonAlert);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_profile);

@@ -38,15 +38,15 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_user,container,false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_trabajadores);
-        TextView txtResult = view.findViewById(R.id.txt_sinresultados);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewUsers);
+        TextView txtResult = view.findViewById(R.id.textViewNotResult);
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        EditText editTextSearch = view.findViewById(R.id.buscador);
+        EditText editTextSearch = view.findViewById(R.id.editTextSearch);
         UserAdapter userAdapter = new UserAdapter(view.getContext());
-        Button btnAddUser = view.findViewById(R.id.btn_agregar);
+        Button btnAddUser = view.findViewById(R.id.buttonAddUser);
 
-        spinnerRol = view.findViewById(R.id.spinner_rol);
-        TextView txtCount = view.findViewById(R.id.txt_contador);
+        spinnerRol = view.findViewById(R.id.spinnerRol);
+        TextView txtCount = view.findViewById(R.id.textViewCount);
 
         ArrayAdapter<CharSequence> adapterSpinnerRol = ArrayAdapter.createFromResource(view.getContext(), R.array.rol, android.R.layout.simple_spinner_item);
         adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

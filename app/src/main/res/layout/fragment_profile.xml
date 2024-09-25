@@ -67,7 +67,7 @@
                         android:background="@color/success"
                         android:padding="10dp"
                         android:src="@drawable/ic_eye"
-                        android:id="@+id/btn_ver_asist"
+                        android:id="@+id/imgButtonShowAssistance"
                         android:contentDescription="@string/description_eye"
                         />
 
@@ -89,7 +89,7 @@
                     android:text="@string/label_user_rol"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:id="@+id/txt_rol"
+                    android:id="@+id/textViewRol"
                     android:gravity="center"
                     android:layout_margin="5dp"
                     />
@@ -119,7 +119,7 @@
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/txt_nombre"
+                        android:id="@+id/textViewName"
                         />
 
                     <TextView
@@ -130,7 +130,7 @@
                         android:gravity="center"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:id="@+id/txt_cedula"
+                        android:id="@+id/textViewCed"
                         />
 
                     <ImageView
@@ -139,7 +139,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/upload"
                         android:background="@color/danger"
-                        android:id="@+id/img_perfil"
+                        android:id="@+id/imageViewProfile"
                         android:contentDescription="@string/description_upload"
                         />
 
@@ -164,12 +164,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_correo"
+                        android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_email"
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -189,12 +190,13 @@
                         />
 
                     <EditText
-                        android:id="@+id/txt_telefono"
+                        android:id="@+id/editTextPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_phone"
-                        android:inputType="numberSigned"
+                        android:inputType="phone"
                         android:maxLength="10"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -215,10 +217,10 @@
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:id="@+id/spinner_canton"
+                        android:id="@+id/spinnerCanton"
                         />
 
                     <TextView
@@ -234,7 +236,7 @@
                         />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textlayout_clave"
+                        android:id="@+id/textInputLayoutPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:passwordToggleEnabled="true"
@@ -242,7 +244,7 @@
                         >
 
                         <EditText
-                            android:id="@+id/txt_clave"
+                            android:id="@+id/editTextPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
@@ -256,7 +258,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
-                        android:id="@+id/btn_actualizar"
+                        android:id="@+id/buttonUpdate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -268,7 +270,7 @@
                         />
 
                     <Button
-                        android:id="@+id/btn_salir"
+                        android:id="@+id/buttonLogOut"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"

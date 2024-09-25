@@ -45,10 +45,11 @@
     <string name="btn_update_profile">Actualizar Perfil</string>
     <string name="btn_delete_profile">Eliminar Perfil</string>
     <string name="btn_logout">Cerrar Sesión</string>
+    <string name="btn_add_user">Crear Usuario</string>
     <string name="btn_save_user">Guardar Usuario</string>
     <string name="btn_add_assistance">Agregar Asistencia</string>
     <string name="btn_save_assistance">Guardar Asistencia</string>
-    <string name="btn_add_alert">!Tengo una Alerta!</string>
+    <string name="btn_add_alert">¡Tengo una Alerta!</string>
     <string name="btn_show_alert">Ver Alertas</string>
     <string name="btn_show_map">Mapa de Alertas</string>
     <string name="btn_report_user">Reporte de Usuarios</string>

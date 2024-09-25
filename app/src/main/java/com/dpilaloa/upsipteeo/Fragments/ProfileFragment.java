@@ -58,17 +58,17 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile,container,false);
 
-        TextView txtRol = view.findViewById(R.id.txt_rol);
-        TextView txtName = view.findViewById(R.id.txt_nombre);
-        TextView txtCed = view.findViewById(R.id.txt_cedula);
-        EditText editTextEmail = view.findViewById(R.id.txt_correo);
-        EditText editTextPhone = view.findViewById(R.id.txt_telefono);
-        EditText editTextPassword = view.findViewById(R.id.txt_clave);
-        imgProfile = view.findViewById(R.id.img_perfil);
-        Spinner spinner_canton = view.findViewById(R.id.spinner_canton);
-        Button btnUpdate = view.findViewById(R.id.btn_actualizar);
-        Button btnLogOut = view.findViewById(R.id.btn_salir);
-        ImageButton imageButton = view.findViewById(R.id.btn_ver_asist);
+        TextView txtRol = view.findViewById(R.id.textViewRol);
+        TextView txtName = view.findViewById(R.id.textViewName);
+        TextView txtCed = view.findViewById(R.id.textViewCed);
+        EditText editTextEmail = view.findViewById(R.id.editTextEmail);
+        EditText editTextPhone = view.findViewById(R.id.editTextPhone);
+        EditText editTextPassword = view.findViewById(R.id.editTextPassword);
+        imgProfile = view.findViewById(R.id.imageViewProfile);
+        Spinner spinner_canton = view.findViewById(R.id.spinnerCanton);
+        Button btnUpdate = view.findViewById(R.id.buttonUpdate);
+        Button btnLogOut = view.findViewById(R.id.buttonLogOut);
+        ImageButton imageButton = view.findViewById(R.id.imgButtonShowAssistance);
 
         alertDialog = new AlertDialogController(view.getContext());
 

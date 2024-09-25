@@ -3,7 +3,7 @@
     <style name="Base.Theme.UPSIPTEEO" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/proyecto_light</item>
+        <item name="colorPrimary">@color/projectLight</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColor">@color/black</item>
 

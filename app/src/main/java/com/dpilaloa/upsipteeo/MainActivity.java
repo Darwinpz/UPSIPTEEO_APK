@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         databaseReference = DB.getReference();
         alertDialog = new AlertDialogController(this);
-        EditText editTextUser = findViewById(R.id.txt_cedula);
-        EditText editTextPassword = findViewById(R.id.txt_clave);
+        EditText editTextUser = findViewById(R.id.textViewCed);
+        EditText editTextPassword = findViewById(R.id.editTextPassword);
         Button btnLogIn = findViewById(R.id.btn_ingresar);
 
         btnLogIn.setOnClickListener(view -> Login(editTextUser.getText().toString(),editTextPassword.getText().toString()));

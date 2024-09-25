@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_add"
+        android:id="@+id/layoutAddUser"
         android:gravity="end"
         android:layout_below="@id/toolbar"
         android:layout_marginRight="5dp"
@@ -29,7 +29,7 @@
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/spinner_rol"
+            android:id="@+id/spinnerRol"
             android:layout_weight="1"
             android:layout_gravity="center"
             />
@@ -37,8 +37,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_agregar"
-            android:text="@string/btn_save_user"
+            android:id="@+id/buttonAddUser"
+            android:text="@string/btn_add_user"
             android:textColor="@color/white"
             android:backgroundTint="@color/success"
             android:padding="10dp"
@@ -47,25 +47,26 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_buscador"
+        android:id="@+id/layoutSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:layout_below="@id/layout_add"
+        android:layout_below="@id/layoutAddUser"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp">
 
         <EditText
-            android:id="@+id/buscador"
+            android:id="@+id/editTextSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_search"
+            android:textColorHint="@color/gray"
             android:hint="@string/input_search_user"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:autofillHints="name"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
@@ -73,7 +74,7 @@
             />
 
         <TextView
-            android:id="@+id/txt_contador"
+            android:id="@+id/textViewCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -88,8 +89,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/layout_cargar"
-        android:layout_below="@id/layout_buscador"
+        android:id="@+id/layoutProgress"
+        android:layout_below="@id/layoutSearch"
         >
 
         <ProgressBar
@@ -101,7 +102,7 @@
             />
 
         <TextView
-            android:id="@+id/txt_sinresultados"
+            android:id="@+id/textViewNotResult"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,10 +113,10 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_trabajadores"
+        android:id="@+id/recyclerViewUsers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_buscador">
+        android:layout_below="@id/layoutSearch">
 
     </androidx.recyclerview.widget.RecyclerView>
 

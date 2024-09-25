@@ -30,20 +30,20 @@ public class DetUserView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_det_user);
 
-        EditText editTextCed = findViewById(R.id.txt_cedula);
-        EditText editTextName = findViewById(R.id.txt_nombre);
-        EditText editTextEmail = findViewById(R.id.txt_correo);
-        EditText editTextPhone = findViewById(R.id.txt_telefono);
-        EditText editTextPassword = findViewById(R.id.txt_clave);
-        android.widget.ImageView img_perfil = findViewById(R.id.img_perfil);
+        EditText editTextCed = findViewById(R.id.textViewCed);
+        EditText editTextName = findViewById(R.id.textViewName);
+        EditText editTextEmail = findViewById(R.id.editTextEmail);
+        EditText editTextPhone = findViewById(R.id.editTextPhone);
+        EditText editTextPassword = findViewById(R.id.editTextPassword);
+        android.widget.ImageView img_perfil = findViewById(R.id.imageViewProfile);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Button btnUpdate = findViewById(R.id.btn_actualizar);
+        Button btnUpdate = findViewById(R.id.buttonUpdate);
         Button btnDelete = findViewById(R.id.btn_eliminar);
 
         UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
 
-        Spinner spinner_rol = findViewById(R.id.spinner_rol);
-        Spinner spinner_canton = findViewById(R.id.spinner_canton);
+        Spinner spinner_rol = findViewById(R.id.spinnerRol);
+        Spinner spinner_canton = findViewById(R.id.spinnerCanton);
         ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
         AlertDialogController alertDialog = new AlertDialogController(this);

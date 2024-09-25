@@ -37,7 +37,7 @@
             </androidx.cardview.widget.CardView>
 
             <CalendarView
-                android:id="@+id/calendario"
+                android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -67,11 +67,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:timePickerMode="spinner"
-                android:id="@+id/horario"
+                android:id="@+id/timePicker"
                 />
 
             <Button
-                android:id="@+id/btn_guardar"
+                android:id="@+id/buttonSaveAssistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"

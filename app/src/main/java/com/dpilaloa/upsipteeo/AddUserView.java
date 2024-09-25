@@ -21,16 +21,16 @@ public class AddUserView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
 
-        EditText editTextCed = findViewById(R.id.txt_cedula);
-        EditText editTextName = findViewById(R.id.txt_nombre);
-        EditText editTextEmail = findViewById(R.id.txt_correo);
-        EditText editTextPhone = findViewById(R.id.txt_telefono);
-        EditText editTextPassword = findViewById(R.id.txt_clave);
+        EditText editTextCed = findViewById(R.id.textViewCed);
+        EditText editTextName = findViewById(R.id.textViewName);
+        EditText editTextEmail = findViewById(R.id.editTextEmail);
+        EditText editTextPhone = findViewById(R.id.editTextPhone);
+        EditText editTextPassword = findViewById(R.id.editTextPassword);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Button btnCreate = findViewById(R.id.btn_crear);
+        Button btnCreate = findViewById(R.id.buttonSaveUser);
 
-        Spinner spinner_rol = findViewById(R.id.spinner_rol);
-        Spinner spinner_canton = findViewById(R.id.spinner_canton);
+        Spinner spinner_rol = findViewById(R.id.spinnerRol);
+        Spinner spinner_canton = findViewById(R.id.spinnerCanton);
 
         AlertDialogController alertDialog = new AlertDialogController(this);
 

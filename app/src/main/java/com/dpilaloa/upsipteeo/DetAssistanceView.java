@@ -30,10 +30,10 @@ public class DetAssistanceView extends AppCompatActivity {
 
         AssistanceAdapter assistanceAdapter = new AssistanceAdapter(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerview_asistencia);
-        TextView txtResult = findViewById(R.id.txt_sinresultados);
+        TextView txtResult = findViewById(R.id.textViewNotResult);
         ProgressBar progressBar = findViewById(R.id.progressBar);
-        TextView txtCount = findViewById(R.id.txt_contador);
-        TextView txtName = findViewById(R.id.txt_nombre);
+        TextView txtCount = findViewById(R.id.textViewCount);
+        TextView txtName = findViewById(R.id.textViewName);
         Button btnAddAssistance = findViewById(R.id.btn_add_asistencia);
         Toolbar toolbar = findViewById(R.id.toolbar);
 

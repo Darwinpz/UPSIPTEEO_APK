@@ -32,7 +32,7 @@
             android:contentDescription="@string/description_logo" />
 
         <TextView
-            android:id="@+id/txt_proceso"
+            android:id="@+id/textViewProcess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/process"
@@ -75,19 +75,19 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:id="@+id/btn_alerta"
+            android:id="@+id/buttonAlert"
             />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_show_alert"
-            android:backgroundTint="@color/proyecto_night"
+            android:backgroundTint="@color/projectNight"
             android:textColor="@color/white"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:id="@+id/btn_ver_alertas"
+            android:id="@+id/buttonShowAlerts"
             />
 
     </LinearLayout>

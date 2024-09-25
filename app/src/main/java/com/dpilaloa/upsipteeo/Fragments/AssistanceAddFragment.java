@@ -41,9 +41,9 @@ public class AssistanceAddFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_add_assistance, null);
         builder.setView(view);
 
-        Button btnSave = view.findViewById(R.id.btn_guardar);
-        TimePicker schedule = view.findViewById(R.id.horario);
-        CalendarView calendarView = view.findViewById(R.id.calendario);
+        Button btnSave = view.findViewById(R.id.buttonSaveAssistance);
+        TimePicker schedule = view.findViewById(R.id.timePicker);
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
 
         Calendar dia = Calendar.getInstance();
         dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil")); // Zone of Ecuador
