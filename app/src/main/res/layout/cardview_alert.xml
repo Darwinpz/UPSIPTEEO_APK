@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:id="@+id/cardview_alerta"
+    android:id="@+id/cardViewAlert"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -31,7 +31,7 @@
                 android:text="@string/label_user_name"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:id="@+id/card_nombre"
+                android:id="@+id/cardName"
                 />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_user_ced"
                 android:textSize="13sp"
-                android:id="@+id/card_cedula"
+                android:id="@+id/cardCed"
                 />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_card_alert_canton"
                 android:textSize="13sp"
-                android:id="@+id/card_canton"
+                android:id="@+id/cardCanton"
                 />
 
             <TextView
@@ -61,7 +61,7 @@
                 android:text="@string/label_card_alert_message"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:id="@+id/card_alerta"
+                android:id="@+id/cardAlert"
                 />
 
             <LinearLayout
@@ -71,7 +71,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/card_fecha"
+                    android:id="@+id/cardDate"
                     android:layout_marginStart="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/card_estado"
+                    android:id="@+id/cardState"
                     android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

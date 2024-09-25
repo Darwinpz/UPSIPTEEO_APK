@@ -49,7 +49,7 @@ public class ReportView extends AppCompatActivity {
 
         AlertDialogController dialog = new AlertDialogController(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        CardView cardSummary = findViewById(R.id.txt_consolidado);
+        CardView cardSummary = findViewById(R.id.cardSummary);
 
         toolbar.setOnClickListener(view -> finish());
 

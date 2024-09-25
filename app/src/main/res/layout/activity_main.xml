@@ -84,6 +84,7 @@
             android:maxLength="10"
             android:autofillHints="no"
             android:textColor="@color/black"
+            android:textSize="20sp"
             />
 
         <TextView
@@ -110,6 +111,7 @@
             android:maxLength="12"
             android:autofillHints="password"
             android:textColor="@color/black"
+            android:textSize="20sp"
             />
 
         <Button

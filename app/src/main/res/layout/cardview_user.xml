@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:id="@+id/cardview_usuario"
+    android:id="@+id/cardViewUser"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true"
@@ -20,9 +20,9 @@
         >
 
         <ImageView
-            android:id="@+id/card_foto"
+            android:id="@+id/cardPhoto"
             android:layout_width="125dp"
-            android:src="@drawable/perfil"
+            android:src="@drawable/profile"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
             android:layout_margin="3dp"
@@ -36,7 +36,7 @@
             >
 
             <TextView
-                android:id="@+id/card_nombre"
+                android:id="@+id/cardName"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 />
 
             <TextView
-                android:id="@+id/card_cedula"
+                android:id="@+id/cardCed"
                 android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:contentDescription="@string/description_icon" />
 
                 <TextView
-                    android:id="@+id/card_canton"
+                    android:id="@+id/cardCanton"
                     android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                     android:contentDescription="@string/description_icon" />
 
                 <TextView
-                    android:id="@+id/card_celular"
+                    android:id="@+id/cardPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -120,7 +120,7 @@
                     android:contentDescription="@string/description_icon" />
 
                 <TextView
-                    android:id="@+id/card_rol"
+                    android:id="@+id/cardRol"
                     android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

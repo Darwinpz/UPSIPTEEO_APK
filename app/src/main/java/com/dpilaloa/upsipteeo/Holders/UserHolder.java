@@ -18,13 +18,13 @@ public class UserHolder extends RecyclerView.ViewHolder{
     public UserHolder(@NonNull View itemView) {
         super(itemView);
 
-        cardCed = itemView.findViewById(R.id.card_cedula);
-        cardName = itemView.findViewById(R.id.card_nombre);
-        cardCanton = itemView.findViewById(R.id.card_canton);
-        cardPhone = itemView.findViewById(R.id.card_celular);
-        cardRol = itemView.findViewById(R.id.card_rol);
-        cardPhoto = itemView.findViewById(R.id.card_foto);
-        cardViewUser = itemView.findViewById(R.id.cardview_usuario);
+        cardCed = itemView.findViewById(R.id.cardCed);
+        cardName = itemView.findViewById(R.id.cardName);
+        cardCanton = itemView.findViewById(R.id.cardCanton);
+        cardPhone = itemView.findViewById(R.id.cardPhone);
+        cardRol = itemView.findViewById(R.id.cardRol);
+        cardPhoto = itemView.findViewById(R.id.cardPhoto);
+        cardViewUser = itemView.findViewById(R.id.cardViewUser);
 
     }
 }

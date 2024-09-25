@@ -12,7 +12,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="@string/tab_title_users"
-        app:titleTextColor="#FFFFFF"
+        app:titleTextColor="@color/white"
         />
 
     <LinearLayout

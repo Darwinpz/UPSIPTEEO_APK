@@ -18,10 +18,10 @@ public class AssistanceHolder extends RecyclerView.ViewHolder{
 
     public AssistanceHolder(@NonNull View itemView) {
         super(itemView);
-        cardDate = itemView.findViewById(R.id.card_fecha);
-        cardTime = itemView.findViewById(R.id.card_hora);
-        cardPhoto = itemView.findViewById(R.id.card_foto);
-        cardViewAssistance = itemView.findViewById(R.id.cardview_asistencia);
+        cardDate = itemView.findViewById(R.id.cardDate);
+        cardTime = itemView.findViewById(R.id.cardTime);
+        cardPhoto = itemView.findViewById(R.id.cardPhoto);
+        cardViewAssistance = itemView.findViewById(R.id.cardViewAssistance);
     }
 
 }

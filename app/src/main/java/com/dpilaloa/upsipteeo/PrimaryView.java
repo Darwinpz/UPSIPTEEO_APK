@@ -45,7 +45,7 @@ public class PrimaryView extends AppCompatActivity {
             storageReference = FirebaseStorage.getInstance().getReference();
 
             ViewPager2 viewPager2 = findViewById(R.id.view_pager);
-            TabLayout tabLayout = findViewById(R.id.tablayout);
+            TabLayout tabLayout = findViewById(R.id.tabLayoutPrimary);
 
             ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager(), getLifecycle());
 

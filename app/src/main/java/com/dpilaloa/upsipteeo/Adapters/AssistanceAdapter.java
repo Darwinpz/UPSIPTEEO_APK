@@ -51,7 +51,7 @@ public class AssistanceAdapter extends RecyclerView.Adapter<AssistanceHolder> {
         if(!TextUtils.isEmpty(assistanceList.get(position).photo)) {
             Glide.with(context).load(assistanceList.get(position).photo).centerCrop().into(holder.cardPhoto);
         }else{
-            Glide.with(context).load(R.drawable.perfil).fitCenter().into(holder.cardPhoto);
+            Glide.with(context).load(R.drawable.profile).fitCenter().into(holder.cardPhoto);
         }
 
     }

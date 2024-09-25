@@ -17,7 +17,7 @@ public class ImageView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        PhotoView photoView = findViewById(R.id.imagen);
+        PhotoView photoView = findViewById(R.id.image);
         Toolbar toolbar = findViewById(R.id.toolbar);
         String link = Objects.requireNonNull(getIntent().getExtras()).getString("url");
         Glide.with(this).load(link).into(photoView);
