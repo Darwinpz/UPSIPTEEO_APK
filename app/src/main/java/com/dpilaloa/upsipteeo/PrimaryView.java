@@ -58,13 +58,13 @@ public class PrimaryView extends AppCompatActivity {
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
                     switch (position) {
                         case 0:
-                            tab.setText(R.string.tab_title_home);
+                            tab.setText(getString(R.string.tab_title_home));
                             break;
                         case 1:
-                            tab.setText(R.string.tab_title_users);
+                            tab.setText(getString(R.string.tab_title_users));
                             break;
                         case 2:
-                            tab.setText(R.string.tab_title_profile);
+                            tab.setText(getString(R.string.tab_title_profile));
                             break;
                     }
 
@@ -78,10 +78,10 @@ public class PrimaryView extends AppCompatActivity {
                 new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
                     switch (position) {
                         case 0:
-                            tab.setText(R.string.tab_title_home);
+                            tab.setText(getString(R.string.tab_title_home));
                             break;
                         case 1:
-                            tab.setText(R.string.tab_title_profile);
+                            tab.setText(getString(R.string.tab_title_profile));
                             break;
                     }
 

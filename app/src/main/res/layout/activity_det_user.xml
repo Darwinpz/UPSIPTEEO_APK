@@ -98,7 +98,7 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/upload"
+                        android:src="@drawable/ic_upload"
                         android:background="@color/danger"
                         android:id="@+id/imageViewProfile"
                         android:contentDescription="@string/description_upload"

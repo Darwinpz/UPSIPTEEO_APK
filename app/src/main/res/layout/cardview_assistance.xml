@@ -2,7 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
     android:id="@+id/cardViewAssistance"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -18,9 +21,9 @@
             android:id="@+id/cardPhoto"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_margin="2dp"
+            android:layout_gravity="center"
             android:scaleType="fitCenter"
-            android:src="@drawable/profile"
+            android:src="@drawable/ic_person"
             android:contentDescription="@string/description_photo"
             />
 
