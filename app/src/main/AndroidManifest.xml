@@ -23,28 +23,28 @@
         android:theme="@style/Theme.UPSIPTEEO"
         tools:targetApi="31">
         <activity
-            android:name=".MapView"
+            android:name=".ui.activities.MapActivity"
             android:exported="false" />
         <activity
-            android:name=".AlertView"
+            android:name=".ui.activities.AlertActivity"
             android:exported="false" />
         <activity
-            android:name=".ImageView"
+            android:name=".ui.activities.ImageActivity"
             android:exported="false" />
         <activity
-            android:name=".AddUserView"
+            android:name=".ui.activities.AddUserActivity"
             android:exported="false" />
         <activity
-            android:name=".DetAssistanceView"
+            android:name=".ui.activities.DetAssistanceActivity"
             android:exported="false" />
         <activity
-            android:name=".ReportView"
+            android:name=".ui.activities.ReportActivity"
             android:exported="false" />
         <activity
-            android:name=".DetUserView"
+            android:name=".ui.activities.DetUserActivity"
             android:exported="false" />
         <activity
-            android:name=".PrimaryView"
+            android:name=".ui.activities.PrimaryActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

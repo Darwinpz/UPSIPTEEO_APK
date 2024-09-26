@@ -9,7 +9,8 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dpilaloa.upsipteeo.Controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                         editor.apply();
                                         alertDialog.hideProgressMessage();
-                                        startActivity(new Intent(getBaseContext(), PrimaryView.class));
+                                        startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
                                         finish();
 
                                     }
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty()) {
 
-            startActivity(new Intent(this, PrimaryView.class));
+            startActivity(new Intent(this, PrimaryActivity.class));
             finish();
 
         }
