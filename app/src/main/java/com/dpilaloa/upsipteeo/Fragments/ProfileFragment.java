@@ -178,16 +178,14 @@ public class ProfileFragment extends Fragment {
                                 alertDialog.hideProgressMessage();
                                 alertDialog.createMessage("Correcto", "Perfil Actualizado Correctamente", builder -> {
                                     builder.setCancelable(false);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                    });
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                                     builder.create().show();
                                 });
                             } else {
                                 alertDialog.hideProgressMessage();
                                 alertDialog.createMessage("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
                                     builder.setCancelable(true);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                    });
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                                     builder.create().show();
                                 });
                             }
@@ -287,8 +285,7 @@ public class ProfileFragment extends Fragment {
                         if (task.isSuccessful()) {
                             alertDialog.createMessage("Correcto", "Foto Actualizada Correctamente", builder -> {
                                 builder.setCancelable(false);
-                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                });
+                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                                 builder.create().show();
                             });
                         } else {
@@ -344,10 +341,10 @@ public class ProfileFragment extends Fragment {
         cropImageOptions.outputCompressQuality = 90;
         cropImageOptions.aspectRatioX = 1;
         cropImageOptions.aspectRatioY = 1;
-        cropImageOptions.maxCropResultWidth = 512;
-        cropImageOptions.maxCropResultHeight = 512;
-        //cropImageOptions.minCropResultHeight = 512;
-        //cropImageOptions.minCropResultWidth = 512;
+        cropImageOptions.maxCropResultWidth = 1024;
+        cropImageOptions.maxCropResultHeight = 1024;
+        cropImageOptions.minCropResultHeight = 512;
+        cropImageOptions.minCropResultWidth = 512;
         CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
         cropImage.launch(cropImageContractOptions);
     }

@@ -1,11 +1,13 @@
 package com.dpilaloa.upsipteeo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -56,8 +60,7 @@ public class DetUserView extends AppCompatActivity {
 
         toolbar.setOnClickListener(view -> finish());
 
-        ArrayAdapter<CharSequence> adapterSpinnerRol = ArrayAdapter.createFromResource(this, R.array.rol, android.R.layout.simple_spinner_item);
-        adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapterSpinnerRol = getCharSequenceArrayAdapter();
         spinner_rol.setAdapter(adapterSpinnerRol);
 
         ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(this, R.array.canton, android.R.layout.simple_spinner_item);
@@ -153,16 +156,18 @@ public class DetUserView extends AppCompatActivity {
             });
 
             boolean isAdminOneDiffUid = PrimaryView.rol.equals(getString(R.string.admin_one)) && !getString(R.string.admin_uid).equals(UID_USER);
+            boolean isAdminTwoDiffUid = (isAdminOneDiffUid) || (PrimaryView.rol.equals(getString(R.string.admin_two)) &&
+                            !getString(R.string.admin_uid).equals(UID_USER) && !ROL_USER.equals(getString(R.string.admin_one)));
 
-            btnDelete.setVisibility( isAdminOneDiffUid? View.VISIBLE : View.GONE);
-            btnUpdate.setVisibility(
-                    (isAdminOneDiffUid) ||
-                            (PrimaryView.rol.equals(getString(R.string.admin_two)) &&
-                                    !getString(R.string.admin_uid).equals(UID_USER) &&
-                                    !ROL_USER.equals(getString(R.string.admin_one)))
-                            ? View.VISIBLE
-                            : View.GONE
-            );
+            btnDelete.setVisibility( isAdminOneDiffUid ? View.VISIBLE : View.GONE);
+            btnUpdate.setVisibility( isAdminTwoDiffUid ? View.VISIBLE : View.GONE);
+
+            editTextCed.setEnabled(isAdminTwoDiffUid);
+            editTextName.setEnabled(isAdminTwoDiffUid);
+            editTextEmail.setEnabled(isAdminTwoDiffUid);
+            editTextPhone.setEnabled(isAdminTwoDiffUid);
+            spinner_canton.setEnabled(isAdminTwoDiffUid);
+            spinner_rol.setEnabled(isAdminTwoDiffUid);
 
             textViewPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
             textInputLayoutPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
@@ -265,4 +270,23 @@ public class DetUserView extends AppCompatActivity {
         }
 
     }
+
+    @NonNull
+    private ArrayAdapter<CharSequence> getCharSequenceArrayAdapter() {
+        ArrayAdapter<CharSequence> adapterSpinnerRol = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.rol)) {
+            @Override
+            public boolean isEnabled(int position) {return PrimaryView.rol.equals(getString(R.string.admin_one)) || position != 1;}
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
+                textView.setTextColor((PrimaryView.rol.equals(getString(R.string.admin_one)) || position != 1) ? Color.BLACK : Color.GRAY);
+                return view;
+            }
+        };
+
+        adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapterSpinnerRol;
+    }
+
 }
