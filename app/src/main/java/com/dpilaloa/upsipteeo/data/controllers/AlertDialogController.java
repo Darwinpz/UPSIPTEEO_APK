@@ -19,12 +19,11 @@ public class AlertDialogController {
     }
 
     public void createMessage(String title, String message, DialogInterface build){
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title).setMessage(message);
         build.getBuilder(builder);
-
     }
+
 
     public void showProgressMessage(String message) {
         if (dialog == null) {

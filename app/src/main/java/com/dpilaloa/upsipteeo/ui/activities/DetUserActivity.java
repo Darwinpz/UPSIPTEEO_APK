@@ -101,7 +101,6 @@ public class DetUserActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(user.photo)) {
                         Glide.with(getApplicationContext()).load(user.photo).centerCrop().into(img_perfil);
                         URL_PHOTO = user.photo;
-
                     }
 
                 }
@@ -143,6 +142,7 @@ public class DetUserActivity extends AppCompatActivity {
                         !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
                         !spinner_rol.getSelectedItem().toString().equals("Rol")) {
+
                     User user = new User();
                     user.uid = UID_USER;
                     user.ced = editTextCed.getText().toString();
