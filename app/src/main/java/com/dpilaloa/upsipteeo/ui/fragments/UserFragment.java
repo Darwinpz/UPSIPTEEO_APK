@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.ui.adapters.UserAdapter;
 import com.dpilaloa.upsipteeo.ui.activities.AddUserActivity;
 import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
@@ -58,12 +59,14 @@ public class UserFragment extends Fragment {
 
         if(!PrimaryActivity.id.isEmpty()) {
 
-            PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id , "Rol","", txtResult, progressBar, txtCount);
+            MainActivity.userController.getUsers(userAdapter, PrimaryActivity.id , "Rol","", txtResult, progressBar, txtCount,
+                    databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
 
             spinnerRol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
+                    MainActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount,
+                            databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -73,7 +76,8 @@ public class UserFragment extends Fragment {
             editTextSearch.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     hideKeyboard();
-                    PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount);
+                    MainActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount,
+                            databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
                     return true;
                 }
                 return false;

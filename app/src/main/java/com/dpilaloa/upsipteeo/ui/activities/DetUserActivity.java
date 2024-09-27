@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -70,18 +71,18 @@ public class DetUserActivity extends AppCompatActivity {
         if(!UID_USER.isEmpty()){
 
             editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
-                    input -> PrimaryActivity.userController.valCed(input),"Ingresa una cédula válida"));
+                    input -> MainActivity.userController.valCed(input),"Ingresa una cédula válida"));
 
             editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
-                    input -> PrimaryActivity.userController.valUser(input),"Ingresa un nombre válido"));
+                    input -> MainActivity.userController.valUser(input),"Ingresa un nombre válido"));
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> MainActivity.userController.valEmail(input),"Ingresa un correo válido"));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> MainActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
 
-            PrimaryActivity.userController.getProfile(UID_USER, user -> {
+            MainActivity.userController.getProfile(UID_USER, user -> {
 
                 if(user!=null){
 
@@ -106,7 +107,7 @@ public class DetUserActivity extends AppCompatActivity {
 
                 }
 
-            });
+            }, databaseError -> Toast.makeText(this,"Ocurrió un error al obtener el perfil del usuario", Toast.LENGTH_SHORT).show());
 
             boolean isAdminOneDiffUid = PrimaryActivity.rol.equals(getString(R.string.admin_one)) && !getString(R.string.admin_uid).equals(UID_USER);
             boolean isAdminTwoDiffUid = (isAdminOneDiffUid) || (PrimaryActivity.rol.equals(getString(R.string.admin_two)) &&
@@ -155,7 +156,7 @@ public class DetUserActivity extends AppCompatActivity {
                     user.password = editTextPassword.getText().toString();
 
                     if(!TextUtils.isEmpty(UID_USER)) {
-                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        MainActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
                                 alertDialog.showMessageDialog("Correcto", "Usuario Actualizado Correctamente", false, (dialogInterface, i) -> {});
@@ -179,7 +180,7 @@ public class DetUserActivity extends AppCompatActivity {
                 alertDialog.showConfirmDialog("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!","Aceptar","Cancelar", (dialogInterface, i) ->
                 {
                     alertDialog.showProgressMessage("Eliminando Usuario...");
-                    PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
+                    MainActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             finish();

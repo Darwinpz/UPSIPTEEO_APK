@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.dpilaloa.upsipteeo.data.interfaces.DbErrorInterface;
 import com.dpilaloa.upsipteeo.data.models.Assistance;
 import com.dpilaloa.upsipteeo.ui.adapters.AssistanceAdapter;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +26,7 @@ public class AssistanceController {
         this.databaseReference = databaseReference;
     }
 
-    public void getAssistance(AssistanceAdapter assistanceAdapter, String uid, TextView textViewResult, ProgressBar progressBar, TextView txtCount) {
+    public void getAssistance(AssistanceAdapter assistanceAdapter, String uid, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
@@ -73,7 +74,7 @@ public class AssistanceController {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
+            public void onCancelled(@NonNull DatabaseError error) {dbErrorInterface.onProcessError(error);}
 
         });
 

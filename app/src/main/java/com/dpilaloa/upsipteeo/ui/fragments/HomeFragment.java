@@ -19,9 +19,6 @@ import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.ui.activities.ReportActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
 
@@ -43,18 +40,8 @@ public class HomeFragment extends Fragment {
             return false;
         });
 
-        MainActivity.databaseReference.child("process").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    txtProcess.setText(snapshot.getValue(String.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
-
-        });
+        MainActivity.userController.getProcess(txtProcess::setText,
+                databaseError -> txtProcess.setText(getString(R.string.process)));
 
         try {
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;

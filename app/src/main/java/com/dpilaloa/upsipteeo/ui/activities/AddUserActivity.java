@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -47,16 +48,16 @@ public class AddUserActivity extends AppCompatActivity {
         spinner_canton.setAdapter(adapterSpinnerCanton);
 
         editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
-                input -> PrimaryActivity.userController.valCed(input),"Ingresa una cédula válida"));
+                input -> MainActivity.userController.valCed(input),"Ingresa una cédula válida"));
 
         editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
-                input -> PrimaryActivity.userController.valUser(input),"Ingresa un nombre válido"));
+                input -> MainActivity.userController.valUser(input),"Ingresa un nombre válido"));
 
         editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                input -> MainActivity.userController.valEmail(input),"Ingresa un correo válido"));
 
         editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                input -> MainActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
 
         btnCreate.setOnClickListener(view -> {
             alertDialog.showProgressMessage("Creando...");
@@ -76,7 +77,7 @@ public class AddUserActivity extends AppCompatActivity {
                 user.rol = spinner_rol.getSelectedItem().toString();
                 user.password = editTextPassword.getText().toString();
 
-                PrimaryActivity.userController.createUser(user).addOnCompleteListener(task -> {
+                MainActivity.userController.createUser(user).addOnCompleteListener(task -> {
                     alertDialog.hideProgressMessage();
                     if(task.isSuccessful()){
                         alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());

@@ -51,7 +51,8 @@ public class DetAssistanceActivity extends AppCompatActivity {
         recyclerView.setAdapter(assistanceAdapter);
 
         if(!UID_USER.isEmpty()) {
-            assistanceController.getAssistance(assistanceAdapter,UID_USER,txtResult,progressBar,txtCount);
+            assistanceController.getAssistance(assistanceAdapter,UID_USER,txtResult,progressBar,txtCount, databaseError ->
+                    Toast.makeText(this, "Ocurrió un error al obtener las asistencias",Toast.LENGTH_SHORT).show());
 
             btnAddAssistance.setVisibility(PrimaryActivity.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
 

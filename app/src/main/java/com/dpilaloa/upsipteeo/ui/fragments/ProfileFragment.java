@@ -78,12 +78,12 @@ public class ProfileFragment extends Fragment {
         if(!PrimaryActivity.id.isEmpty()) {
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> MainActivity.userController.valEmail(input),"Ingresa un correo válido"));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> MainActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
 
-            PrimaryActivity.userController.getProfile(PrimaryActivity.id, user -> {
+            MainActivity.userController.getProfile(PrimaryActivity.id, user -> {
 
                 if (user != null) {
 
@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
 
                 }
 
-            });
+            }, databaseError -> Toast.makeText(getContext(),"Ocurrió un error al obtener el perfil", Toast.LENGTH_SHORT).show());
 
             imageButton.setOnClickListener(view1 ->
                 startActivity(new Intent(view.getContext(), DetAssistanceActivity.class)
@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
                     user.password = editTextPassword.getText().toString();
 
                     if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        MainActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
                                 alertDialog.showMessageDialog("Correcto", "Perfil Actualizado Correctamente", false, (dialogInterface, i) -> {});
@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
 
             btnLogOut.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage("Cerrando Sesión...");
-                PrimaryActivity.userController.logOut(PrimaryActivity.preferences);
+                MainActivity.userController.logOut(PrimaryActivity.preferences);
                 alertDialog.hideProgressMessage();
                 requireActivity().finish();
                 startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -237,7 +237,7 @@ public class ProfileFragment extends Fragment {
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 URL_PHOTO = uri.toString();
                 if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                    PrimaryActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
+                    MainActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});

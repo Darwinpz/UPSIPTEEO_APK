@@ -1,12 +1,15 @@
 package com.dpilaloa.upsipteeo.data.controllers;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.dpilaloa.upsipteeo.data.interfaces.DbErrorInterface;
+import com.dpilaloa.upsipteeo.data.interfaces.ProcessObInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.UserInterface;
 import com.dpilaloa.upsipteeo.ui.adapters.UserAdapter;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -53,14 +56,57 @@ public class UserController {
     }
 
     public Task<Void> updatePhoto(String uid, String photo) {
-
         return databaseReference.child("users").child(uid).updateChildren(Collections.singletonMap("photo", photo));
-
     }
 
+    public void getProcess(ProcessObInterface processObInterface, DbErrorInterface dbErrorInterface){
+        databaseReference.child("process").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    processObInterface.getNameProcess(snapshot.getValue(String.class));
+                }
+            }
 
-    public void getProfile(String uid, UserInterface userInterface){
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {dbErrorInterface.onProcessError(error);}
+        });
+    }
 
+    public void logIn(String username, String password, UserInterface userInterface, DbErrorInterface dbErrorInterface){
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+
+                if(datasnapshot.exists()){
+
+                    for (DataSnapshot snapshot : datasnapshot.getChildren()) {
+
+                        if(snapshot.child("ced").exists() && snapshot.child("password").exists() && snapshot.child("rol").exists() ) {
+
+                            User user = new User();
+                            user.uid = snapshot.getKey();
+                            user.ced = snapshot.child("ced").getValue(String.class);
+                            user.rol = snapshot.child("rol").getValue(String.class);
+                            user.password = snapshot.child("password").getValue(String.class);
+
+                            if (TextUtils.equals(user.ced,username) && TextUtils.equals(user.password,password)) {
+                                userInterface.getUser(user);
+                                break;
+                            }
+                        }
+                    }
+                    userInterface.getUser(null);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {dbErrorInterface.onProcessError(error);}
+        });
+    }
+
+    public void getProfile(String uid, UserInterface userInterface, DbErrorInterface dbErrorInterface){
         databaseReference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -85,14 +131,13 @@ public class UserController {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {throw databaseError.toException();}
+            public void onCancelled(@NonNull DatabaseError databaseError) {dbErrorInterface.onProcessError(databaseError);}
 
         });
-
     }
 
 
-    public void getUsers(UserAdapter userAdapter, String uid, String rol, String filter, TextView textViewResult, ProgressBar progressBar, TextView txtCount) {
+    public void getUsers(UserAdapter userAdapter, String uid, String rol, String filter, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
@@ -146,12 +191,11 @@ public class UserController {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {throw error.toException();}
+            public void onCancelled(@NonNull DatabaseError error) {dbErrorInterface.onProcessError(error);}
 
         });
 
     }
-
 
     public void logOut(SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
