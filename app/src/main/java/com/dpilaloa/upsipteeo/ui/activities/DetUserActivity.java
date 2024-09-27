@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class DetUserActivity extends AppCompatActivity {
         TextView textViewPassword = findViewById(R.id.labelPassword);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
         TextInputLayout textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
-        android.widget.ImageView img_perfil = findViewById(R.id.imageViewProfile);
+        ImageView imgProfile = findViewById(R.id.imageViewProfile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btnUpdate = findViewById(R.id.buttonUpdate);
         Button btnDelete = findViewById(R.id.btn_eliminar);
@@ -99,7 +100,7 @@ public class DetUserActivity extends AppCompatActivity {
                     spinner_canton.setSelection(spinnerPosition_canton);
 
                     if (!TextUtils.isEmpty(user.photo)) {
-                        Glide.with(getApplicationContext()).load(user.photo).centerCrop().into(img_perfil);
+                        Glide.with(getApplicationContext()).load(user.photo).centerCrop().into(imgProfile);
                         URL_PHOTO = user.photo;
                     }
 
@@ -124,7 +125,7 @@ public class DetUserActivity extends AppCompatActivity {
             textViewPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
             textInputLayoutPassword.setVisibility(isAdminOneDiffUid? View.VISIBLE : View.GONE);
 
-            img_perfil.setOnClickListener(view1 -> {
+            imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
                     startActivity(new Intent(this, ImageActivity.class).putExtra("url", URL_PHOTO));
@@ -175,8 +176,6 @@ public class DetUserActivity extends AppCompatActivity {
             });
 
             btnDelete.setOnClickListener(view ->
-
-            {
                 alertDialog.showConfirmDialog("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!","Aceptar","Cancelar", (dialogInterface, i) ->
                 {
                     alertDialog.showProgressMessage("Eliminando Usuario...");
@@ -188,9 +187,8 @@ public class DetUserActivity extends AppCompatActivity {
                             Toast.makeText(this, "Ocurrió un error al eliminar el Usuario", Toast.LENGTH_LONG).show();
                         }
                     });
-                }, (dialogInterface, i) -> {});
-
-            });
+                }, (dialogInterface, i) -> {})
+            );
 
             imageButton.setOnClickListener(view -> {
                 Intent i = new Intent(this, DetAssistanceActivity.class);

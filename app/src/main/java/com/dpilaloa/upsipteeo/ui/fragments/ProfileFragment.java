@@ -117,9 +117,9 @@ public class ProfileFragment extends Fragment {
             imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
-                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) -> {
-                        startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO));
-                    }, (dialogInterface, i) -> uploadPhoto());
+                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) ->
+                        startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO))
+                    , (dialogInterface, i) -> uploadPhoto());
                 }else{
                     uploadPhoto();
                 }
