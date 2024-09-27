@@ -97,7 +97,6 @@ public class UserFragment extends Fragment {
     public void hideKeyboard(){
         InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(requireActivity().getCurrentFocus()).getWindowToken(), 0);
-
     }
 
     /*public void guardar(){

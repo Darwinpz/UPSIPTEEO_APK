@@ -1,23 +1,18 @@
 package com.dpilaloa.upsipteeo.ui.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.models.User;
+import com.dpilaloa.upsipteeo.ui.adapters.ArraySpinnerAdapter;
 import com.dpilaloa.upsipteeo.utils.ValEditTextWatcher;
 
 public class AddUserActivity extends AppCompatActivity {
@@ -42,7 +37,9 @@ public class AddUserActivity extends AppCompatActivity {
 
         toolbar.setOnClickListener(view -> finish());
 
-        ArrayAdapter<CharSequence> adapterSpinnerRol = getCharSequenceArrayAdapter();
+        ArrayAdapter<CharSequence> adapterSpinnerRol = new ArraySpinnerAdapter(this,android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.rol), PrimaryActivity.rol,1);
+        adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_rol.setAdapter(adapterSpinnerRol);
 
         ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(this, R.array.canton, android.R.layout.simple_spinner_item);
@@ -107,24 +104,6 @@ public class AddUserActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @NonNull
-    private ArrayAdapter<CharSequence> getCharSequenceArrayAdapter() {
-        ArrayAdapter<CharSequence> adapterSpinnerRol = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.rol)) {
-            @Override
-            public boolean isEnabled(int position) {return PrimaryActivity.rol.equals(getString(R.string.admin_one)) || position != 1;}
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-                textView.setTextColor((PrimaryActivity.rol.equals(getString(R.string.admin_one)) || position != 1) ? Color.BLACK : Color.GRAY);
-                return view;
-            }
-        };
-
-        adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        return adapterSpinnerRol;
     }
 
 }
