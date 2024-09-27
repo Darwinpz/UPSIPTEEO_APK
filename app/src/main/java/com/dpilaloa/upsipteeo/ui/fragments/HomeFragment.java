@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.dpilaloa.upsipteeo.ui.activities.AlertActivity;
-import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.ui.activities.ReportActivity;
@@ -40,7 +39,7 @@ public class HomeFragment extends Fragment {
             return false;
         });
 
-        MainActivity.userController.getProcess(txtProcess::setText,
+        PrimaryActivity.userController.getProcess(txtProcess::setText,
                 databaseError -> txtProcess.setText(getString(R.string.process)));
 
         try {

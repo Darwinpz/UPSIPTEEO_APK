@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -71,18 +70,18 @@ public class DetUserActivity extends AppCompatActivity {
         if(!UID_USER.isEmpty()){
 
             editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
-                    input -> MainActivity.userController.valCed(input),"Ingresa una cédula válida"));
+                    input -> PrimaryActivity.userController.valCed(input),"Ingresa una cédula válida"));
 
             editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
-                    input -> MainActivity.userController.valUser(input),"Ingresa un nombre válido"));
+                    input -> PrimaryActivity.userController.valUser(input),"Ingresa un nombre válido"));
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> MainActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> MainActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
 
-            MainActivity.userController.getProfile(UID_USER, user -> {
+            PrimaryActivity.userController.getProfile(UID_USER, user -> {
 
                 if(user!=null){
 
@@ -156,7 +155,7 @@ public class DetUserActivity extends AppCompatActivity {
                     user.password = editTextPassword.getText().toString();
 
                     if(!TextUtils.isEmpty(UID_USER)) {
-                        MainActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
                                 alertDialog.showMessageDialog("Correcto", "Usuario Actualizado Correctamente", false, (dialogInterface, i) -> {});
@@ -180,7 +179,7 @@ public class DetUserActivity extends AppCompatActivity {
                 alertDialog.showConfirmDialog("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!","Aceptar","Cancelar", (dialogInterface, i) ->
                 {
                     alertDialog.showProgressMessage("Eliminando Usuario...");
-                    MainActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
+                    PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             finish();

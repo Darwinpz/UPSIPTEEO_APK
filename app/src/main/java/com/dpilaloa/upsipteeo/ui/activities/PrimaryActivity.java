@@ -9,7 +9,9 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.R;
+import com.dpilaloa.upsipteeo.data.controllers.UserController;
 import com.dpilaloa.upsipteeo.ui.adapters.ViewPageAdapter;
 import com.dpilaloa.upsipteeo.ui.fragments.HomeFragment;
 import com.dpilaloa.upsipteeo.ui.fragments.ProfileFragment;
@@ -28,6 +30,7 @@ public class PrimaryActivity extends AppCompatActivity {
     public static SharedPreferences preferences;
     public static String id = "";
     public static String rol = "";
+    public static UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class PrimaryActivity extends AppCompatActivity {
         if(!id.isEmpty()) {
 
             storageReference = FirebaseStorage.getInstance().getReference();
+            userController = new UserController(MainActivity.databaseReference);
 
             ViewPager2 viewPager2 = findViewById(R.id.viewPagerPrimary);
             TabLayout tabLayout = findViewById(R.id.tabLayoutPrimary);

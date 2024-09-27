@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +50,8 @@ import java.io.ByteArrayOutputStream;
 
 public class ProfileFragment extends Fragment {
 
-    String USERNAME = "", URL_PHOTO = "";
-    android.widget.ImageView imgProfile;
-    AlertDialogController alertDialog;
+    private String USERNAME = "", URL_PHOTO = "";
+    private AlertDialogController alertDialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
         EditText editTextEmail = view.findViewById(R.id.editTextEmail);
         EditText editTextPhone = view.findViewById(R.id.editTextPhone);
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
-        imgProfile = view.findViewById(R.id.imageViewProfile);
+        ImageView imgProfile = view.findViewById(R.id.imageViewProfile);
         Spinner spinner_canton = view.findViewById(R.id.spinnerCanton);
         Button btnUpdate = view.findViewById(R.id.buttonUpdate);
         Button btnLogOut = view.findViewById(R.id.buttonLogOut);
@@ -78,12 +78,12 @@ public class ProfileFragment extends Fragment {
         if(!PrimaryActivity.id.isEmpty()) {
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> MainActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> MainActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
 
-            MainActivity.userController.getProfile(PrimaryActivity.id, user -> {
+            PrimaryActivity.userController.getProfile(PrimaryActivity.id, user -> {
 
                 if (user != null) {
 
@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
                     user.password = editTextPassword.getText().toString();
 
                     if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                        MainActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
                                 alertDialog.showMessageDialog("Correcto", "Perfil Actualizado Correctamente", false, (dialogInterface, i) -> {});
@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
 
             btnLogOut.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage("Cerrando Sesión...");
-                MainActivity.userController.logOut(PrimaryActivity.preferences);
+                PrimaryActivity.userController.logOut(PrimaryActivity.preferences);
                 alertDialog.hideProgressMessage();
                 requireActivity().finish();
                 startActivity(new Intent(view.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -237,7 +237,7 @@ public class ProfileFragment extends Fragment {
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
                 URL_PHOTO = uri.toString();
                 if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                    MainActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
+                    PrimaryActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});
