@@ -155,22 +155,12 @@ public class DetUserActivity extends AppCompatActivity {
 
                     if(!TextUtils.isEmpty(UID_USER)) {
                         PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                            alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.hideProgressMessage();
-                                alertDialog.createMessage("Correcto", "Usuario Actualizado Correctamente", builder -> {
-                                    builder.setCancelable(false);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                    });
-                                    builder.create().show();
-                                });
+                                alertDialog.showMessageDialog("Correcto", "Usuario Actualizado Correctamente", false, (dialogInterface, i) -> {});
+
                             } else {
-                                alertDialog.hideProgressMessage();
-                                alertDialog.createMessage("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", builder -> {
-                                    builder.setCancelable(true);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                    });
-                                    builder.create().show();
-                                });
+                                alertDialog.showMessageDialog("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", true, (dialogInterface, i) -> {});
                             }
                         });
                     }else{
@@ -180,36 +170,27 @@ public class DetUserActivity extends AppCompatActivity {
 
                 }else{
                     alertDialog.hideProgressMessage();
-                    alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
-                        builder.setCancelable(true);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
+                    alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
                 }
             });
 
             btnDelete.setOnClickListener(view ->
 
-                alertDialog.createMessage("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!", builder -> {
-                    builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-
-                        alertDialog.showProgressMessage("Eliminando Usuario...");
-                        PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
-                            alertDialog.hideProgressMessage();
-                            if(task.isSuccessful()){
-                                finish();
-                            }else{
-                                Toast.makeText(this, "Ocurrió un error al eliminar el Usuario",Toast.LENGTH_LONG).show();
-                            }
-                        });
-
+            {
+                alertDialog.showConfirmDialog("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!","Aceptar","Cancelar", (dialogInterface, i) ->
+                {
+                    alertDialog.showProgressMessage("Eliminando Usuario...");
+                    PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
+                        alertDialog.hideProgressMessage();
+                        if (task.isSuccessful()) {
+                            finish();
+                        } else {
+                            Toast.makeText(this, "Ocurrió un error al eliminar el Usuario", Toast.LENGTH_LONG).show();
+                        }
                     });
-                    builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
-                    builder.setCancelable(false);
-                    builder.create().show();
-                })
+                }, (dialogInterface, i) -> {});
 
-            );
+            });
 
             imageButton.setOnClickListener(view -> {
                 Intent i = new Intent(this, DetAssistanceActivity.class);

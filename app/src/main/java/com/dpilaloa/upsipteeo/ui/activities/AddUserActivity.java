@@ -79,28 +79,16 @@ public class AddUserActivity extends AppCompatActivity {
                 PrimaryActivity.userController.createUser(user).addOnCompleteListener(task -> {
                     alertDialog.hideProgressMessage();
                     if(task.isSuccessful()){
-                        alertDialog.createMessage("Correcto", "Usuario Creado Correctamente", builder -> {
-                            builder.setCancelable(false);
-                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                            builder.create().show();
-                        });
+                        alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());
                     }else{
-                        alertDialog.createMessage("¡Advertencia!", "Error al crear el Usuario", builder -> {
-                            builder.setCancelable(true);
-                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                            builder.create().show();
-                        });
+                        alertDialog.showMessageDialog("¡Advertencia!", "Error al crear el Usuario", true, (dialogInterface, i) -> {});
                     }
 
                 });
 
             }else{
                 alertDialog.hideProgressMessage();
-                alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
-                    builder.setCancelable(true);
-                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                    builder.create().show();
-                });
+                alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
             }
         });
 

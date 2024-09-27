@@ -117,14 +117,9 @@ public class ProfileFragment extends Fragment {
             imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
-                    alertDialog.createMessage("Información", "Selecciona una opción", builder -> {
-                        builder.setPositiveButton("Ver Foto", (dialogInterface, i) ->
-                            startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO))
-                        );
-                        builder.setNeutralButton("Actualizar Foto", (dialogInterface, i) -> uploadPhoto());
-                        builder.setCancelable(true);
-                        builder.create().show();
-                    });
+                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) -> {
+                        startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO));
+                    }, (dialogInterface, i) -> uploadPhoto());
                 }else{
                     uploadPhoto();
                 }
@@ -149,20 +144,11 @@ public class ProfileFragment extends Fragment {
 
                     if(!TextUtils.isEmpty(PrimaryActivity.id)) {
                         PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                            alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.hideProgressMessage();
-                                alertDialog.createMessage("Correcto", "Perfil Actualizado Correctamente", builder -> {
-                                    builder.setCancelable(false);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                    builder.create().show();
-                                });
+                                alertDialog.showMessageDialog("Correcto", "Perfil Actualizado Correctamente", false, (dialogInterface, i) -> {});
                             } else {
-                                alertDialog.hideProgressMessage();
-                                alertDialog.createMessage("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", builder -> {
-                                    builder.setCancelable(true);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                    builder.create().show();
-                                });
+                                alertDialog.showMessageDialog("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", true, (dialogInterface, i) -> {});
                             }
                         });
                     }else{
@@ -172,11 +158,7 @@ public class ProfileFragment extends Fragment {
 
                 }else{
                     alertDialog.hideProgressMessage();
-                    alertDialog.createMessage("¡Advertencia!", "Completa todos los campos", builder -> {
-                        builder.setCancelable(true);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
+                    alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
                 }
             });
 
@@ -258,11 +240,7 @@ public class ProfileFragment extends Fragment {
                     PrimaryActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
-                            alertDialog.createMessage("Correcto", "Foto Actualizada Correctamente", builder -> {
-                                builder.setCancelable(false);
-                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                builder.create().show();
-                            });
+                            alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});
                         } else {
                             Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto", Toast.LENGTH_LONG).show();
                         }

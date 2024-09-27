@@ -80,12 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!existe) {
                             if (preferences.getString("uid", "").isEmpty()) {
                                 alertDialog.hideProgressMessage();
-                                alertDialog.createMessage("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
-                                    builder.setCancelable(true);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-                                    });
-                                    builder.create().show();
-                                });
+                                alertDialog.showMessageDialog("¡Advertencia!", "Usuario y/o Clave Incorrecto", true, (dialogInterface, i) -> {});
                             }
                         }
                     }
@@ -93,11 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     alertDialog.hideProgressMessage();
-                    alertDialog.createMessage("Advertencia", "Error al Iniciar Sesión", builder -> {
-                        builder.setCancelable(true);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
+                    alertDialog.showMessageDialog("¡Advertencia!", "Error al Iniciar Sesión", true, (dialogInterface, i) -> {});
                 }
             });
 

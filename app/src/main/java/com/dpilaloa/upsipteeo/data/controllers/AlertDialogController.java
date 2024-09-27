@@ -2,31 +2,70 @@ package com.dpilaloa.upsipteeo.data.controllers;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dpilaloa.upsipteeo.data.interfaces.DialogInterface;
+import androidx.annotation.NonNull;
+
 import com.dpilaloa.upsipteeo.R;
+
+import java.lang.ref.WeakReference;
 
 public class AlertDialogController {
 
     private AlertDialog dialog;
-    Context context;
+    private final WeakReference<Context> contextRef;
 
-    public AlertDialogController(Context context) {
-        this.context = context;
+    public AlertDialogController(@NonNull Context context) {
+        this.contextRef = new WeakReference<>(context);
     }
 
-    public void createMessage(String title, String message, DialogInterface build){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title).setMessage(message);
-        build.getBuilder(builder);
+    public interface DialogBuilderCallback {
+        void onBuild(AlertDialog.Builder builder);
     }
 
+    public void createMessage(String title, String message, @NonNull DialogBuilderCallback callback) {
+        Context context = contextRef.get();
+        if (context != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(title).setMessage(message);
+            callback.onBuild(builder);
+        }
+    }
+
+    public void showMessageDialog(String title, String message, boolean cancelable, DialogInterface.OnClickListener onClickListener) {
+        createMessage(title, message, builder -> {
+            builder.setCancelable(cancelable);
+            builder.setNeutralButton("Aceptar", onClickListener);
+            builder.create().show();
+        });
+    }
+
+    public void showConfirmDialog(String title, String message, String positive, String neutral,
+                                  DialogInterface.OnClickListener onAcceptClickListener,
+                                  DialogInterface.OnClickListener onCancelClickListener) {
+        createMessage(title, message, builder -> {
+            builder.setPositiveButton(positive, onAcceptClickListener);
+            builder.setNeutralButton(neutral, onCancelClickListener);
+            builder.setCancelable(false);
+            builder.create().show();
+        });
+    }
 
     public void showProgressMessage(String message) {
-        if (dialog == null) {
+        if (dialog == null || !dialog.isShowing()) {
+            dialog = createProgressDialog(message);
+            if (dialog != null) {
+                dialog.show();
+            }
+        }
+    }
+
+    private AlertDialog createProgressDialog(String message) {
+        Context context = contextRef.get();
+        if (context != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.dialog_progress, null);
@@ -34,12 +73,9 @@ public class AlertDialogController {
             textViewMessage.setText(message);
             builder.setView(view);
             builder.setCancelable(false);
-            dialog = builder.create();
+            return builder.create();
         }
-
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
+        return null;
     }
 
     public void hideProgressMessage() {

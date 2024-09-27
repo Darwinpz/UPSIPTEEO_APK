@@ -59,6 +59,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
 
         if(!TextUtils.isEmpty(userList.get(position).photo)) {
             Glide.with(context).load(userList.get(position).photo).fitCenter().into(holder.cardPhoto);
+        }else{
+            holder.cardPhoto.setImageResource(R.drawable.ic_person);
         }
 
         holder.cardViewUser.setOnClickListener(view -> {
