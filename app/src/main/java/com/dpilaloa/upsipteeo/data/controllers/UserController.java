@@ -80,23 +80,32 @@ public class UserController {
 
                 if(datasnapshot.exists()){
 
+                    boolean existe = false;
+
+                    User user = new User();
+
                     for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
                         if(snapshot.child("ced").exists() && snapshot.child("password").exists() && snapshot.child("rol").exists() ) {
 
-                            User user = new User();
                             user.uid = snapshot.getKey();
                             user.ced = snapshot.child("ced").getValue(String.class);
                             user.rol = snapshot.child("rol").getValue(String.class);
                             user.password = snapshot.child("password").getValue(String.class);
 
                             if (TextUtils.equals(user.ced,username) && TextUtils.equals(user.password,password)) {
-                                userInterface.getUser(user);
+                                existe = true;
                                 break;
                             }
                         }
                     }
-                    userInterface.getUser(null);
+
+                    if (existe) {
+                        userInterface.getUser(user);
+                    }else{
+                        userInterface.getUser(null);
+                    }
+
                 }
 
             }
