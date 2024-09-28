@@ -18,6 +18,7 @@ import com.dpilaloa.upsipteeo.ui.fragments.ProfileFragment;
 import com.dpilaloa.upsipteeo.ui.fragments.UserFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -40,6 +41,10 @@ public class PrimaryActivity extends AppCompatActivity {
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         id = preferences.getString("uid","");
         rol =  preferences.getString("rol","");
+
+        if(MainActivity.databaseReference == null){
+            MainActivity.databaseReference = FirebaseDatabase.getInstance().getReference();
+        } //Get Instance when DatabaseReference is lost
 
         if(!id.isEmpty()) {
 

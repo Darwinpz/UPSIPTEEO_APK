@@ -16,10 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static FirebaseDatabase DB = FirebaseDatabase.getInstance();
     public static DatabaseReference databaseReference;
     SharedPreferences preferences;
-    private UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
-        databaseReference = DB.getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         AlertDialogController alertDialog = new AlertDialogController(this);
         EditText editTextUser = findViewById(R.id.textViewCed);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
         Button btnLogIn = findViewById(R.id.btn_ingresar);
 
-        userController = new UserController(databaseReference);
+        UserController userController = new UserController(databaseReference);
 
         btnLogIn.setOnClickListener(view -> {
 
@@ -81,12 +79,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         if (!preferences.getString("uid","").isEmpty()) {
             startActivity(new Intent(this, PrimaryActivity.class));
             finish();
         }
-
     }
 
 }
