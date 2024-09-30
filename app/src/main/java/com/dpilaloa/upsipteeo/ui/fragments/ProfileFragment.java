@@ -1,17 +1,9 @@
 package com.dpilaloa.upsipteeo.ui.fragments;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +21,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
-import com.canhub.cropper.CropImageOptions;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.data.controllers.PhotoController;
 import com.dpilaloa.upsipteeo.ui.activities.DetAssistanceActivity;
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -44,14 +35,12 @@ import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.ui.activities.ImageActivity;
 import com.dpilaloa.upsipteeo.utils.ValEditTextWatcher;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.ByteArrayOutputStream;
 
 public class ProfileFragment extends Fragment {
 
     private String USERNAME = "", URL_PHOTO = "";
     private AlertDialogController alertDialog;
+    private PhotoController photoController;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +59,7 @@ public class ProfileFragment extends Fragment {
         ImageButton imageButton = view.findViewById(R.id.imgButtonShowAssistance);
 
         alertDialog = new AlertDialogController(view.getContext());
+        photoController = new PhotoController(view.getContext(),getImage,requestPermission,android11StoragePermission,cropImage);
 
         ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(view.getContext(), R.array.canton, android.R.layout.simple_spinner_item);
         adapterSpinnerCanton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -119,9 +109,9 @@ public class ProfileFragment extends Fragment {
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
                     alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) ->
                         startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO))
-                    , (dialogInterface, i) -> uploadPhoto());
+                    , (dialogInterface, i) -> photoController.uploadPhoto());
                 }else{
-                    uploadPhoto();
+                    photoController.uploadPhoto();
                 }
 
             });
@@ -177,30 +167,14 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private void uploadPhoto(){
-        if (isPermitted()) {
-            getImageFile();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            requestAndroid11StoragePermission();
-        } else {
-            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-    }
-
-    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == Activity.RESULT_OK) {
-            Intent data = result.getData();
-            if (data != null && data.getData() != null) {
-                Uri imageUri = data.getData();
-                launchImageCropper(imageUri);
-            }
-        }
-    });
+    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
+       photoController.handleImageResult(result)
+    );
 
     private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
 
         if (isGranted) {
-            getImageFile();
+            photoController.getImageFile();
         } else {
             Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
         }
@@ -208,8 +182,8 @@ public class ProfileFragment extends Fragment {
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (isPermitted()) {
-            getImageFile();
+        if (photoController.isPermitted()) {
+            photoController.getImageFile();
         } else {
             Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
         }
@@ -218,88 +192,8 @@ public class ProfileFragment extends Fragment {
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
             Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(requireContext(), true));
-            saveCroppedImage(cropped);
+            PrimaryActivity.userController.saveCroppedImage(cropped, PrimaryActivity.id,PrimaryActivity.storageReference, alertDialog, getContext());
         }
     });
-
-    private void saveCroppedImage(Bitmap bitmap) {
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
-
-        final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
-        StorageReference ref = PrimaryActivity.storageReference.child("usuarios").child(PrimaryActivity.id);
-
-        alertDialog.showProgressMessage("Actualizando Foto...");
-
-        ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
-
-            ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                URL_PHOTO = uri.toString();
-                if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                    PrimaryActivity.userController.updatePhoto(PrimaryActivity.id, URL_PHOTO).addOnCompleteListener(task -> {
-                        alertDialog.hideProgressMessage();
-                        if (task.isSuccessful()) {
-                            alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});
-                        } else {
-                            Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto", Toast.LENGTH_LONG).show();
-                        }
-
-                    });
-                }else{
-                    alertDialog.hideProgressMessage();
-                    Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
-                }
-            }).addOnFailureListener(e -> {
-                alertDialog.hideProgressMessage();
-                Toast.makeText(getContext(), "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
-            })
-
-        ).addOnFailureListener(e -> {
-            alertDialog.hideProgressMessage();
-            Toast.makeText(getContext(), "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
-        });
-
-    }
-
-    private void getImageFile() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        getImage.launch(intent);
-    }
-
-    @TargetApi(Build.VERSION_CODES.R)
-    private void requestAndroid11StoragePermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.setData(Uri.parse(String.format("package:%s", requireContext().getPackageName())));
-        android11StoragePermission.launch(intent);
-    }
-
-    private boolean isPermitted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            return Environment.isExternalStorageManager();
-        } else {
-            return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        }
-    }
-
-    private void launchImageCropper(Uri uri) {
-        CropImageOptions cropImageOptions = new CropImageOptions();
-        cropImageOptions.imageSourceIncludeGallery = false;
-        cropImageOptions.imageSourceIncludeCamera = true;
-        cropImageOptions.outputCompressFormat = Bitmap.CompressFormat.JPEG;
-        cropImageOptions.outputCompressQuality = 90;
-        cropImageOptions.aspectRatioX = 1;
-        cropImageOptions.aspectRatioY = 1;
-        cropImageOptions.maxCropResultWidth = 1024;
-        cropImageOptions.maxCropResultHeight = 1024;
-        cropImageOptions.minCropResultHeight = 512;
-        cropImageOptions.minCropResultWidth = 512;
-        CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
-        cropImage.launch(cropImageContractOptions);
-    }
 
 }

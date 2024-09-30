@@ -1,10 +1,13 @@
 package com.dpilaloa.upsipteeo.data.controllers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -18,7 +21,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -244,5 +249,47 @@ public class UserController {
                 phone.length() == 10 &&
                 Pattern.compile("^(0|593)?9[0-9]\\d{7}$").matcher(phone).matches();
     }
+
+    public void saveCroppedImage(Bitmap bitmap, String id, StorageReference storageReference, AlertDialogController alertDialog, Context context) {
+
+        if(!TextUtils.isEmpty(id)){
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+
+            final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
+            StorageReference ref = storageReference.child("usuarios").child(id);
+
+            alertDialog.showProgressMessage("Actualizando Foto...");
+
+            ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
+
+                    ref.getDownloadUrl().addOnSuccessListener(uri ->
+
+                        updatePhoto(id, uri.toString()).addOnCompleteListener(task -> {
+                            alertDialog.hideProgressMessage();
+                            if (task.isSuccessful()) {
+                                alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});
+                            } else {
+                                Toast.makeText(context, "Ocurrió un error al actualizar la foto", Toast.LENGTH_LONG).show();
+                            }
+
+                        })
+                    ).addOnFailureListener(e -> {
+                        alertDialog.hideProgressMessage();
+                        Toast.makeText(context, "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
+                    })
+
+            ).addOnFailureListener(e -> {
+                alertDialog.hideProgressMessage();
+                Toast.makeText(context, "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
+            });
+        }else{
+            alertDialog.hideProgressMessage();
+            Toast.makeText(context, "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
 }

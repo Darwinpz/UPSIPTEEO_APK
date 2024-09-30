@@ -1,6 +1,8 @@
 package com.dpilaloa.upsipteeo.ui.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,12 +15,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
+import com.dpilaloa.upsipteeo.data.controllers.PhotoController;
 import com.dpilaloa.upsipteeo.data.models.User;
 import com.dpilaloa.upsipteeo.ui.adapters.ArraySpinnerAdapter;
 import com.dpilaloa.upsipteeo.utils.ValEditTextWatcher;
@@ -29,6 +36,8 @@ import java.util.Objects;
 public class DetUserActivity extends AppCompatActivity {
 
     String UID_USER = "", USERNAME = "", URL_PHOTO = "" , ROL_USER = "";
+    private PhotoController photoController;
+    private AlertDialogController alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,8 @@ public class DetUserActivity extends AppCompatActivity {
         Spinner spinner_canton = findViewById(R.id.spinnerCanton);
         ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
-        AlertDialogController alertDialog = new AlertDialogController(this);
+        alertDialog = new AlertDialogController(this);
+        photoController = new PhotoController(this,getImage,requestPermission,android11StoragePermission,cropImage);
 
         toolbar.setOnClickListener(view -> finish());
 
@@ -128,9 +138,11 @@ public class DetUserActivity extends AppCompatActivity {
             imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
-                    startActivity(new Intent(this, ImageActivity.class).putExtra("url", URL_PHOTO));
+                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) ->
+                                    startActivity(new Intent(this, ImageActivity.class).putExtra("url", URL_PHOTO))
+                            , (dialogInterface, i) -> photoController.uploadPhoto());
                 }else{
-                    Toast.makeText(this,"Sin foto de perfil", Toast.LENGTH_SHORT).show();
+                    photoController.uploadPhoto();
                 }
 
             });
@@ -202,5 +214,34 @@ public class DetUserActivity extends AppCompatActivity {
         }
 
     }
+
+    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
+            photoController.handleImageResult(result)
+    );
+
+    private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+
+        if (isGranted) {
+            photoController.getImageFile();
+        } else {
+            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+        }
+
+    });
+
+    ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (photoController.isPermitted()) {
+            photoController.getImageFile();
+        } else {
+            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+        }
+    });
+
+    ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
+        if (result.isSuccessful()) {
+            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(this, true));
+            PrimaryActivity.userController.saveCroppedImage(cropped, UID_USER,PrimaryActivity.storageReference, alertDialog, this);
+        }
+    });
 
 }
