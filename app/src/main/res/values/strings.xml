@@ -53,7 +53,7 @@
     <string name="btn_add_alert">¡Tengo una Alerta!</string>
     <string name="btn_show_alert">Ver Alertas</string>
     <string name="btn_show_map">Mapa de Alertas</string>
-    <string name="btn_report_user">Reporte de Usuarios</string>
+    <string name="btn_report_summary_users">Reporte Completo de Usuarios</string>
 
     <string name="menu_config">Configuración</string>
 

@@ -26,6 +26,7 @@ import com.canhub.cropper.CropImageContractOptions;
 import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.controllers.PhotoController;
+import com.dpilaloa.upsipteeo.data.controllers.StoragePermissionController;
 import com.dpilaloa.upsipteeo.data.models.User;
 import com.dpilaloa.upsipteeo.ui.adapters.ArraySpinnerAdapter;
 import com.dpilaloa.upsipteeo.utils.ValEditTextWatcher;
@@ -38,6 +39,7 @@ public class DetUserActivity extends AppCompatActivity {
     String UID_USER = "", USERNAME = "", URL_PHOTO = "" , ROL_USER = "";
     private PhotoController photoController;
     private AlertDialogController alertDialog;
+    private StoragePermissionController storagePermissionController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ public class DetUserActivity extends AppCompatActivity {
         ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
 
         alertDialog = new AlertDialogController(this);
-        photoController = new PhotoController(this,getImage,requestPermission,android11StoragePermission,cropImage);
+        storagePermissionController = new StoragePermissionController(this,requestPermission,android11StoragePermission);
+        photoController = new PhotoController(getImage,storagePermissionController,cropImage);
 
         toolbar.setOnClickListener(view -> finish());
 
@@ -230,7 +233,7 @@ public class DetUserActivity extends AppCompatActivity {
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (photoController.isPermitted()) {
+        if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
             Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();

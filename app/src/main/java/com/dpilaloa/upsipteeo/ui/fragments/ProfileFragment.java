@@ -28,6 +28,7 @@ import com.canhub.cropper.CropImageContract;
 import com.canhub.cropper.CropImageContractOptions;
 import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.data.controllers.PhotoController;
+import com.dpilaloa.upsipteeo.data.controllers.StoragePermissionController;
 import com.dpilaloa.upsipteeo.ui.activities.DetAssistanceActivity;
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.data.models.User;
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment {
     private String USERNAME = "", URL_PHOTO = "";
     private AlertDialogController alertDialog;
     private PhotoController photoController;
+    private StoragePermissionController storagePermissionController;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,7 +61,9 @@ public class ProfileFragment extends Fragment {
         ImageButton imageButton = view.findViewById(R.id.imgButtonShowAssistance);
 
         alertDialog = new AlertDialogController(view.getContext());
-        photoController = new PhotoController(view.getContext(),getImage,requestPermission,android11StoragePermission,cropImage);
+
+        storagePermissionController = new StoragePermissionController(view.getContext(),requestPermission,android11StoragePermission);
+        photoController = new PhotoController(getImage,storagePermissionController,cropImage);
 
         ArrayAdapter<CharSequence> adapterSpinnerCanton = ArrayAdapter.createFromResource(view.getContext(), R.array.canton, android.R.layout.simple_spinner_item);
         adapterSpinnerCanton.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -182,7 +186,7 @@ public class ProfileFragment extends Fragment {
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (photoController.isPermitted()) {
+        if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
             Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
