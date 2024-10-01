@@ -11,8 +11,8 @@ android {
         applicationId = "com.dpilaloa.upsipteeo"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,7 +43,6 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.glide)
-    implementation(libs.photoView)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.android.image.cropper)
