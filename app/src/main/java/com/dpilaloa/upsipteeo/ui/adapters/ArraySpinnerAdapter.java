@@ -1,7 +1,7 @@
 package com.dpilaloa.upsipteeo.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,7 +32,7 @@ public class ArraySpinnerAdapter extends ArrayAdapter<CharSequence> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = super.getDropDownView(position, convertView, parent);
         TextView textView = (TextView) view;
-        textView.setTextColor((rol.equals(getContext().getString(R.string.admin_one)) || position != pos) ? Color.BLACK : Color.GRAY);
+        textView.setPaintFlags((rol.equals(getContext().getString(R.string.admin_one)) || position != pos) ? textView.getPaintFlags() : textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         return view;
     }
 

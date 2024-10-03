@@ -49,7 +49,7 @@ public class AlertDialogController {
         createMessage(title, message, builder -> {
             builder.setPositiveButton(positive, onAcceptClickListener);
             builder.setNeutralButton(neutral, onCancelClickListener);
-            builder.setCancelable(false);
+            builder.setCancelable(true);
             builder.create().show();
         });
     }

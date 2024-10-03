@@ -4,10 +4,17 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/projectLight</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:editTextColor">@color/black</item>
+        <item name="android:calendarTextColor">@color/black</item>
 
     </style>
 
+    <style name="CalenderView" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
     <style name="Theme.UPSIPTEEO" parent="Base.Theme.UPSIPTEEO" />
+
 </resources>

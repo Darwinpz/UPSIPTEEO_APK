@@ -4,5 +4,15 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorPrimary">@color/projectNight</item>
+        <item name="android:textColorPrimary">@color/whiteNight</item>
+        <item name="android:textColor">@color/whiteNight</item>
+        <item name="android:editTextColor">@color/whiteNight</item>
+
     </style>
+
+
+    <style name="CalenderView" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/whiteNight</item>
+    </style>
+    
 </resources>

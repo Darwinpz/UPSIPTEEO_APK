@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp"
+    >
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:layout_marginStart="10dp"
+        android:indeterminateTint="@color/success"
         />
 
     <TextView
@@ -20,7 +22,6 @@
         android:layout_gravity="center"
         android:textSize="15sp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:textColor="@android:color/black" />
+        android:layout_marginEnd="10dp" />
 
 </LinearLayout>

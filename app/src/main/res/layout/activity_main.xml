@@ -83,7 +83,6 @@
             android:textColorHint="@color/gray"
             android:maxLength="10"
             android:autofillHints="no"
-            android:textColor="@color/black"
             android:textSize="20sp"
             />
 
@@ -110,7 +109,6 @@
             android:inputType="textPassword"
             android:maxLength="12"
             android:autofillHints="password"
-            android:textColor="@color/black"
             android:textSize="20sp"
             />
 

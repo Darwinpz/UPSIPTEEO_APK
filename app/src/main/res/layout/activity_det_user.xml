@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 >
 
                 <LinearLayout
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 >
 
@@ -131,10 +131,10 @@
                         android:hint="@string/input_ced"
                         android:inputType="number"
                         android:maxLength="10"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/black"
                         android:autofillHints="no" />
 
                     <TextView
@@ -156,10 +156,10 @@
                         android:hint="@string/input_name"
                         android:inputType="textPersonName"
                         android:maxLength="50"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/black"
                         android:autofillHints="username" />
 
                     <TextView
@@ -179,12 +179,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_email"
-                        android:inputType="textPersonName"
+                        android:inputType="textWebEmailAddress"
                         android:maxLength="50"
+                        android:textSize="20sp"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/black"
                         android:autofillHints="emailAddress" />
 
                     <TextView
@@ -205,13 +205,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_phone"
-                        android:inputType="numberSigned"
+                        android:inputType="phone"
+                        android:textSize="20sp"
                         android:maxLength="10"
                         android:textColorHint="@color/gray"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:autofillHints="phone"
-                        android:textColor="@color/black"
                         />
 
                     <TextView
@@ -280,7 +280,6 @@
                             android:id="@+id/editTextPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:hint="@string/input_password"
