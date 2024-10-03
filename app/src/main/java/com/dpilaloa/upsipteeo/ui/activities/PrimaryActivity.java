@@ -38,7 +38,7 @@ public class PrimaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primary);
 
-        preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
+        preferences = getSharedPreferences(getString(R.string.app_name),MODE_PRIVATE);
         id = preferences.getString("uid","");
         rol =  preferences.getString("rol","");
 

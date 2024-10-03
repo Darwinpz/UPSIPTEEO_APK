@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
+        preferences = getSharedPreferences(getString(R.string.app_name),MODE_PRIVATE);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         alertDialog = new AlertDialogController(this);
         EditText editTextUser = findViewById(R.id.textViewCed);
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogIn.setOnClickListener(view -> {
 
-            alertDialog.showProgressMessage("Iniciando sesión...");
+            alertDialog.showProgressMessage(getString(R.string.msgLogIn));
             String ced = editTextUser.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
 
@@ -44,28 +44,22 @@ public class MainActivity extends AppCompatActivity {
 
                 userController.logIn(ced, password, user -> {
 
-                    if (user != null) {
-
-                        if (preferences.getString("uid", "").isEmpty()) {
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("uid", user.uid);
-                            editor.putString("rol", user.rol);
-                            editor.apply();
-                            alertDialog.showSuccess("Bienvenido"+ user.name);
-                            startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
-                            finish();
-                        }
-
-                    } else {
-                        if (preferences.getString("uid", "").isEmpty()) {
-                            alertDialog.showError("Usuario y/o Clave Incorrecto");
-                        }
+                    if (user != null && preferences.getString("uid", "").isEmpty()) {
+                        preferences.edit()
+                                .putString("uid", user.uid)
+                                .putString("rol", user.rol)
+                                .apply();
+                        alertDialog.showSuccess(getString(R.string.msgWelcome)+" "+ user.name);
+                        startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
+                        finish();
+                    } else if (preferences.getString("uid", "").isEmpty()) {
+                        alertDialog.showError(getString(R.string.msgNotLogIn));
                     }
 
-                },databaseError -> alertDialog.showError("Ocurrió un error al Iniciar Sesión"));
+                },databaseError -> alertDialog.showError(getString(R.string.msgErrLogIn)));
 
             }else{
-                alertDialog.showWarning("Completa todos los campos");
+                alertDialog.showWarning(getString(R.string.msgEmptyFields));
             }
 
         });

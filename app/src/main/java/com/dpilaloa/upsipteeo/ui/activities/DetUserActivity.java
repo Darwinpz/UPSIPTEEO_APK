@@ -183,7 +183,7 @@ public class DetUserActivity extends AppCompatActivity {
                     }
 
                 }else{
-                    alertDialog.showWarning("Completa todos los campos");
+                    alertDialog.showWarning(getString(R.string.msgEmptyFields));
                 }
             });
 

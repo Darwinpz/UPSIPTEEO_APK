@@ -117,4 +117,12 @@
         <item>LAS LAJAS</item>
     </string-array>
 
+    <!-- Errors and Alerts Messages-->
+    <string name="msgLogIn">Iniciando sesión</string>
+    <string name="msgWelcome">Bienvenido</string>
+    <string name="msgNotLogIn">Usuario y/o Clave Incorrecto</string>
+    <string name="msgErrLogIn">Ocurrió un error al Iniciar Sesión</string>
+
+    <string name="msgEmptyFields">Completa todos los campos</string>
+
 </resources>

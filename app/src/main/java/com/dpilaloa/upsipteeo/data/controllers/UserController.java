@@ -206,10 +206,10 @@ public class UserController {
     }
 
     public void logOut(SharedPreferences preferences) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("uid","");
-        editor.putString("rol","");
-        editor.apply();
+        preferences.edit()
+                .putString("uid","")
+                .putString("rol","")
+                .apply();
     }
 
     public boolean valCed(String ced){

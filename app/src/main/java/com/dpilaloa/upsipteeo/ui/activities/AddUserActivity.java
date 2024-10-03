@@ -93,7 +93,7 @@ public class AddUserActivity extends AppCompatActivity {
                 },databaseError -> alertDialog.showError("Error al buscar la cédula"));
 
             }else{
-                alertDialog.showWarning("Completa todos los campos");
+                alertDialog.showWarning(getString(R.string.msgEmptyFields));
             }
         });
 

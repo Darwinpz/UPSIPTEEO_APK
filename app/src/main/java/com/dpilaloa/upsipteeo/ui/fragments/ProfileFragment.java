@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment {
                     }
 
                 }else{
-                    alertDialog.showWarning("Completa todos los campos");
+                    alertDialog.showWarning(getString(R.string.msgEmptyFields));
                 }
             });
 
