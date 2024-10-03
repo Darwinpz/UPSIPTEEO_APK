@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.dpilaloa.upsipteeo.data.interfaces.CompleteInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.DbErrorInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.ProcessObInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.UserInterface;
@@ -78,41 +79,24 @@ public class UserController {
         });
     }
 
-    public void logIn(String username, String password, UserInterface userInterface, DbErrorInterface dbErrorInterface){
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void logIn(String ced, String password, UserInterface userInterface, DbErrorInterface dbErrorInterface) {
+        databaseReference.child("users").orderByChild("ced").equalTo(ced).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-
-                if(datasnapshot.exists()){
-
-                    boolean existe = false;
-
-                    User user = new User();
-
-                    for (DataSnapshot snapshot : datasnapshot.getChildren()) {
-
-                        if(snapshot.child("ced").exists() && snapshot.child("password").exists() && snapshot.child("rol").exists() ) {
-
-                            user.uid = snapshot.getKey();
-                            user.ced = snapshot.child("ced").getValue(String.class);
-                            user.rol = snapshot.child("rol").getValue(String.class);
-                            user.password = snapshot.child("password").getValue(String.class);
-
-                            if (TextUtils.equals(user.ced,username) && TextUtils.equals(user.password,password)) {
-                                existe = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (existe) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
+                    String pass = snapshot.child("password").getValue(String.class);
+                    if (TextUtils.equals(pass, password)) {
+                        User user = new User();
+                        user.uid = snapshot.getKey();
+                        user.ced = ced;
+                        user.rol = snapshot.child("rol").getValue(String.class);
+                        user.password = pass;
                         userInterface.getUser(user);
-                    }else{
-                        userInterface.getUser(null);
+                        return;
                     }
-
                 }
-
+                userInterface.getUser(null);
             }
 
             @Override
@@ -150,6 +134,17 @@ public class UserController {
         });
     }
 
+    public void existCed(String cedSearch, CompleteInterface completeInterface, DbErrorInterface errorInterface) {
+        databaseReference.child("users").orderByChild("ced").equalTo(cedSearch).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                completeInterface.isComplete(dataSnapshot.exists());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {errorInterface.onProcessError(error);}
+        });
+    }
 
     public void getUsers(UserAdapter userAdapter, String uid, String rol, String filter, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
 

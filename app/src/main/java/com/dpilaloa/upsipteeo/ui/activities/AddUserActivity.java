@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -76,14 +77,23 @@ public class AddUserActivity extends AppCompatActivity {
                 user.rol = spinner_rol.getSelectedItem().toString();
                 user.password = editTextPassword.getText().toString();
 
-                PrimaryActivity.userController.createUser(user).addOnCompleteListener(task -> {
-                    alertDialog.hideProgressMessage();
-                    if(task.isSuccessful()){
-                        alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());
+                PrimaryActivity.userController.existCed(user.ced, val -> {
+                    if(!val){
+                        PrimaryActivity.userController.createUser(user).addOnCompleteListener(task -> {
+                            alertDialog.hideProgressMessage();
+                            if(task.isSuccessful()){
+                                alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());
+                            }else{
+                                alertDialog.showMessageDialog("¡Advertencia!", "Error al crear el Usuario", true, (dialogInterface, i) -> {});
+                            }
+                        });
                     }else{
-                        alertDialog.showMessageDialog("¡Advertencia!", "Error al crear el Usuario", true, (dialogInterface, i) -> {});
+                        alertDialog.hideProgressMessage();
+                        alertDialog.showMessageDialog("¡Advertencia!", "Cédula existente", true, (dialogInterface, i) -> {});
                     }
-
+                },databaseError -> {
+                    alertDialog.hideProgressMessage();
+                    Toast.makeText(this, "Error al buscar la cédula", Toast.LENGTH_LONG).show();
                 });
 
             }else{
