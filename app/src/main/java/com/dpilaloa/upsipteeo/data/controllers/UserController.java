@@ -254,7 +254,7 @@ public class UserController {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
 
             final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
-            StorageReference ref = storageReference.child("usuarios").child(id);
+            StorageReference ref = storageReference.child("users").child(id);
 
             alertDialog.showProgressMessage(context.getString(R.string.msgUpdatingPhoto));
 
