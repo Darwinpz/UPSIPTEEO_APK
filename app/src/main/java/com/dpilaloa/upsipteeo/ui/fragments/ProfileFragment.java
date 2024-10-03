@@ -123,18 +123,19 @@ public class ProfileFragment extends Fragment {
             btnUpdate.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage("Actualizando...");
                 if(!editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
-                   !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
-                   !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
+                        !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
+                        !editTextPassword.getText().toString().trim().isEmpty() &&
+                        !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
 
                     User user = new User();
                     user.uid = PrimaryActivity.id;
-                    user.ced = txtCed.getText().toString();
-                    user.name = txtName.getText().toString().toUpperCase();
-                    user.email = editTextEmail.getText().toString().toLowerCase();
-                    user.phone = editTextPhone.getText().toString();
-                    user.canton = spinner_canton.getSelectedItem().toString();
-                    user.rol = txtRol.getText().toString();
-                    user.password = editTextPassword.getText().toString();
+                    user.ced = txtCed.getText().toString().trim();
+                    user.name = txtName.getText().toString().trim().toUpperCase();
+                    user.email = editTextEmail.getText().toString().trim().toLowerCase();
+                    user.phone = editTextPhone.getText().toString().trim();
+                    user.canton = spinner_canton.getSelectedItem().toString().trim();
+                    user.rol = txtRol.getText().toString().trim();
+                    user.password = editTextPassword.getText().toString().trim();
 
                     if(!TextUtils.isEmpty(PrimaryActivity.id)) {
                         PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {

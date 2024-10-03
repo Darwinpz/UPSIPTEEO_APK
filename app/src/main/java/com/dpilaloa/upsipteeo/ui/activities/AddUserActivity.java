@@ -65,17 +65,18 @@ public class AddUserActivity extends AppCompatActivity {
                     !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
                     !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                     !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
+                    !editTextPassword.getText().toString().trim().isEmpty() &&
                     !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
                     !spinner_rol.getSelectedItem().toString().equals("Rol")) {
 
                 User user = new User();
-                user.ced = editTextCed.getText().toString();
-                user.name = editTextName.getText().toString().toUpperCase();
-                user.email = editTextEmail.getText().toString().toLowerCase();
-                user.phone = editTextPhone.getText().toString();
-                user.canton = spinner_canton.getSelectedItem().toString();
-                user.rol = spinner_rol.getSelectedItem().toString();
-                user.password = editTextPassword.getText().toString();
+                user.ced = editTextCed.getText().toString().trim();
+                user.name = editTextName.getText().toString().trim().toUpperCase();
+                user.email = editTextEmail.getText().toString().trim().toLowerCase();
+                user.phone = editTextPhone.getText().toString().trim();
+                user.canton = spinner_canton.getSelectedItem().toString().trim();
+                user.rol = spinner_rol.getSelectedItem().toString().trim();
+                user.password = editTextPassword.getText().toString().trim();
 
                 PrimaryActivity.userController.existCed(user.ced, val -> {
                     if(!val){
