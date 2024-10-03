@@ -107,7 +107,6 @@
             android:hint="@string/input_password"
             android:textColorHint="@color/gray"
             android:inputType="textPassword"
-            android:maxLength="12"
             android:autofillHints="password"
             android:textSize="20sp"
             />

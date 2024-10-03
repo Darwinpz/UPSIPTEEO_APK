@@ -284,7 +284,6 @@
                             android:layout_marginRight="10dp"
                             android:hint="@string/input_password"
                             android:inputType="textPassword"
-                            android:maxLength="12"
                             android:autofillHints="password" />
 
                     </com.google.android.material.textfield.TextInputLayout>
