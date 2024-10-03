@@ -73,9 +73,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
         holder.cardViewUser.setOnLongClickListener(view -> {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             String text = userList.get(position).phone;
-            ClipData clip = ClipData.newPlainText("celular",  text);
+            ClipData clip = ClipData.newPlainText("phone",  text);
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(context,"Celular copiado al Portapapeles",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Teléfono copiado al Portapapeles",Toast.LENGTH_SHORT).show();
             return true;
         });
 

@@ -5,11 +5,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dpilaloa.upsipteeo.ui.activities.DetAssistanceActivity;
+import com.dpilaloa.upsipteeo.ui.activities.PrimaryActivity;
 import com.dpilaloa.upsipteeo.ui.holders.AssistanceHolder;
 import com.dpilaloa.upsipteeo.data.models.Assistance;
 import com.dpilaloa.upsipteeo.R;
@@ -53,6 +56,20 @@ public class AssistanceAdapter extends RecyclerView.Adapter<AssistanceHolder> {
         }else{
             holder.cardPhoto.setImageResource(R.drawable.ic_person);
         }
+
+        holder.cardViewAssistance.setOnLongClickListener(view -> {
+            String UID_USER = DetAssistanceActivity.UID_USER;
+            String ROL = PrimaryActivity.rol;
+            if(!TextUtils.isEmpty(UID_USER) && ROL.equals(context.getString(R.string.admin_one))) {
+                DetAssistanceActivity.dialog.showConfirmDialog("¿Estás seguro de eliminar la asistencia?","¡Esta acción no es reversible!", "Aceptar", "Cancelar", (dialogInterface, i) ->
+                                DetAssistanceActivity.assistanceController.deleteAssistance(UID_USER, assistanceList.get(position).uid).addOnCompleteListener(task -> {
+                                    if (!task.isSuccessful()) {Toast.makeText(context, "Ocurrió un error al eliminar la asistencia", Toast.LENGTH_LONG).show();}
+                                })
+                , (dialogInterface, i) -> {
+                });
+            }
+            return true;
+        });
 
     }
 

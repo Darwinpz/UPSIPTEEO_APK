@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpilaloa.upsipteeo.MainActivity;
 import com.dpilaloa.upsipteeo.R;
+import com.dpilaloa.upsipteeo.data.controllers.AlertDialogController;
 import com.dpilaloa.upsipteeo.ui.adapters.AssistanceAdapter;
 import com.dpilaloa.upsipteeo.data.controllers.AssistanceController;
 import com.dpilaloa.upsipteeo.ui.fragments.AssistanceAddFragment;
@@ -22,8 +23,10 @@ import java.util.Objects;
 
 public class DetAssistanceActivity extends AppCompatActivity {
 
-    String UID_USER = "", USERNAME = "";
+    public static String UID_USER = "";
+    String USERNAME = "";
     public static AssistanceController assistanceController;
+    public static AlertDialogController dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class DetAssistanceActivity extends AppCompatActivity {
         TextView txtName = findViewById(R.id.textViewName);
         Button btnAddAssistance = findViewById(R.id.btn_add_asistencia);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        dialog = new AlertDialogController(this);
 
         assistanceController = new AssistanceController(MainActivity.databaseReference);
         toolbar.setOnClickListener(view -> finish());
