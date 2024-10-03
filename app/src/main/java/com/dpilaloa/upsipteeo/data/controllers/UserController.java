@@ -215,7 +215,7 @@ public class UserController {
 
     public boolean valCed(String ced){
 
-        if(ced != null && ced.length() == 10) {
+        if(ced != null && ced.length() == 10 && !ced.matches("(\\d)\\1{9}")) {
             int suma = 0;
             for (int i = 0; i < 9; i++) {
                 int coefficient = ((i % 2) == 0) ? 2 : 1;
