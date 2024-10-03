@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.android.image.cropper)
-    implementation (libs.poi)
+    implementation(libs.poi)
 
 
 }
