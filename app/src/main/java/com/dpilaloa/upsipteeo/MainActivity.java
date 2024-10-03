@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static DatabaseReference databaseReference;
     SharedPreferences preferences;
+    private AlertDialogController alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("upsipteeo",MODE_PRIVATE);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        AlertDialogController alertDialog = new AlertDialogController(this);
+        alertDialog = new AlertDialogController(this);
         EditText editTextUser = findViewById(R.id.textViewCed);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
         Button btnLogIn = findViewById(R.id.btn_ingresar);
@@ -50,26 +51,21 @@ public class MainActivity extends AppCompatActivity {
                             editor.putString("uid", user.uid);
                             editor.putString("rol", user.rol);
                             editor.apply();
-                            alertDialog.hideProgressMessage();
+                            alertDialog.showSuccess("Bienvenido");
                             startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
                             finish();
                         }
 
                     } else {
                         if (preferences.getString("uid", "").isEmpty()) {
-                            alertDialog.hideProgressMessage();
-                            alertDialog.showMessageDialog("¡Advertencia!", "Usuario y/o Clave Incorrecto", true, (dialogInterface, i) -> {});
+                            alertDialog.showError("Usuario y/o Clave Incorrecto");
                         }
                     }
 
-                },databaseError -> {
-                    alertDialog.hideProgressMessage();
-                    alertDialog.showMessageDialog("¡Advertencia!", "Ocurrió un error al Iniciar Sesión", true, (dialogInterface, i) -> {});
-                });
+                },databaseError -> alertDialog.showError("Ocurrió un error al Iniciar Sesión"));
 
             }else{
-                alertDialog.hideProgressMessage();
-                alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
+                alertDialog.showWarning("Completa todos los campos");
             }
 
         });

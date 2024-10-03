@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -33,7 +32,7 @@ import java.util.Locale;
 public class ReportActivity extends AppCompatActivity {
 
     HSSFWorkbook hssfWorkbook;
-
+    private AlertDialogController alertDialog;
     private StoragePermissionController storagePermissionController;
 
     @Override
@@ -49,14 +48,14 @@ public class ReportActivity extends AppCompatActivity {
         getReport();
 
         ReportController reportController = new ReportController(MainActivity.databaseReference);
-        AlertDialogController dialog = new AlertDialogController(this);
+        alertDialog = new AlertDialogController(this);
         toolbar.setOnClickListener(view -> finish());
 
         hssfWorkbook = new HSSFWorkbook();
 
         cardSummary.setOnClickListener(view -> {
 
-            dialog.showProgressMessage("Creando Reporte...");
+            alertDialog.showProgressMessage("Creando Reporte...");
 
             reportController.removeSheetByName(hssfWorkbook,"CONSOLIDADO");
 
@@ -77,7 +76,7 @@ public class ReportActivity extends AppCompatActivity {
                         hssfWorkbook.close();
                         fileOutputStream.close();
 
-                        dialog.hideProgressMessage();
+                        alertDialog.showSuccess("Reporte Creado Correctamente");
 
                         Uri fileUri = FileProvider.getUriForFile(this, "com.dpilaloa.upsipteeo.fileprovider", file);
                         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -86,12 +85,11 @@ public class ReportActivity extends AppCompatActivity {
                         startActivity(i);
 
                     }catch (Exception e){
-                        dialog.hideProgressMessage();
-                        Toast.makeText(getBaseContext(),"No se puede generar el reporte",Toast.LENGTH_SHORT).show();
+                        alertDialog.showError("Ocurrió un error al generar el reporte");
                     }
                 }
 
-            }, databaseError -> Toast.makeText(getBaseContext(),"Error al generar el reporte",Toast.LENGTH_SHORT).show());
+            }, databaseError -> alertDialog.showError("Ocurrió un error al generar el reporte"));
 
         });
 
@@ -113,7 +111,7 @@ public class ReportActivity extends AppCompatActivity {
             setupStrictMode();
         } else {
             finish();
-            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
 
     });
@@ -123,7 +121,7 @@ public class ReportActivity extends AppCompatActivity {
             setupStrictMode();
         } else {
             finish();
-            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
     });
 

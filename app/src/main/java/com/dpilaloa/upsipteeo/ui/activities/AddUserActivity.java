@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -85,21 +84,16 @@ public class AddUserActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());
                             }else{
-                                alertDialog.showMessageDialog("¡Advertencia!", "Error al crear el Usuario", true, (dialogInterface, i) -> {});
+                                alertDialog.showError("No se puede crear el Usuario - Intente Nuevamente");
                             }
                         });
                     }else{
-                        alertDialog.hideProgressMessage();
-                        alertDialog.showMessageDialog("¡Advertencia!", "Cédula existente", true, (dialogInterface, i) -> {});
+                        alertDialog.showWarning("Cédula existente");
                     }
-                },databaseError -> {
-                    alertDialog.hideProgressMessage();
-                    Toast.makeText(this, "Error al buscar la cédula", Toast.LENGTH_LONG).show();
-                });
+                },databaseError -> alertDialog.showError("Error al buscar la cédula"));
 
             }else{
-                alertDialog.hideProgressMessage();
-                alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
+                alertDialog.showWarning("Completa todos los campos");
             }
         });
 

@@ -6,14 +6,16 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.dpilaloa.upsipteeo.R;
+import com.dpilaloa.upsipteeo.data.interfaces.MessagesHandlerInterface;
 
 import java.lang.ref.WeakReference;
 
-public class AlertDialogController {
+public class AlertDialogController implements MessagesHandlerInterface {
 
     private AlertDialog dialog;
     private final WeakReference<Context> contextRef;
@@ -83,6 +85,24 @@ public class AlertDialogController {
             dialog.dismiss();
             dialog = null;
         }
+    }
+
+    @Override
+    public void showSuccess(String message) {
+        hideProgressMessage();
+        Toast.makeText(contextRef.get(), "✔ " + message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(String message) {
+        hideProgressMessage();
+        Toast.makeText(contextRef.get(), "❌ " + message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showWarning(String message) {
+        hideProgressMessage();
+        Toast.makeText(contextRef.get(), "⚠ " + message, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -119,7 +118,7 @@ public class DetUserActivity extends AppCompatActivity {
 
                 }
 
-            }, databaseError -> Toast.makeText(this,"Ocurrió un error al obtener el perfil del usuario", Toast.LENGTH_SHORT).show());
+            }, databaseError ->  alertDialog.showError("Ocurrió un error al obtener el perfil del usuario"));
 
             boolean isAdminOneDiffUid = PrimaryActivity.rol.equals(getString(R.string.admin_one)) && !getString(R.string.admin_uid).equals(UID_USER);
             boolean isAdminTwoDiffUid = (isAdminOneDiffUid) || (PrimaryActivity.rol.equals(getString(R.string.admin_two)) &&
@@ -174,20 +173,17 @@ public class DetUserActivity extends AppCompatActivity {
                         PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.showMessageDialog("Correcto", "Usuario Actualizado Correctamente", false, (dialogInterface, i) -> {});
-
+                                alertDialog.showSuccess("Usuario Actualizado Correctamente");
                             } else {
-                                alertDialog.showMessageDialog("¡Advertencia!", "Ocurrió un error al Actualizar el Usuario", true, (dialogInterface, i) -> {});
+                                alertDialog.showError("No se puede actualizar el Usuario - Intente Nuevamente");
                             }
                         });
                     }else{
-                        alertDialog.hideProgressMessage();
-                        Toast.makeText(this, "Ocurrió un error al obtener la id del Usuario",Toast.LENGTH_LONG).show();
+                        alertDialog.showError("Ocurrió un error al obtener el id del Usuario");
                     }
 
                 }else{
-                    alertDialog.hideProgressMessage();
-                    alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
+                    alertDialog.showWarning("Completa todos los campos");
                 }
             });
 
@@ -200,7 +196,7 @@ public class DetUserActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             finish();
                         } else {
-                            Toast.makeText(this, "Ocurrió un error al eliminar el Usuario", Toast.LENGTH_LONG).show();
+                            alertDialog.showError("Ocurrió un error al eliminar el Usuario");
                         }
                     });
                 }, (dialogInterface, i) -> {})
@@ -214,7 +210,7 @@ public class DetUserActivity extends AppCompatActivity {
             });
 
         }else{
-            Toast.makeText(this, "Ocurrió un error al cargar el Usuario",Toast.LENGTH_LONG).show();
+            alertDialog.showError("Ocurrió un error al cargar el Usuario");
         }
 
     }
@@ -228,7 +224,7 @@ public class DetUserActivity extends AppCompatActivity {
         if (isGranted) {
             photoController.getImageFile();
         } else {
-            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
 
     });
@@ -237,14 +233,14 @@ public class DetUserActivity extends AppCompatActivity {
         if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
-            Toast.makeText(this, "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
     });
 
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
             Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(this, true));
-            PrimaryActivity.userController.saveCroppedImage(cropped, UID_USER,PrimaryActivity.storageReference, alertDialog, this);
+            PrimaryActivity.userController.saveCroppedImage(cropped, UID_USER,PrimaryActivity.storageReference, alertDialog);
         }
     });
 

@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,7 +25,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
     public static String UID_USER = "";
     String USERNAME = "";
     public static AssistanceController assistanceController;
-    public static AlertDialogController dialog;
+    public static AlertDialogController alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
         Button btnAddAssistance = findViewById(R.id.btn_add_asistencia);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        dialog = new AlertDialogController(this);
+        alertDialog = new AlertDialogController(this);
 
         assistanceController = new AssistanceController(MainActivity.databaseReference);
         toolbar.setOnClickListener(view -> finish());
@@ -57,7 +56,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
 
         if(!UID_USER.isEmpty()) {
             assistanceController.getAssistance(assistanceAdapter,UID_USER,txtResult,progressBar,txtCount, databaseError ->
-                    Toast.makeText(this, "Ocurrió un error al obtener las asistencias",Toast.LENGTH_SHORT).show());
+                            alertDialog.showError("Ocurrió un error al obtener las asistencias"));
 
             btnAddAssistance.setVisibility(PrimaryActivity.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
 
@@ -68,7 +67,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
             });
 
         }else{
-            Toast.makeText(this, "Ocurrió un error al cargar el id",Toast.LENGTH_LONG).show();
+            alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
         }
 
     }

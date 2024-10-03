@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -100,7 +99,7 @@ public class ProfileFragment extends Fragment {
 
                 }
 
-            }, databaseError -> Toast.makeText(getContext(),"Ocurrió un error al obtener el perfil", Toast.LENGTH_SHORT).show());
+            }, databaseError -> alertDialog.showError("Ocurrió un error al obtener el id del Perfil"));
 
             imageButton.setOnClickListener(view1 ->
                 startActivity(new Intent(view.getContext(), DetAssistanceActivity.class)
@@ -141,19 +140,17 @@ public class ProfileFragment extends Fragment {
                         PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.showMessageDialog("Correcto", "Perfil Actualizado Correctamente", false, (dialogInterface, i) -> {});
+                                alertDialog.showSuccess("Perfil Actualizado Correctamente");
                             } else {
-                                alertDialog.showMessageDialog("¡Advertencia!", "Ocurrió un error al Actualizar el Perfil", true, (dialogInterface, i) -> {});
+                                alertDialog.showError("No se puede actualizar el perfil - Intente Nuevamente");
                             }
                         });
                     }else{
-                        alertDialog.hideProgressMessage();
-                        Toast.makeText(getContext(), "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
+                        alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
                     }
 
                 }else{
-                    alertDialog.hideProgressMessage();
-                    alertDialog.showMessageDialog("¡Advertencia!", "Completa todos los campos", true, (dialogInterface, i) -> {});
+                    alertDialog.showWarning("Completa todos los campos");
                 }
             });
 
@@ -166,7 +163,7 @@ public class ProfileFragment extends Fragment {
             });
 
         }else{
-            Toast.makeText(view.getContext(), "Ocurrió un error al cargar el Perfil",Toast.LENGTH_LONG).show();
+            alertDialog.showError("Ocurrió un error al cargar el Perfil");
         }
 
         return view;
@@ -181,7 +178,7 @@ public class ProfileFragment extends Fragment {
         if (isGranted) {
             photoController.getImageFile();
         } else {
-            Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
 
     });
@@ -190,14 +187,14 @@ public class ProfileFragment extends Fragment {
         if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
-            Toast.makeText(getContext(), "Permiso Denegado", Toast.LENGTH_LONG).show();
+            alertDialog.showError("Permiso Negado");
         }
     });
 
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
             Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(requireContext(), true));
-            PrimaryActivity.userController.saveCroppedImage(cropped, PrimaryActivity.id,PrimaryActivity.storageReference, alertDialog, getContext());
+            PrimaryActivity.userController.saveCroppedImage(cropped, PrimaryActivity.id,PrimaryActivity.storageReference, alertDialog);
         }
     });
 

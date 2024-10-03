@@ -1,13 +1,11 @@
 package com.dpilaloa.upsipteeo.data.controllers;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -245,7 +243,7 @@ public class UserController {
                 Pattern.compile("^(0|593)?9[0-9]\\d{7}$").matcher(phone).matches();
     }
 
-    public void saveCroppedImage(Bitmap bitmap, String id, StorageReference storageReference, AlertDialogController alertDialog, Context context) {
+    public void saveCroppedImage(Bitmap bitmap, String id, StorageReference storageReference, AlertDialogController alertDialog) {
 
         if(!TextUtils.isEmpty(id)){
 
@@ -264,24 +262,17 @@ public class UserController {
                         updatePhoto(id, uri.toString()).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.showMessageDialog("Correcto", "Foto Actualizada Correctamente", false, (dialogInterface, i) -> {});
+                                alertDialog.showSuccess("Foto Actualizada Correctamente");
                             } else {
-                                Toast.makeText(context, "Ocurrió un error al actualizar la foto", Toast.LENGTH_LONG).show();
+                                alertDialog.showError("Ocurrió un error al actualizar la foto");
                             }
 
                         })
-                    ).addOnFailureListener(e -> {
-                        alertDialog.hideProgressMessage();
-                        Toast.makeText(context, "Ocurrió un error al obtener la foto",Toast.LENGTH_LONG).show();
-                    })
+                    ).addOnFailureListener(e -> alertDialog.showError("Ocurrió un error al obtener la url de la foto"))
 
-            ).addOnFailureListener(e -> {
-                alertDialog.hideProgressMessage();
-                Toast.makeText(context, "Ocurrió un error al actualizar la foto",Toast.LENGTH_LONG).show();
-            });
+            ).addOnFailureListener(e -> alertDialog.showError("Ocurrió un error al actualizar la foto"));
         }else{
-            alertDialog.hideProgressMessage();
-            Toast.makeText(context, "Ocurrió un error al obtener la id del Perfil",Toast.LENGTH_LONG).show();
+            alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
         }
 
     }
