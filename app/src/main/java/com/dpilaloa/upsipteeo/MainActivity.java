@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                             editor.putString("uid", user.uid);
                             editor.putString("rol", user.rol);
                             editor.apply();
-                            alertDialog.showSuccess("Bienvenido");
+                            alertDialog.showSuccess("Bienvenido"+ user.name);
                             startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
                             finish();
                         }

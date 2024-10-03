@@ -88,6 +88,7 @@ public class UserController {
                         User user = new User();
                         user.uid = snapshot.getKey();
                         user.ced = ced;
+                        user.name = snapshot.child("name").getValue(String.class);
                         user.rol = snapshot.child("rol").getValue(String.class);
                         user.password = pass;
                         userInterface.getUser(user);
