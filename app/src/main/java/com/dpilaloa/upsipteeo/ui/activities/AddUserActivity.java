@@ -47,26 +47,26 @@ public class AddUserActivity extends AppCompatActivity {
         spinner_canton.setAdapter(adapterSpinnerCanton);
 
         editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
-                input -> PrimaryActivity.userController.valCed(input),"Ingresa una cédula válida"));
+                input -> PrimaryActivity.userController.valCed(input),getString(R.string.msgNotValCed)));
 
         editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
-                input -> PrimaryActivity.userController.valUser(input),"Ingresa un nombre válido"));
+                input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
 
         editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                input -> PrimaryActivity.userController.valEmail(input),getString(R.string.msgNotValEmail)));
 
         editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                input -> PrimaryActivity.userController.valPhone(input),getString(R.string.msgNotValPhone)));
 
         btnCreate.setOnClickListener(view -> {
-            alertDialog.showProgressMessage("Creando...");
+            alertDialog.showProgressMessage(getString(R.string.msgCreatingProfile));
             if(!editTextCed.getText().toString().trim().isEmpty() && editTextCed.getError() == null &&
                     !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
                     !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                     !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                     !editTextPassword.getText().toString().trim().isEmpty() &&
-                    !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
-                    !spinner_rol.getSelectedItem().toString().equals("Rol")) {
+                    !spinner_canton.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultCanton)) &&
+                    !spinner_rol.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultRol))) {
 
                 User user = new User();
                 user.ced = editTextCed.getText().toString().trim();
@@ -82,15 +82,15 @@ public class AddUserActivity extends AppCompatActivity {
                         PrimaryActivity.userController.createUser(user).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if(task.isSuccessful()){
-                                alertDialog.showMessageDialog("Correcto", "Usuario Creado Correctamente", false, (dialogInterface, i) -> finish());
+                                alertDialog.showMessageDialog(getString(R.string.msgTitleInformation), getString(R.string.msgSuccessCreateProfile), false, (dialogInterface, i) -> finish());
                             }else{
-                                alertDialog.showError("No se puede crear el Usuario - Intente Nuevamente");
+                                alertDialog.showError(getString(R.string.msgNotCreateProfile));
                             }
                         });
                     }else{
-                        alertDialog.showWarning("Cédula existente");
+                        alertDialog.showWarning(getString(R.string.msgExistProfile));
                     }
-                },databaseError -> alertDialog.showError("Error al buscar la cédula"));
+                },databaseError -> alertDialog.showError(getString(R.string.msgSearchDbError)));
 
             }else{
                 alertDialog.showWarning(getString(R.string.msgEmptyFields));

@@ -48,7 +48,7 @@ public class ReportController {
 
                 if (dataSnapshot.exists()) {
 
-                    int contador = 1;
+                    int count = 1;
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
@@ -56,7 +56,7 @@ public class ReportController {
 
                         if(userRol!=null && (rol.equals("Rol") || userRol.equals(rol))) {
 
-                            HSSFRow hssfRow = hssfSheet.createRow(contador);
+                            HSSFRow hssfRow = hssfSheet.createRow(count);
                             HSSFCell hssfCell0 = hssfRow.createCell(0);
                             HSSFCell hssfCell1 = hssfRow.createCell(1);
                             HSSFCell hssfCell2 = hssfRow.createCell(2);
@@ -81,7 +81,7 @@ public class ReportController {
                                 hssfCell7.setCellValue("");
                             }
 
-                            contador++;
+                            count++;
                         }
 
                     }

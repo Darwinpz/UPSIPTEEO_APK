@@ -55,11 +55,9 @@ public class ReportActivity extends AppCompatActivity {
 
         cardSummary.setOnClickListener(view -> {
 
-            alertDialog.showProgressMessage("Creando Reporte...");
-
-            reportController.removeSheetByName(hssfWorkbook,"CONSOLIDADO");
-
-            HSSFSheet hssfSheet = hssfWorkbook.createSheet("CONSOLIDADO");
+            alertDialog.showProgressMessage(getString(R.string.msgCreatingReport));
+            reportController.removeSheetByName(hssfWorkbook,"SUMMARY");
+            HSSFSheet hssfSheet = hssfWorkbook.createSheet("SUMMARY");
             reportController.headUsers(hssfSheet);
 
             reportController.reportUsers("Rol", hssfSheet, val -> {
@@ -76,20 +74,20 @@ public class ReportActivity extends AppCompatActivity {
                         hssfWorkbook.close();
                         fileOutputStream.close();
 
-                        alertDialog.showSuccess("Reporte Creado Correctamente");
+                        alertDialog.showSuccess(getString(R.string.msgSuccessReport));
 
-                        Uri fileUri = FileProvider.getUriForFile(this, "com.dpilaloa.upsipteeo.fileprovider", file);
+                        Uri fileUri = FileProvider.getUriForFile(this, getString(R.string.fileProviderName), file);
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setDataAndType(fileUri,"application/vnd.ms-excel");
                         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(i);
 
                     }catch (Exception e){
-                        alertDialog.showError("Ocurrió un error al generar el reporte");
+                        alertDialog.showError(getString(R.string.msgNotCreateReport));
                     }
                 }
 
-            }, databaseError -> alertDialog.showError("Ocurrió un error al generar el reporte"));
+            }, databaseError -> alertDialog.showError(getString(R.string.msgGetDbError)));
 
         });
 
@@ -111,7 +109,7 @@ public class ReportActivity extends AppCompatActivity {
             setupStrictMode();
         } else {
             finish();
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
 
     });
@@ -121,7 +119,7 @@ public class ReportActivity extends AppCompatActivity {
             setupStrictMode();
         } else {
             finish();
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
     });
 

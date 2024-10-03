@@ -40,7 +40,7 @@ public class AlertDialogController implements MessagesHandlerInterface {
     public void showMessageDialog(String title, String message, boolean cancelable, DialogInterface.OnClickListener onClickListener) {
         createMessage(title, message, builder -> {
             builder.setCancelable(cancelable);
-            builder.setNeutralButton("Aceptar", onClickListener);
+            builder.setNeutralButton(contextRef.get().getString(R.string.msgAccept), onClickListener);
             builder.create().show();
         });
     }

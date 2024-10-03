@@ -71,10 +71,10 @@ public class ProfileFragment extends Fragment {
         if(!PrimaryActivity.id.isEmpty()) {
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> PrimaryActivity.userController.valEmail(input),getString(R.string.msgNotValEmail)));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> PrimaryActivity.userController.valPhone(input),getString(R.string.msgNotValPhone)));
 
             PrimaryActivity.userController.getProfile(PrimaryActivity.id, user -> {
 
@@ -99,18 +99,18 @@ public class ProfileFragment extends Fragment {
 
                 }
 
-            }, databaseError -> alertDialog.showError("Ocurrió un error al obtener el id del Perfil"));
+            }, databaseError -> alertDialog.showError(getString(R.string.msgGetDbError)));
 
             imageButton.setOnClickListener(view1 ->
                 startActivity(new Intent(view.getContext(), DetAssistanceActivity.class)
                         .putExtra("uid", PrimaryActivity.id)
-                        .putExtra("nombre", USERNAME))
+                        .putExtra("name", USERNAME))
             );
 
             imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
-                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) ->
+                    alertDialog.showConfirmDialog(getString(R.string.msgTitleInformation), getString(R.string.msgChooseOption),getString(R.string.msgViewPhoto),getString(R.string.msgUpdatePhoto), (dialogInterface, i) ->
                         startActivity(new Intent(getContext(), ImageActivity.class).putExtra("url", URL_PHOTO))
                     , (dialogInterface, i) -> photoController.uploadPhoto());
                 }else{
@@ -120,11 +120,11 @@ public class ProfileFragment extends Fragment {
             });
 
             btnUpdate.setOnClickListener(view1 -> {
-                alertDialog.showProgressMessage("Actualizando...");
+                alertDialog.showProgressMessage(getString(R.string.msgUpdateProfile));
                 if(!editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                         !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !editTextPassword.getText().toString().trim().isEmpty() &&
-                        !spinner_canton.getSelectedItem().toString().equals("Cantones")) {
+                        !spinner_canton.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultCanton))) {
 
                     User user = new User();
                     user.uid = PrimaryActivity.id;
@@ -136,18 +136,14 @@ public class ProfileFragment extends Fragment {
                     user.rol = txtRol.getText().toString().trim();
                     user.password = editTextPassword.getText().toString().trim();
 
-                    if(!TextUtils.isEmpty(PrimaryActivity.id)) {
-                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
-                            alertDialog.hideProgressMessage();
-                            if (task.isSuccessful()) {
-                                alertDialog.showSuccess("Perfil Actualizado Correctamente");
-                            } else {
-                                alertDialog.showError("No se puede actualizar el perfil - Intente Nuevamente");
-                            }
-                        });
-                    }else{
-                        alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
-                    }
+                    PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        alertDialog.hideProgressMessage();
+                        if (task.isSuccessful()) {
+                            alertDialog.showSuccess(getString(R.string.msgSuccessUpdateProfile));
+                        } else {
+                            alertDialog.showError(getString(R.string.msgNotUpdateProfile));
+                        }
+                    });
 
                 }else{
                     alertDialog.showWarning(getString(R.string.msgEmptyFields));
@@ -155,7 +151,7 @@ public class ProfileFragment extends Fragment {
             });
 
             btnLogOut.setOnClickListener(view1 -> {
-                alertDialog.showProgressMessage("Cerrando Sesión...");
+                alertDialog.showProgressMessage(getString(R.string.msgLogOut));
                 PrimaryActivity.userController.logOut(PrimaryActivity.preferences);
                 alertDialog.hideProgressMessage();
                 requireActivity().finish();
@@ -163,7 +159,7 @@ public class ProfileFragment extends Fragment {
             });
 
         }else{
-            alertDialog.showError("Ocurrió un error al cargar el Perfil");
+            alertDialog.showError(getString(R.string.msgErrorUid));
         }
 
         return view;
@@ -178,7 +174,7 @@ public class ProfileFragment extends Fragment {
         if (isGranted) {
             photoController.getImageFile();
         } else {
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
 
     });
@@ -187,14 +183,14 @@ public class ProfileFragment extends Fragment {
         if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
     });
 
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
             Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(requireContext(), true));
-            PrimaryActivity.userController.saveCroppedImage(cropped, PrimaryActivity.id,PrimaryActivity.storageReference, alertDialog);
+            PrimaryActivity.userController.saveCroppedImage(cropped, PrimaryActivity.id,PrimaryActivity.storageReference, alertDialog, getContext());
         }
     });
 

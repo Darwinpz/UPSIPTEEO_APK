@@ -82,16 +82,16 @@ public class DetUserActivity extends AppCompatActivity {
         if(!UID_USER.isEmpty()){
 
             editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
-                    input -> PrimaryActivity.userController.valCed(input),"Ingresa una cédula válida"));
+                    input -> PrimaryActivity.userController.valCed(input),getString(R.string.msgNotValCed)));
 
             editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
-                    input -> PrimaryActivity.userController.valUser(input),"Ingresa un nombre válido"));
+                    input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
-                    input -> PrimaryActivity.userController.valEmail(input),"Ingresa un correo válido"));
+                    input -> PrimaryActivity.userController.valEmail(input),getString(R.string.msgNotValEmail)));
 
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
-                    input -> PrimaryActivity.userController.valPhone(input),"Ingresa un teléfono válido"));
+                    input -> PrimaryActivity.userController.valPhone(input),getString(R.string.msgNotValPhone)));
 
             PrimaryActivity.userController.getProfile(UID_USER, user -> {
 
@@ -118,7 +118,7 @@ public class DetUserActivity extends AppCompatActivity {
 
                 }
 
-            }, databaseError ->  alertDialog.showError("Ocurrió un error al obtener el perfil del usuario"));
+            }, databaseError ->  alertDialog.showError(getString(R.string.msgGetDbError)));
 
             boolean isAdminOneDiffUid = PrimaryActivity.rol.equals(getString(R.string.admin_one)) && !getString(R.string.admin_uid).equals(UID_USER);
             boolean isAdminTwoDiffUid = (isAdminOneDiffUid) || (PrimaryActivity.rol.equals(getString(R.string.admin_two)) &&
@@ -140,7 +140,8 @@ public class DetUserActivity extends AppCompatActivity {
             imgProfile.setOnClickListener(view1 -> {
 
                 if(!TextUtils.isEmpty(URL_PHOTO)) {
-                    alertDialog.showConfirmDialog("Información", "Selecciona una opción","Ver Foto","Actualizar Foto", (dialogInterface, i) ->
+                    alertDialog.showConfirmDialog(getString(R.string.msgTitleInformation), getString(R.string.msgChooseOption)
+                            ,getString(R.string.msgViewPhoto),getString(R.string.msgUpdatePhoto), (dialogInterface, i) ->
                                     startActivity(new Intent(this, ImageActivity.class).putExtra("url", URL_PHOTO))
                             , (dialogInterface, i) -> photoController.uploadPhoto());
                 }else{
@@ -150,14 +151,14 @@ public class DetUserActivity extends AppCompatActivity {
             });
 
             btnUpdate.setOnClickListener(view1 -> {
-                alertDialog.showProgressMessage("Actualizando...");
+                alertDialog.showProgressMessage(getString(R.string.msgUpdateProfile));
                 if(!editTextCed.getText().toString().trim().isEmpty() && editTextCed.getError() == null &&
                         !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
                         !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                         !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !editTextPassword.getText().toString().trim().isEmpty() &&
-                        !spinner_canton.getSelectedItem().toString().equals("Cantones") &&
-                        !spinner_rol.getSelectedItem().toString().equals("Rol")) {
+                        !spinner_canton.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultCanton)) &&
+                        !spinner_rol.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultRol))) {
 
                     User user = new User();
                     user.uid = UID_USER;
@@ -169,18 +170,14 @@ public class DetUserActivity extends AppCompatActivity {
                     user.rol = spinner_rol.getSelectedItem().toString().trim();
                     user.password = editTextPassword.getText().toString().trim();
 
-                    if(!TextUtils.isEmpty(UID_USER)) {
-                        PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
-                            alertDialog.hideProgressMessage();
-                            if (task.isSuccessful()) {
-                                alertDialog.showSuccess("Usuario Actualizado Correctamente");
-                            } else {
-                                alertDialog.showError("No se puede actualizar el Usuario - Intente Nuevamente");
-                            }
-                        });
-                    }else{
-                        alertDialog.showError("Ocurrió un error al obtener el id del Usuario");
-                    }
+                    PrimaryActivity.userController.updateUser(user).addOnCompleteListener(task -> {
+                        alertDialog.hideProgressMessage();
+                        if (task.isSuccessful()) {
+                            alertDialog.showSuccess(getString(R.string.msgSuccessUpdateProfile));
+                        } else {
+                            alertDialog.showError(getString(R.string.msgNotUpdateProfile));
+                        }
+                    });
 
                 }else{
                     alertDialog.showWarning(getString(R.string.msgEmptyFields));
@@ -188,15 +185,16 @@ public class DetUserActivity extends AppCompatActivity {
             });
 
             btnDelete.setOnClickListener(view ->
-                alertDialog.showConfirmDialog("¿Estás seguro de eliminar el usuario?", "¡Esta acción no es reversible!","Aceptar","Cancelar", (dialogInterface, i) ->
+                alertDialog.showConfirmDialog(getString(R.string.msgConfirmDelProfile), getString(R.string.msgNotReversible),
+                        getString(R.string.msgAccept),getString(R.string.msgCancel), (dialogInterface, i) ->
                 {
-                    alertDialog.showProgressMessage("Eliminando Usuario...");
+                    alertDialog.showProgressMessage(getString(R.string.msgDelProfile));
                     PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             finish();
                         } else {
-                            alertDialog.showError("Ocurrió un error al eliminar el Usuario");
+                            alertDialog.showError(getString(R.string.msgNotDelProfile));
                         }
                     });
                 }, (dialogInterface, i) -> {})
@@ -205,12 +203,12 @@ public class DetUserActivity extends AppCompatActivity {
             imageButton.setOnClickListener(view -> {
                 Intent i = new Intent(this, DetAssistanceActivity.class);
                 i.putExtra("uid",UID_USER);
-                i.putExtra("nombre",USERNAME);
+                i.putExtra("name",USERNAME);
                 startActivity(i);
             });
 
         }else{
-            alertDialog.showError("Ocurrió un error al cargar el Usuario");
+            alertDialog.showError(getString(R.string.msgErrorUid));
         }
 
     }
@@ -224,7 +222,7 @@ public class DetUserActivity extends AppCompatActivity {
         if (isGranted) {
             photoController.getImageFile();
         } else {
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
 
     });
@@ -233,14 +231,14 @@ public class DetUserActivity extends AppCompatActivity {
         if (storagePermissionController.isPermitted()) {
             photoController.getImageFile();
         } else {
-            alertDialog.showError("Permiso Negado");
+            alertDialog.showError(getString(R.string.msgNotPermission));
         }
     });
 
     ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
         if (result.isSuccessful()) {
             Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(this, true));
-            PrimaryActivity.userController.saveCroppedImage(cropped, UID_USER,PrimaryActivity.storageReference, alertDialog);
+            PrimaryActivity.userController.saveCroppedImage(cropped, UID_USER,PrimaryActivity.storageReference, alertDialog, this);
         }
     });
 

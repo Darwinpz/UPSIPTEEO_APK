@@ -67,13 +67,13 @@ public class AssistanceAddFragment extends DialogFragment {
                         if (task.isSuccessful()) {
                             dialogFragment.dismiss();
                         } else {
-                            Toast.makeText(getContext(), "Ocurrió un error al crear la asistencia", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), getString(R.string.msgNotCreateAssistance), Toast.LENGTH_LONG).show();
                         }
 
                     });
 
                 }else{
-                    Toast.makeText(getContext(), "Ocurrió un error al obtener el id del Usuario", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.msgErrorUid), Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">UPSIPTEEO</string>
     <string name="process">Consejo Nacional Electoral</string>
+    <string name="fileProviderName">com.dpilaloa.upsipteeo.fileprovider</string>
     <string name="author">\@DarwinPilaloa</string>
     <string name="version">Versión</string>
 
@@ -119,10 +120,63 @@
 
     <!-- Errors and Alerts Messages-->
     <string name="msgLogIn">Iniciando sesión</string>
+    <string name="msgLogOut">Cerrando sesión</string>
     <string name="msgWelcome">Bienvenido</string>
+    <string name="msgNotPermission">Permiso Negado</string>
+
+    <string name="msgErrorUid">Ocurrió un error al obtener el UId</string>
+
     <string name="msgNotLogIn">Usuario y/o Clave Incorrecto</string>
     <string name="msgErrLogIn">Ocurrió un error al Iniciar Sesión</string>
 
     <string name="msgEmptyFields">Completa todos los campos</string>
+
+    <string name="msgSearchDbError">Ocurrió un error al buscar los datos en la BD</string>
+    <string name="msgGetDbError">Ocurrió un error al obtener los datos en la BD</string>
+
+    <string name="msgUpdateProfile">Actualizando Perfil</string>
+    <string name="msgCreatingProfile">Creando Perfil</string>
+    <string name="msgDelProfile">Eliminando Perfil</string>
+    <string name="msgExistProfile">Perfil Existente</string>
+    <string name="msgSuccessCreateProfile">Perfil Creado Correctamente</string>
+    <string name="msgSuccessUpdateProfile">Perfil Actualizado Correctamente</string>
+    <string name="msgNotCreateProfile">No se puede crear el perfil - Intente Nuevamente</string>
+    <string name="msgNotUpdateProfile">No se puede actualizar el perfil - Intente Nuevamente</string>
+    <string name="msgConfirmDelProfile">¿Estás seguro de eliminar el perfil?</string>
+    <string name="msgNotDelProfile">No se puede eliminar el perfil - Intente Nuevamente</string>
+
+    <string name="msgConfirmDelAssistance">¿Estás seguro de eliminar la asistencia?</string>
+    <string name="msgNotDelAssistance">No se puede eliminar la asistencia - Intente Nuevamente</string>
+    <string name="msgNotCreateAssistance">No se puede crear la asistencia - Intente Nuevamente</string>
+
+    <string name="msgCreatingReport">Creando Reporte</string>
+    <string name="msgSuccessReport">Reporte Creado Correctamente</string>
+    <string name="msgNotCreateReport">No se puede crear el reporte - Intente Nuevamente</string>
+
+    <string name="msgCopyPhone">Teléfono copiado al Portapapeles</string>
+    <string name="msgDoubleClickToExit">Presione de nuevo para salir</string>
+
+    <string name="msgAccept">Aceptar</string>
+    <string name="msgCancel">Cancelar</string>
+    <string name="msgNotReversible">¡Esta acción no es reversible!</string>
+
+    <string name="msgViewPhoto">Ver Foto</string>
+    <string name="msgUpdatePhoto">Actualizar Foto</string>
+    <string name="msgUpdatingPhoto">Actualizando Perfil</string>
+    <string name="msgSuccessUpdatePhoto">Foto Actualizada Correctamente</string>
+    <string name="msgNotUpdatePhoto">No se puede actualizar la foto - Intente Nuevamente</string>
+    <string name="msgNotGetUrlPhoto">Ocurrió un error al obtener la url de la foto</string>
+    <string name="msgNotUploadPhoto">Ocurrió un error al subir la foto</string>
+
+    <string name="msgChooseOption">Selecciona una Opción</string>
+    <string name="msgTitleInformation">Información</string>
+
+    <string name="msgNotValEmail">Ingresa un correo válido</string>
+    <string name="msgNotValName">Ingresa un nombre válido</string>
+    <string name="msgNotValCed">Ingresa una cédula válida</string>
+    <string name="msgNotValPhone">Ingresa un teléfono válido</string>
+
+    <string name="spinnerDefaultCanton">Cantones</string>
+    <string name="spinnerDefaultRol">Rol</string>
 
 </resources>

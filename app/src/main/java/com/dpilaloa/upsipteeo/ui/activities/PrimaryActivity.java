@@ -104,7 +104,7 @@ public class PrimaryActivity extends AppCompatActivity {
                     finish();
                 }else{
                     doubleBackToExitPressedOnce = true;
-                    Toast.makeText(getBaseContext(), "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.msgDoubleClickToExit), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
                 }
 

@@ -36,7 +36,7 @@ public class AssistanceController {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 assistanceAdapter.clear();
-                int contador = 0;
+                int count = 0;
 
                 if (dataSnapshot.exists()) {
 
@@ -53,14 +53,14 @@ public class AssistanceController {
                                 assistance.photo = dataSnapshot.child("photo").getValue(String.class);
                                 assistanceAdapter.add(assistance);
 
-                                contador++;
+                                count++;
 
                             }
                         }
 
                     }
 
-                    txtCount.setText(String.valueOf(contador));
+                    txtCount.setText(String.valueOf(count));
                     txtCount.append("\tAsistencias");
                     textViewResult.setVisibility(assistanceAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 

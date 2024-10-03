@@ -1,5 +1,6 @@
 package com.dpilaloa.upsipteeo.data.controllers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.dpilaloa.upsipteeo.R;
 import com.dpilaloa.upsipteeo.data.interfaces.CompleteInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.DbErrorInterface;
 import com.dpilaloa.upsipteeo.data.interfaces.ProcessObInterface;
@@ -154,7 +156,7 @@ public class UserController {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 userAdapter.clear();
-                int contador = 0;
+                int count = 0;
 
                 if (dataSnapshot.exists()) {
 
@@ -177,7 +179,7 @@ public class UserController {
                                 assert user.uid != null;
                                 if (!user.uid.equals(uid)) {
                                     userAdapter.add(user);
-                                    contador++;
+                                    count++;
                                 }
                             }
 
@@ -185,7 +187,7 @@ public class UserController {
 
                     }
 
-                    txtCount.setText(String.valueOf(contador));
+                    txtCount.setText(String.valueOf(count));
                     txtCount.append("\tUsuarios");
                     textViewResult.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
@@ -244,7 +246,7 @@ public class UserController {
                 Pattern.compile("^(0|593)?9[0-9]\\d{7}$").matcher(phone).matches();
     }
 
-    public void saveCroppedImage(Bitmap bitmap, String id, StorageReference storageReference, AlertDialogController alertDialog) {
+    public void saveCroppedImage(Bitmap bitmap, String id, StorageReference storageReference, AlertDialogController alertDialog, Context context) {
 
         if(!TextUtils.isEmpty(id)){
 
@@ -254,7 +256,7 @@ public class UserController {
             final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
             StorageReference ref = storageReference.child("usuarios").child(id);
 
-            alertDialog.showProgressMessage("Actualizando Foto...");
+            alertDialog.showProgressMessage(context.getString(R.string.msgUpdatingPhoto));
 
             ref.putBytes(thumb_byte).addOnSuccessListener(taskSnapshot ->
 
@@ -263,17 +265,18 @@ public class UserController {
                         updatePhoto(id, uri.toString()).addOnCompleteListener(task -> {
                             alertDialog.hideProgressMessage();
                             if (task.isSuccessful()) {
-                                alertDialog.showSuccess("Foto Actualizada Correctamente");
+                                alertDialog.showSuccess(context.getString(R.string.msgSuccessUpdatePhoto));
                             } else {
-                                alertDialog.showError("Ocurrió un error al actualizar la foto");
+                                alertDialog.showError(context.getString(R.string.msgNotUpdatePhoto));
                             }
 
                         })
-                    ).addOnFailureListener(e -> alertDialog.showError("Ocurrió un error al obtener la url de la foto"))
+                    ).addOnFailureListener(e -> alertDialog.showError(context.getString(R.string.msgNotGetUrlPhoto)))
 
-            ).addOnFailureListener(e -> alertDialog.showError("Ocurrió un error al actualizar la foto"));
+            ).addOnFailureListener(e -> alertDialog.showError(context.getString(R.string.msgNotUploadPhoto)));
+
         }else{
-            alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
+            alertDialog.showError(context.getString(R.string.msgErrorUid));
         }
 
     }

@@ -58,13 +58,13 @@ public class UserFragment extends Fragment {
         if(!PrimaryActivity.id.isEmpty()) {
 
             PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id , "Rol","", txtResult, progressBar, txtCount,
-                    databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
+                    databaseError -> Toast.makeText(view.getContext(), getString(R.string.msgSearchDbError),Toast.LENGTH_SHORT).show());
 
             spinnerRol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount,
-                            databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
+                            databaseError -> Toast.makeText(view.getContext(), getString(R.string.msgSearchDbError),Toast.LENGTH_SHORT).show());
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -75,22 +75,16 @@ public class UserFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     hideKeyboard();
                     PrimaryActivity.userController.getUsers(userAdapter, PrimaryActivity.id ,spinnerRol.getSelectedItem().toString(),editTextSearch.getText().toString(), txtResult, progressBar, txtCount,
-                            databaseError -> Toast.makeText(view.getContext(), "Ocurrió un error al buscar",Toast.LENGTH_SHORT).show());
+                            databaseError -> Toast.makeText(view.getContext(), getString(R.string.msgSearchDbError),Toast.LENGTH_SHORT).show());
                     return true;
                 }
                 return false;
             });
 
-            btnAddUser.setOnClickListener(view1 -> {
-
-                Intent i = new Intent(view.getContext(), AddUserActivity.class);
-                startActivity(i);
-                //guardar();
-
-            });
+            btnAddUser.setOnClickListener(view1 -> startActivity(new Intent(view.getContext(), AddUserActivity.class)));
 
         }else{
-            Toast.makeText(view.getContext(), "Ocurrió un error al cargar el id",Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), getString(R.string.msgErrorUid),Toast.LENGTH_LONG).show();
         }
 
         return view;

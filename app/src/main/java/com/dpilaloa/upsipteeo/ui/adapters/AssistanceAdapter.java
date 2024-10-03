@@ -60,9 +60,10 @@ public class AssistanceAdapter extends RecyclerView.Adapter<AssistanceHolder> {
             String UID_USER = DetAssistanceActivity.UID_USER;
             String ROL = PrimaryActivity.rol;
             if(!TextUtils.isEmpty(UID_USER) && ROL.equals(context.getString(R.string.admin_one))) {
-                DetAssistanceActivity.alertDialog.showConfirmDialog("¿Estás seguro de eliminar la asistencia?","¡Esta acción no es reversible!", "Aceptar", "Cancelar", (dialogInterface, i) ->
+                DetAssistanceActivity.alertDialog.showConfirmDialog(context.getString(R.string.msgConfirmDelAssistance),context.getString(R.string.msgNotReversible),
+                        context.getString(R.string.msgAccept), context.getString(R.string.msgCancel), (dialogInterface, i) ->
                                 DetAssistanceActivity.assistanceController.deleteAssistance(UID_USER, assistanceList.get(position).uid).addOnCompleteListener(task -> {
-                                    if (!task.isSuccessful()) {DetAssistanceActivity.alertDialog.showError("Ocurrió un error al eliminar la asistencia");}
+                                    if (!task.isSuccessful()) {DetAssistanceActivity.alertDialog.showError(context.getString(R.string.msgNotDelAssistance));}
                                 })
                 , (dialogInterface, i) -> {});
             }

@@ -47,7 +47,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
         toolbar.setOnClickListener(view -> finish());
 
         UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
-        USERNAME = Objects.requireNonNull(getIntent().getExtras()).getString("nombre","");
+        USERNAME = Objects.requireNonNull(getIntent().getExtras()).getString("name","");
         txtName.setText(USERNAME);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -55,19 +55,20 @@ public class DetAssistanceActivity extends AppCompatActivity {
         recyclerView.setAdapter(assistanceAdapter);
 
         if(!UID_USER.isEmpty()) {
+
             assistanceController.getAssistance(assistanceAdapter,UID_USER,txtResult,progressBar,txtCount, databaseError ->
-                            alertDialog.showError("Ocurrió un error al obtener las asistencias"));
+                            alertDialog.showError(getString(R.string.msgGetDbError)));
 
             btnAddAssistance.setVisibility(PrimaryActivity.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
 
             btnAddAssistance.setOnClickListener(view -> {
                 AssistanceAddFragment.UID = UID_USER;
                 AssistanceAddFragment assistanceAddFragment = new AssistanceAddFragment();
-                assistanceAddFragment.show(getSupportFragmentManager(),"ASISTENCIA");
+                assistanceAddFragment.show(getSupportFragmentManager(),"ASSISTANCE");
             });
 
         }else{
-            alertDialog.showError("Ocurrió un error al obtener el id del Perfil");
+            alertDialog.showError(getString(R.string.msgErrorUid));
         }
 
     }

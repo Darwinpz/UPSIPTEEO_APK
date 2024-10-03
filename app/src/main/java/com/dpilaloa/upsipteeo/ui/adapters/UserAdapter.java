@@ -75,7 +75,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
             String text = userList.get(position).phone;
             ClipData clip = ClipData.newPlainText("phone",  text);
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(context,"Teléfono copiado al Portapapeles",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,context.getString(R.string.msgCopyPhone),Toast.LENGTH_SHORT).show();
             return true;
         });
 
