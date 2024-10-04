@@ -189,7 +189,7 @@ public class DetUserActivity extends AppCompatActivity {
                         getString(R.string.msgAccept),getString(R.string.msgCancel), (dialogInterface, i) ->
                 {
                     alertDialog.showProgressMessage(getString(R.string.msgDelProfile));
-                    PrimaryActivity.userController.deleteUser(UID_USER).addOnCompleteListener(task -> {
+                    PrimaryActivity.userController.deleteUserAndPhoto(UID_USER, PrimaryActivity.storageReference).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
                         if (task.isSuccessful()) {
                             finish();
@@ -218,13 +218,11 @@ public class DetUserActivity extends AppCompatActivity {
     );
 
     private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-
         if (isGranted) {
             photoController.getImageFile();
         } else {
             alertDialog.showError(getString(R.string.msgNotPermission));
         }
-
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {

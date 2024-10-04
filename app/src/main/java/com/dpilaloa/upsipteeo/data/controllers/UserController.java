@@ -18,6 +18,7 @@ import com.dpilaloa.upsipteeo.data.interfaces.UserInterface;
 import com.dpilaloa.upsipteeo.ui.adapters.UserAdapter;
 import com.dpilaloa.upsipteeo.data.models.User;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,16 @@ public class UserController {
 
     public Task<Void> deleteUser(String uid){
         return databaseReference.child("users").child(uid).removeValue();
+    }
+
+    public Task<Void> deletePhoto(String uid, StorageReference storageReference){
+        return storageReference.child("users").child(uid+".jpeg").delete();
+    }
+
+    public Task<Void> deleteUserAndPhoto(String uid, StorageReference storageReference) {
+        Task<Void> deletePhotoTask = deletePhoto(uid,storageReference);
+        Task<Void> deleteUserTask = deleteUser(uid);
+        return Tasks.whenAll(deletePhotoTask, deleteUserTask);
     }
 
     public Task<Void> updateUser(User user) {

@@ -170,13 +170,11 @@ public class ProfileFragment extends Fragment {
     );
 
     private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-
         if (isGranted) {
             photoController.getImageFile();
         } else {
             alertDialog.showError(getString(R.string.msgNotPermission));
         }
-
     });
 
     ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
