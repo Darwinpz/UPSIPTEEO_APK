@@ -30,6 +30,7 @@ import com.dpilaloa.upsipteeo.data.models.User;
 import com.dpilaloa.upsipteeo.ui.adapters.ArraySpinnerAdapter;
 import com.dpilaloa.upsipteeo.utils.ValEditTextWatcher;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.StorageException;
 
 import java.util.Objects;
 
@@ -189,14 +190,26 @@ public class DetUserActivity extends AppCompatActivity {
                         getString(R.string.msgAccept),getString(R.string.msgCancel), (dialogInterface, i) ->
                 {
                     alertDialog.showProgressMessage(getString(R.string.msgDelProfile));
+
                     PrimaryActivity.userController.deleteUserAndPhoto(UID_USER, PrimaryActivity.storageReference).addOnCompleteListener(task -> {
                         alertDialog.hideProgressMessage();
+
                         if (task.isSuccessful()) {
-                            finish();
+                            alertDialog.showSuccess(getString(R.string.msgSuccessDelProfile));
                         } else {
-                            alertDialog.showError(getString(R.string.msgNotDelProfile));
+                            Exception exception = task.getException();
+                            if (exception instanceof StorageException) {
+                                StorageException storageException = (StorageException) exception;
+                                if (storageException.getErrorCode() != StorageException.ERROR_OBJECT_NOT_FOUND) {
+                                    alertDialog.showError(getString(R.string.msgDelProfileWithErrors));
+                                }
+                            }
                         }
+
+                        finish();
+
                     });
+
                 }, (dialogInterface, i) -> {})
             );
 

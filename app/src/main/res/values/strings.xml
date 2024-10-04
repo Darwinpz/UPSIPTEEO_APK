@@ -140,10 +140,12 @@
     <string name="msgExistProfile">Perfil Existente</string>
     <string name="msgSuccessCreateProfile">Perfil Creado Correctamente</string>
     <string name="msgSuccessUpdateProfile">Perfil Actualizado Correctamente</string>
+    <string name="msgSuccessDelProfile">Perfil Eliminado Correctamente</string>
     <string name="msgNotCreateProfile">No se puede crear el perfil - Intente Nuevamente</string>
     <string name="msgNotUpdateProfile">No se puede actualizar el perfil - Intente Nuevamente</string>
     <string name="msgConfirmDelProfile">¿Estás seguro de eliminar el perfil?</string>
     <string name="msgNotDelProfile">No se puede eliminar el perfil - Intente Nuevamente</string>
+    <string name="msgDelProfileWithErrors">Perfil Eliminado con errores</string>
 
     <string name="msgConfirmDelAssistance">¿Estás seguro de eliminar la asistencia?</string>
     <string name="msgNotDelAssistance">No se puede eliminar la asistencia - Intente Nuevamente</string>
@@ -162,8 +164,9 @@
 
     <string name="msgViewPhoto">Ver Foto</string>
     <string name="msgUpdatePhoto">Actualizar Foto</string>
-    <string name="msgUpdatingPhoto">Actualizando Perfil</string>
+    <string name="msgUpdatingPhoto">Actualizando Foto</string>
     <string name="msgSuccessUpdatePhoto">Foto Actualizada Correctamente</string>
+    <string name="msgNotDelPhoto">Ocurrió un error al Eliminar la Foto</string>
     <string name="msgNotUpdatePhoto">No se puede actualizar la foto - Intente Nuevamente</string>
     <string name="msgNotGetUrlPhoto">Ocurrió un error al obtener la url de la foto</string>
     <string name="msgNotUploadPhoto">Ocurrió un error al subir la foto</string>

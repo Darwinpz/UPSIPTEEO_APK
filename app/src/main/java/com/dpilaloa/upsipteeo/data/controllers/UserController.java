@@ -48,7 +48,7 @@ public class UserController {
     }
 
     public Task<Void> deletePhoto(String uid, StorageReference storageReference){
-        return storageReference.child("users").child(uid+".jpeg").delete();
+        return storageReference.child("users").child(uid).delete();
     }
 
     public Task<Void> deleteUserAndPhoto(String uid, StorageReference storageReference) {
