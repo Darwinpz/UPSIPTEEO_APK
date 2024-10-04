@@ -31,7 +31,7 @@ public class AssistanceController {
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
 
-        databaseReference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").child(uid).child("assistance").orderByChild("dateTime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -40,33 +40,30 @@ public class AssistanceController {
 
                 if (dataSnapshot.exists()) {
 
-                    if(dataSnapshot.child("assistance").exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        for (DataSnapshot snapshot : dataSnapshot.child("assistance").getChildren()) {
+                        if(snapshot.child("date").exists() && snapshot.child("time").exists()) {
 
-                            if(snapshot.child("date").exists() && snapshot.child("time").exists()) {
+                            Assistance assistance = new Assistance();
+                            assistance.uid = snapshot.getKey();
+                            assistance.date = snapshot.child("date").getValue(String.class);
+                            assistance.time = snapshot.child("time").getValue(String.class);
+                            Long date = snapshot.child("dateTime").getValue(Long.class);
+                            assistance.dateTime = date != null ? date : 0L;
+                            assistance.photo = dataSnapshot.child("photo").getValue(String.class);
+                            assistanceAdapter.add(assistance);
 
-                                Assistance assistance = new Assistance();
-                                assistance.uid = snapshot.getKey();
-                                assistance.date = snapshot.child("date").getValue(String.class);
-                                assistance.time = snapshot.child("time").getValue(String.class);
-                                assistance.photo = dataSnapshot.child("photo").getValue(String.class);
-                                assistanceAdapter.add(assistance);
+                            count++;
 
-                                count++;
-
-                            }
                         }
-
                     }
-
-                    txtCount.setText(String.valueOf(count));
-                    txtCount.append("\tAsistencias");
                     textViewResult.setVisibility(assistanceAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-
                 } else {
                     textViewResult.setVisibility(View.VISIBLE);
                 }
+
+                txtCount.setText(String.valueOf(count));
+                txtCount.append("\tAsistencias");
 
                 assistanceAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
@@ -85,6 +82,7 @@ public class AssistanceController {
         Map<String, Object> data = new HashMap<>();
         data.put("date",assistance.date);
         data.put("time",assistance.time);
+        data.put("dateTime",assistance.dateTime);
 
         return databaseReference.child("users").child(uid).child("assistance").push().setValue(data);
 

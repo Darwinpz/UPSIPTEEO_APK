@@ -63,8 +63,10 @@ public class DetAssistanceActivity extends AppCompatActivity {
 
             btnAddAssistance.setOnClickListener(view -> {
                 AssistanceAddFragment.UID = UID_USER;
-                AssistanceAddFragment assistanceAddFragment = new AssistanceAddFragment();
-                assistanceAddFragment.show(getSupportFragmentManager(),"ASSISTANCE");
+                if (AssistanceAddFragment.dialogFragment == null || !AssistanceAddFragment.dialogFragment.isAdded()) {
+                    AssistanceAddFragment assistanceAddFragment = new AssistanceAddFragment();
+                    assistanceAddFragment.show(getSupportFragmentManager(), "ASSISTANCE");
+                }
             });
 
         }else{

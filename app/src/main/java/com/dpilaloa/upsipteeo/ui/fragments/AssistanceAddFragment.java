@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,9 +26,9 @@ import java.util.TimeZone;
 public class AssistanceAddFragment extends DialogFragment {
 
     public static DialogFragment dialogFragment;
-    private long DATE;
-    private String TIME;
     public static String UID;
+    private int HOUR, MINUTE;
+    Calendar dia;
 
     @NonNull
     @Override
@@ -45,49 +44,53 @@ public class AssistanceAddFragment extends DialogFragment {
         TimePicker schedule = view.findViewById(R.id.timePicker);
         CalendarView calendarView = view.findViewById(R.id.calendarView);
 
-        Calendar dia = Calendar.getInstance();
-        dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil")); // Zone of Ecuador
+        dia = Calendar.getInstance();
+        dia.setTimeZone(TimeZone.getTimeZone("America/Guayaquil"));
 
         calendarView.setMinDate(dia.getTimeInMillis());
 
-        DATE = dia.getTimeInMillis();
-        TIME = String.format(Locale.getDefault(),"%02d:%02d", dia.get(Calendar.HOUR_OF_DAY), dia.get(Calendar.MINUTE))+ " "+ ((dia.get(Calendar.HOUR_OF_DAY)<12) ? "am":"pm");
+        HOUR = dia.get(Calendar.HOUR_OF_DAY);
+        MINUTE = dia.get(Calendar.MINUTE);
 
-        btnSave.setOnClickListener(view1 -> {
+        if(!TextUtils.isEmpty(UID)) {
 
-            if(dialogFragment!=null) {
+            btnSave.setOnClickListener(view1 -> {
+
                 Assistance assistance = new Assistance();
-                assistance.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(DATE);
-                assistance.time = TIME;
+                assistance.date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dia.getTimeInMillis());
+                assistance.time = String.format(Locale.getDefault(), "%02d:%02d", HOUR, MINUTE) + " " + ((HOUR < 12) ? "am" : "pm");
+                assistance.dateTime = dia.getTimeInMillis();
 
-                if(!TextUtils.isEmpty(UID)) {
+                DetAssistanceActivity.assistanceController.createAssistance(UID, assistance).addOnCompleteListener(task -> {
 
-                    DetAssistanceActivity.assistanceController.createAssistance(UID, assistance).addOnCompleteListener(task -> {
-
+                    if(dialogFragment!=null) {
                         if (task.isSuccessful()) {
-                            dialogFragment.dismiss();
+                            DetAssistanceActivity.alertDialog.showSuccess(getString(R.string.msgSuccessCreateAssistance));
+                            dismiss();
                         } else {
-                            Toast.makeText(getContext(), getString(R.string.msgNotCreateAssistance), Toast.LENGTH_LONG).show();
+                            DetAssistanceActivity.alertDialog.showError(getString(R.string.msgNotCreateAssistance));
                         }
+                    }
+                });
 
-                    });
+            });
 
-                }else{
-                    Toast.makeText(getContext(), getString(R.string.msgErrorUid), Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-        });
+        }else{
+            DetAssistanceActivity.alertDialog.showError(getString(R.string.msgErrorUid));
+        }
 
         calendarView.setOnDateChangeListener((calendarView1, year, month, dayOfMonth) -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year,month,dayOfMonth);
-            calendarView1.setDate(calendar.getTimeInMillis());
-            DATE = calendarView1.getDate();
+            dia.set(year,month,dayOfMonth);
+            calendarView1.setDate(dia.getTimeInMillis());
         });
 
-        schedule.setOnTimeChangedListener((timePicker, hour, minute) ->  TIME = String.format(Locale.getDefault(),"%02d:%02d", hour, minute)+ " "+ ((hour<12) ? "am":"pm"));
+        schedule.setOnTimeChangedListener((timePicker, hour, minute) -> {
+            HOUR = hour;
+            MINUTE = minute;
+            dia.set(Calendar.HOUR_OF_DAY, HOUR);
+            dia.set(Calendar.MINUTE, MINUTE);
+        });
+
         dialogFragment = this;
 
         return builder.create();

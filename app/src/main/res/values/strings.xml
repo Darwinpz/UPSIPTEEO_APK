@@ -147,6 +147,7 @@
     <string name="msgNotDelProfile">No se puede eliminar el perfil - Intente Nuevamente</string>
     <string name="msgDelProfileWithErrors">Perfil Eliminado con errores</string>
 
+    <string name="msgSuccessCreateAssistance">Asistencia Creada Correctamente</string>
     <string name="msgConfirmDelAssistance">¿Estás seguro de eliminar la asistencia?</string>
     <string name="msgNotDelAssistance">No se puede eliminar la asistencia - Intente Nuevamente</string>
     <string name="msgNotCreateAssistance">No se puede crear la asistencia - Intente Nuevamente</string>
