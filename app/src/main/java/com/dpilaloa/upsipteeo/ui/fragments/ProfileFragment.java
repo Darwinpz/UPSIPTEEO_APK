@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
 
                 if (user != null) {
 
-                    txtName.setText(TextUtils.concat(user.lastName + "\t"+ user.firstName));
+                    txtName.setText(TextUtils.concat(user.lastName ," ", user.firstName));
                     editTextFirstName.setText(user.firstName);
                     editTextLastName.setText(user.lastName);
                     editTextEmail.setText(user.email);

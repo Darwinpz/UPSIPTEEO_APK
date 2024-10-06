@@ -63,7 +63,7 @@ public class AssistanceController {
                     textViewResult.setVisibility(View.VISIBLE);
                 }
 
-                txtCount.setText(TextUtils.concat(count + "\tAsistencias" ));
+                txtCount.setText(TextUtils.concat(String.valueOf(count) , " ", "Asistencias" ));
 
                 assistanceAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);

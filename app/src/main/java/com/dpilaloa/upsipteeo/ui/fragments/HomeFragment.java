@@ -3,6 +3,7 @@ package com.dpilaloa.upsipteeo.ui.fragments;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +45,9 @@ public class HomeFragment extends Fragment {
 
         try {
             String version = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0).versionName;
-            txtVersion.setText(getString(R.string.version));
-            txtVersion.append("\t"+version);
+            txtVersion.setText(TextUtils.concat(getString(R.string.version)," ",version));
         } catch (PackageManager.NameNotFoundException e) {
-            txtVersion.setText("-");
+            txtVersion.setText(TextUtils.concat(getString(R.string.version)," - "));
         }
 
         btnShowAlert.setVisibility(PrimaryActivity.rol.equals(getString(R.string.admin_one)) || PrimaryActivity.rol.equals(getString(R.string.admin_two)) ? View.VISIBLE : View.GONE);

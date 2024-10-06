@@ -203,7 +203,7 @@ public class UserController {
 
                     }
 
-                    txtCount.setText(TextUtils.concat(count + "\tUsuarios" ));
+                    txtCount.setText(TextUtils.concat(String.valueOf(count) , " ", "Usuarios" ));
                     textViewResult.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                 } else {
