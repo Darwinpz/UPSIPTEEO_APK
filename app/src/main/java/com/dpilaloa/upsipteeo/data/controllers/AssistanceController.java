@@ -26,7 +26,7 @@ public class AssistanceController {
         this.databaseReference = databaseReference;
     }
 
-    public void getAssistance(AssistanceAdapter assistanceAdapter, String uid, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
+    public void getAssistance(AssistanceAdapter assistanceAdapter, String uid, String photo, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
@@ -50,7 +50,7 @@ public class AssistanceController {
                             assistance.time = snapshot.child("time").getValue(String.class);
                             Long date = snapshot.child("dateTime").getValue(Long.class);
                             assistance.dateTime = date != null ? date : 0L;
-                            assistance.photo = dataSnapshot.child("photo").getValue(String.class);
+                            assistance.photo = photo;
                             assistanceAdapter.add(assistance);
 
                             count++;

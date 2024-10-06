@@ -104,7 +104,8 @@ public class ProfileFragment extends Fragment {
             imageButton.setOnClickListener(view1 ->
                 startActivity(new Intent(view.getContext(), DetAssistanceActivity.class)
                         .putExtra("uid", PrimaryActivity.id)
-                        .putExtra("name", USERNAME))
+                        .putExtra("name", USERNAME)
+                        .putExtra("photo", URL_PHOTO))
             );
 
             imgProfile.setOnClickListener(view1 -> {

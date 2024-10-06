@@ -213,12 +213,12 @@ public class DetUserActivity extends AppCompatActivity {
                 }, (dialogInterface, i) -> {})
             );
 
-            imageButton.setOnClickListener(view -> {
-                Intent i = new Intent(this, DetAssistanceActivity.class);
-                i.putExtra("uid",UID_USER);
-                i.putExtra("name",USERNAME);
-                startActivity(i);
-            });
+            imageButton.setOnClickListener(view ->
+                startActivity(new Intent(this, DetAssistanceActivity.class)
+                        .putExtra("uid", UID_USER)
+                        .putExtra("name", USERNAME)
+                        .putExtra("photo", URL_PHOTO))
+            );
 
         }else{
             alertDialog.showError(getString(R.string.msgErrorUid));

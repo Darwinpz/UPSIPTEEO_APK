@@ -23,7 +23,7 @@ import java.util.Objects;
 public class DetAssistanceActivity extends AppCompatActivity {
 
     public static String UID_USER = "";
-    String USERNAME = "";
+    String USERNAME = "", PHOTO = "";
     public static AssistanceController assistanceController;
     public static AlertDialogController alertDialog;
 
@@ -48,6 +48,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
 
         UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
         USERNAME = Objects.requireNonNull(getIntent().getExtras()).getString("name","");
+        PHOTO = Objects.requireNonNull(getIntent().getExtras()).getString("photo","");
         txtName.setText(USERNAME);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -56,7 +57,7 @@ public class DetAssistanceActivity extends AppCompatActivity {
 
         if(!UID_USER.isEmpty()) {
 
-            assistanceController.getAssistance(assistanceAdapter,UID_USER,txtResult,progressBar,txtCount, databaseError ->
+            assistanceController.getAssistance(assistanceAdapter,UID_USER, PHOTO,txtResult,progressBar,txtCount, databaseError ->
                             alertDialog.showError(getString(R.string.msgGetDbError)));
 
             btnAddAssistance.setVisibility(PrimaryActivity.rol.equals(getString(R.string.admin_one)) ? View.VISIBLE : View.GONE);
