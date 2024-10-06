@@ -49,6 +49,8 @@ public class ProfileFragment extends Fragment {
 
         TextView txtRol = view.findViewById(R.id.textViewRol);
         TextView txtName = view.findViewById(R.id.textViewName);
+        EditText editTextFirstName = view.findViewById(R.id.editTextFirstName);
+        EditText editTextLastName = view.findViewById(R.id.editTextLastName);
         TextView txtCed = view.findViewById(R.id.textViewCed);
         EditText editTextEmail = view.findViewById(R.id.editTextEmail);
         EditText editTextPhone = view.findViewById(R.id.editTextPhone);
@@ -73,6 +75,12 @@ public class ProfileFragment extends Fragment {
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
                     input -> PrimaryActivity.userController.valEmail(input),getString(R.string.msgNotValEmail)));
 
+            editTextFirstName.addTextChangedListener(new ValEditTextWatcher(editTextFirstName,
+                    input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
+
+            editTextLastName.addTextChangedListener(new ValEditTextWatcher(editTextLastName,
+                    input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
+
             editTextPhone.addTextChangedListener(new ValEditTextWatcher(editTextPhone,
                     input -> PrimaryActivity.userController.valPhone(input),getString(R.string.msgNotValPhone)));
 
@@ -80,14 +88,16 @@ public class ProfileFragment extends Fragment {
 
                 if (user != null) {
 
-                    txtName.setText(user.name);
+                    txtName.setText(TextUtils.concat(user.lastName + "\t"+ user.firstName));
+                    editTextFirstName.setText(user.firstName);
+                    editTextLastName.setText(user.lastName);
                     editTextEmail.setText(user.email);
                     editTextPhone.setText(user.phone);
                     txtCed.setText(user.ced);
                     txtRol.setText(user.rol);
                     editTextPassword.setText(user.password);
 
-                    USERNAME = user.name;
+                    USERNAME = user.lastName + "\t" + user.firstName;
                     URL_PHOTO = user.photo;
 
                     int spinnerPosition = adapterSpinnerCanton.getPosition(user.canton);
@@ -123,6 +133,8 @@ public class ProfileFragment extends Fragment {
             btnUpdate.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage(getString(R.string.msgUpdateProfile));
                 if(!editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
+                        !editTextFirstName.getText().toString().trim().isEmpty() && editTextFirstName.getError() == null &&
+                        !editTextLastName.getText().toString().trim().isEmpty() && editTextLastName.getError() == null &&
                         !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !editTextPassword.getText().toString().trim().isEmpty() &&
                         !spinner_canton.getSelectedItem().toString().equals(getString(R.string.spinnerDefaultCanton))) {
@@ -130,7 +142,8 @@ public class ProfileFragment extends Fragment {
                     User user = new User();
                     user.uid = PrimaryActivity.id;
                     user.ced = txtCed.getText().toString().trim();
-                    user.name = txtName.getText().toString().trim().toUpperCase();
+                    user.firstName = editTextFirstName.getText().toString().trim().toUpperCase();
+                    user.lastName = editTextLastName.getText().toString().trim().toUpperCase();
                     user.email = editTextEmail.getText().toString().trim().toLowerCase();
                     user.phone = editTextPhone.getText().toString().trim();
                     user.canton = spinner_canton.getSelectedItem().toString().trim();

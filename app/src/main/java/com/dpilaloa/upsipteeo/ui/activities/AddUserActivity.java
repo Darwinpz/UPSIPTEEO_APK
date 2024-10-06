@@ -23,7 +23,8 @@ public class AddUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_user);
 
         EditText editTextCed = findViewById(R.id.textViewCed);
-        EditText editTextName = findViewById(R.id.textViewName);
+        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+        EditText editTextLastName = findViewById(R.id.editTextLastName);
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         EditText editTextPhone = findViewById(R.id.editTextPhone);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
@@ -49,7 +50,10 @@ public class AddUserActivity extends AppCompatActivity {
         editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
                 input -> PrimaryActivity.userController.valCed(input),getString(R.string.msgNotValCed)));
 
-        editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
+        editTextFirstName.addTextChangedListener(new ValEditTextWatcher(editTextFirstName,
+                input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
+
+        editTextLastName.addTextChangedListener(new ValEditTextWatcher(editTextLastName,
                 input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
 
         editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
@@ -61,7 +65,8 @@ public class AddUserActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(view -> {
             alertDialog.showProgressMessage(getString(R.string.msgCreatingProfile));
             if(!editTextCed.getText().toString().trim().isEmpty() && editTextCed.getError() == null &&
-                    !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
+                    !editTextFirstName.getText().toString().trim().isEmpty() && editTextFirstName.getError() == null &&
+                    !editTextLastName.getText().toString().trim().isEmpty() && editTextLastName.getError() == null &&
                     !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                     !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                     !editTextPassword.getText().toString().trim().isEmpty() &&
@@ -70,7 +75,8 @@ public class AddUserActivity extends AppCompatActivity {
 
                 User user = new User();
                 user.ced = editTextCed.getText().toString().trim();
-                user.name = editTextName.getText().toString().trim().toUpperCase();
+                user.firstName = editTextFirstName.getText().toString().trim().toUpperCase();
+                user.lastName = editTextLastName.getText().toString().trim().toUpperCase();
                 user.email = editTextEmail.getText().toString().trim().toLowerCase();
                 user.phone = editTextPhone.getText().toString().trim();
                 user.canton = spinner_canton.getSelectedItem().toString().trim();

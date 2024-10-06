@@ -21,6 +21,8 @@
     <string name="label_phone">* Celular:</string>
     <string name="label_password">* Clave:</string>
     <string name="label_name">* Nombre:</string>
+    <string name="label_first_name">* Nombres:</string>
+    <string name="label_last_name">* Apellidos:</string>
     <string name="label_rol">* Rol:</string>
     <string name="label_canton">* Cantón:</string>
     <string name="label_select_date">Selecciona la Fecha</string>
@@ -75,6 +77,8 @@
 
     <string name="input_ced">Cédula de Identidad</string>
     <string name="input_name">Apellidos y Nombres</string>
+    <string name="input_firstName">Nombres Completos</string>
+    <string name="input_lastName">Apellidos Completos</string>
     <string name="input_email">Correo electrónico</string>
     <string name="input_phone">Celular o Whatsapp:</string>
     <string name="input_password">Clave de Acceso</string>

@@ -61,7 +61,8 @@ public class UserController {
 
         Map<String, Object> data = new HashMap<>();
         data.put("ced", user.ced);
-        data.put("name", user.name.toUpperCase());
+        data.put("firstName", user.firstName.toUpperCase());
+        data.put("lastName", user.lastName.toUpperCase());
         data.put("email", user.email.toLowerCase());
         data.put("phone", user.phone);
         data.put("canton", user.canton);
@@ -101,7 +102,8 @@ public class UserController {
                         User user = new User();
                         user.uid = snapshot.getKey();
                         user.ced = ced;
-                        user.name = snapshot.child("name").getValue(String.class);
+                        user.firstName = snapshot.child("firstName").getValue(String.class);
+                        user.lastName = snapshot.child("lastName").getValue(String.class);
                         user.rol = snapshot.child("rol").getValue(String.class);
                         user.password = pass;
                         userInterface.getUser(user);
@@ -126,7 +128,8 @@ public class UserController {
                     User user = new User();
                     user.uid = uid;
                     user.ced = dataSnapshot.child("ced").getValue(String.class);
-                    user.name = dataSnapshot.child("name").getValue(String.class);
+                    user.firstName = dataSnapshot.child("firstName").getValue(String.class);
+                    user.lastName = dataSnapshot.child("lastName").getValue(String.class);
                     user.canton = dataSnapshot.child("canton").getValue(String.class);
                     user.phone = dataSnapshot.child("phone").getValue(String.class);
                     user.rol = dataSnapshot.child("rol").getValue(String.class);
@@ -176,14 +179,16 @@ public class UserController {
                         User user = new User();
                         user.uid = snapshot.getKey();
                         user.ced = snapshot.child("ced").getValue(String.class);
-                        user.name = snapshot.child("name").getValue(String.class);
+                        user.firstName = snapshot.child("firstName").getValue(String.class);
+                        user.lastName = snapshot.child("lastName").getValue(String.class);
                         user.canton = snapshot.child("canton").getValue(String.class);
                         user.phone = snapshot.child("phone").getValue(String.class);
                         user.rol = snapshot.child("rol").getValue(String.class);
                         user.photo = snapshot.child("photo").getValue(String.class);
 
                         if (user.ced !=null && user.ced.trim().contains(filter.trim().toLowerCase()) ||
-                                user.name !=null && user.name.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
+                                user.firstName !=null && user.firstName.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
+                                user.lastName !=null && user.lastName.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
                                 user.canton!=null && user.canton.toLowerCase().trim().contains(filter.trim().toLowerCase())) {
 
                             if(user.rol!=null && (rol.equals("Rol") || user.rol.equals(rol))) {
@@ -198,8 +203,7 @@ public class UserController {
 
                     }
 
-                    txtCount.setText(String.valueOf(count));
-                    txtCount.append("\tUsuarios");
+                    txtCount.setText(TextUtils.concat(count + "\tUsuarios" ));
                     textViewResult.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                 } else {

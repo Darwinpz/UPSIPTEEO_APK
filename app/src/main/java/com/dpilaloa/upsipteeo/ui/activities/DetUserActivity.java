@@ -47,7 +47,8 @@ public class DetUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_det_user);
 
         EditText editTextCed = findViewById(R.id.textViewCed);
-        EditText editTextName = findViewById(R.id.textViewName);
+        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+        EditText editTextLastName = findViewById(R.id.editTextLastName);
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         EditText editTextPhone = findViewById(R.id.editTextPhone);
         TextView textViewPassword = findViewById(R.id.labelPassword);
@@ -85,7 +86,10 @@ public class DetUserActivity extends AppCompatActivity {
             editTextCed.addTextChangedListener(new ValEditTextWatcher(editTextCed,
                     input -> PrimaryActivity.userController.valCed(input),getString(R.string.msgNotValCed)));
 
-            editTextName.addTextChangedListener(new ValEditTextWatcher(editTextName,
+            editTextFirstName.addTextChangedListener(new ValEditTextWatcher(editTextFirstName,
+                    input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
+
+            editTextLastName.addTextChangedListener(new ValEditTextWatcher(editTextLastName,
                     input -> PrimaryActivity.userController.valUser(input),getString(R.string.msgNotValName)));
 
             editTextEmail.addTextChangedListener(new ValEditTextWatcher(editTextEmail,
@@ -99,12 +103,13 @@ public class DetUserActivity extends AppCompatActivity {
                 if(user!=null){
 
                     editTextCed.setText(user.ced);
-                    editTextName.setText(user.name);
+                    editTextFirstName.setText(user.firstName);
+                    editTextLastName.setText(user.lastName);
                     editTextEmail.setText(user.email);
                     editTextPhone.setText(user.phone);
                     editTextPassword.setText(user.password);
 
-                    USERNAME = user.name;
+                    USERNAME = user.lastName + "\t" + user.firstName;
 
                     int spinnerPosition_rol = adapterSpinnerRol.getPosition(user.rol);
                     spinner_rol.setSelection(spinnerPosition_rol);
@@ -129,7 +134,8 @@ public class DetUserActivity extends AppCompatActivity {
             btnUpdate.setVisibility( isAdminTwoDiffUid ? View.VISIBLE : View.GONE);
 
             editTextCed.setEnabled(isAdminTwoDiffUid);
-            editTextName.setEnabled(isAdminTwoDiffUid);
+            editTextFirstName.setEnabled(isAdminTwoDiffUid);
+            editTextLastName.setEnabled(isAdminTwoDiffUid);
             editTextEmail.setEnabled(isAdminTwoDiffUid);
             editTextPhone.setEnabled(isAdminTwoDiffUid);
             spinner_canton.setEnabled(isAdminTwoDiffUid);
@@ -154,7 +160,8 @@ public class DetUserActivity extends AppCompatActivity {
             btnUpdate.setOnClickListener(view1 -> {
                 alertDialog.showProgressMessage(getString(R.string.msgUpdateProfile));
                 if(!editTextCed.getText().toString().trim().isEmpty() && editTextCed.getError() == null &&
-                        !editTextName.getText().toString().trim().isEmpty() && editTextName.getError() == null &&
+                        !editTextFirstName.getText().toString().trim().isEmpty() && editTextFirstName.getError() == null &&
+                        !editTextLastName.getText().toString().trim().isEmpty() && editTextLastName.getError() == null &&
                         !editTextEmail.getText().toString().trim().isEmpty() && editTextEmail.getError() == null &&
                         !editTextPhone.getText().toString().trim().isEmpty() && editTextPhone.getError() == null &&
                         !editTextPassword.getText().toString().trim().isEmpty() &&
@@ -164,7 +171,8 @@ public class DetUserActivity extends AppCompatActivity {
                     User user = new User();
                     user.uid = UID_USER;
                     user.ced = editTextCed.getText().toString().trim();
-                    user.name = editTextName.getText().toString().trim().toUpperCase();
+                    user.firstName = editTextFirstName.getText().toString().trim().toUpperCase();
+                    user.lastName = editTextLastName.getText().toString().trim().toUpperCase();
                     user.email = editTextEmail.getText().toString().trim().toLowerCase();
                     user.phone = editTextPhone.getText().toString().trim();
                     user.canton = spinner_canton.getSelectedItem().toString().trim();

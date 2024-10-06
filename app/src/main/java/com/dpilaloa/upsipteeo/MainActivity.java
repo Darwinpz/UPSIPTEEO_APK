@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                                 .putString("uid", user.uid)
                                 .putString("rol", user.rol)
                                 .apply();
-                        alertDialog.showSuccess(getString(R.string.msgWelcome)+" "+ user.name);
+                        alertDialog.showSuccess(getString(R.string.msgWelcome)+" "+ user.firstName + " "+user.lastName);
                         startActivity(new Intent(getBaseContext(), PrimaryActivity.class));
                         finish();
                     } else if (preferences.getString("uid", "").isEmpty()) {

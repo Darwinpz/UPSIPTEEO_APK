@@ -52,7 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserHolder> {
 
         String ced = " C.I: " + userList.get(position).ced;
         holder.cardCed.setText(ced);
-        holder.cardName.setText(userList.get(position).name);
+        holder.cardName.setText(TextUtils.concat(userList.get(position).lastName + " "+ userList.get(position).firstName));
         holder.cardCanton.setText(userList.get(position).canton);
         holder.cardPhone.setText(userList.get(position).phone);
         holder.cardRol.setText(userList.get(position).rol);
