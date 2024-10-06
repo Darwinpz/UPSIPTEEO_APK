@@ -24,7 +24,7 @@ public class AlertController {
         this.databaseReference = databaseReference;
     }
 
-    public void getAlerts(AlertAdapter alertAdapter, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
+    public void getAlerts(AlertAdapter alertAdapter,String state,String filter, TextView textViewResult, ProgressBar progressBar, TextView txtCount, DbErrorInterface dbErrorInterface) {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
@@ -49,9 +49,18 @@ public class AlertController {
                         alert.canton = snapshot.child("canton").getValue(String.class);
                         alert.site = snapshot.child("site").getValue(String.class);
                         alert.type = snapshot.child("type").getValue(String.class);
-                        alertAdapter.add(alert);
 
-                        count++;
+                        if (alert.canton !=null && alert.canton.trim().toLowerCase().contains(filter.trim().toLowerCase()) ||
+                                alert.site !=null && alert.site.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
+                                alert.type !=null && alert.type.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
+                                alert.name!=null && alert.name.toLowerCase().trim().contains(filter.trim().toLowerCase())) {
+
+                            if (alert.state != null && (state.equals("Estado") || alert.state.equals(state))) {
+                                alertAdapter.add(alert);
+                                count++;
+                            }
+
+                        }
 
                     }
                     textViewResult.setVisibility(alertAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);

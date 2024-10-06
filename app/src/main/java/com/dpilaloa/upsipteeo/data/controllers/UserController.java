@@ -200,13 +200,12 @@ public class UserController {
                         }
 
                     }
-
-                    txtCount.setText(TextUtils.concat(String.valueOf(count) , " ", "Usuarios" ));
                     textViewResult.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-
                 } else {
                     textViewResult.setVisibility(View.VISIBLE);
                 }
+
+                txtCount.setText(TextUtils.concat(String.valueOf(count) , " ", "Usuarios" ));
 
                 userAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
