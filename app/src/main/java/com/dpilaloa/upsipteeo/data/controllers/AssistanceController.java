@@ -1,5 +1,6 @@
 package com.dpilaloa.upsipteeo.data.controllers;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,8 +63,7 @@ public class AssistanceController {
                     textViewResult.setVisibility(View.VISIBLE);
                 }
 
-                txtCount.setText(String.valueOf(count));
-                txtCount.append("\tAsistencias");
+                txtCount.setText(TextUtils.concat(count + "\tAsistencias" ));
 
                 assistanceAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
