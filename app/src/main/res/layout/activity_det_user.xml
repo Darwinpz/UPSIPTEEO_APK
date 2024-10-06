@@ -70,7 +70,7 @@
                         android:background="@color/success"
                         android:padding="10dp"
                         android:src="@drawable/ic_eye"
-                        android:id="@+id/btn_ver_asistencia"
+                        android:id="@+id/imageButtonShowAssistance"
                         android:contentDescription="@string/description_eye"
                         />
 
@@ -326,7 +326,7 @@
                         />
 
                     <Button
-                        android:id="@+id/btn_eliminar"
+                        android:id="@+id/buttonDelete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"

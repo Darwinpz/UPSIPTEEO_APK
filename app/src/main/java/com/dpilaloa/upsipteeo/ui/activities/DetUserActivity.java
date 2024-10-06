@@ -57,14 +57,14 @@ public class DetUserActivity extends AppCompatActivity {
         ImageView imgProfile = findViewById(R.id.imageViewProfile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         Button btnUpdate = findViewById(R.id.buttonUpdate);
-        Button btnDelete = findViewById(R.id.btn_eliminar);
+        Button btnDelete = findViewById(R.id.buttonDelete);
 
         UID_USER = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
         ROL_USER = Objects.requireNonNull(getIntent().getExtras()).getString("rol","");
 
         Spinner spinner_rol = findViewById(R.id.spinnerRol);
         Spinner spinner_canton = findViewById(R.id.spinnerCanton);
-        ImageButton imageButton = findViewById(R.id.btn_ver_asistencia);
+        ImageButton imageButton = findViewById(R.id.imageButtonShowAssistance);
 
         alertDialog = new AlertDialogController(this);
         storagePermissionController = new StoragePermissionController(this,requestPermission,android11StoragePermission);

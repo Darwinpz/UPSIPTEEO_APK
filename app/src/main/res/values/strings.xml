@@ -74,6 +74,7 @@
     <string name="title_assistance">Asistencia</string>
     <string name="title_alert">Alertas</string>
     <string name="title_map">Mapa con Alertas</string>
+    <string name="title_showmap">Ver Mapa</string>
 
     <string name="input_search_user">Buscar Usuario</string>
     <string name="input_search_alert">Buscar Alerta</string>
