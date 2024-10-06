@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
                     txtRol.setText(user.rol);
                     editTextPassword.setText(user.password);
 
-                    USERNAME = user.lastName + "\t" + user.firstName;
+                    USERNAME = user.lastName + " " + user.firstName;
                     URL_PHOTO = user.photo;
 
                     int spinnerPosition = adapterSpinnerCanton.getPosition(user.canton);

@@ -109,7 +109,7 @@ public class DetUserActivity extends AppCompatActivity {
                     editTextPhone.setText(user.phone);
                     editTextPassword.setText(user.password);
 
-                    USERNAME = user.lastName + "\t" + user.firstName;
+                    USERNAME = user.lastName + " " + user.firstName;
 
                     int spinnerPosition_rol = adapterSpinnerRol.getPosition(user.rol);
                     spinner_rol.setSelection(spinnerPosition_rol);
