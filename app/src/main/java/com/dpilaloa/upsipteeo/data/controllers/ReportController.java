@@ -24,7 +24,7 @@ public class ReportController {
 
     public void headUsers(HSSFSheet hssfSheet){
 
-        String [] columns = {"ced","name","phone","email","rol","canton","photo","url"};
+        String [] columns = {"ced","firstName","lastName","phone","email","rol","canton","photo","url"};
         HSSFRow hssfRow0 = hssfSheet.createRow(0);
         int i = 0;
         for (String column : columns) {
@@ -42,7 +42,7 @@ public class ReportController {
 
     public void reportUsers(String rol, HSSFSheet hssfSheet, CompleteInterface completeInterface, DbErrorInterface dbErrorInterface){
 
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("users").orderByChild("rol").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -65,20 +65,22 @@ public class ReportController {
                             HSSFCell hssfCell5 = hssfRow.createCell(5);
                             HSSFCell hssfCell6 = hssfRow.createCell(6);
                             HSSFCell hssfCell7 = hssfRow.createCell(7);
+                            HSSFCell hssfCell8 = hssfRow.createCell(8);
 
                             hssfCell0.setCellValue(snapshot.child("ced").getValue(String.class));
-                            hssfCell1.setCellValue(snapshot.child("name").getValue(String.class));
-                            hssfCell2.setCellValue(snapshot.child("phone").getValue(String.class));
-                            hssfCell3.setCellValue(snapshot.child("email").getValue(String.class));
-                            hssfCell4.setCellValue(snapshot.child("rol").getValue(String.class));
-                            hssfCell5.setCellValue(snapshot.child("canton").getValue(String.class));
+                            hssfCell1.setCellValue(snapshot.child("firstName").getValue(String.class));
+                            hssfCell2.setCellValue(snapshot.child("lastName").getValue(String.class));
+                            hssfCell3.setCellValue(snapshot.child("phone").getValue(String.class));
+                            hssfCell4.setCellValue(snapshot.child("email").getValue(String.class));
+                            hssfCell5.setCellValue(snapshot.child("rol").getValue(String.class));
+                            hssfCell6.setCellValue(snapshot.child("canton").getValue(String.class));
 
                             if(snapshot.child("photo").exists()){
-                                hssfCell6.setCellValue("SI");
-                                hssfCell7.setCellValue(snapshot.child("photo").getValue(String.class));
+                                hssfCell7.setCellValue("SI");
+                                hssfCell8.setCellValue(snapshot.child("photo").getValue(String.class));
                             }else{
-                                hssfCell6.setCellValue("NO");
-                                hssfCell7.setCellValue("");
+                                hssfCell7.setCellValue("NO");
+                                hssfCell8.setCellValue("");
                             }
 
                             count++;
