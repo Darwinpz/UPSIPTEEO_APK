@@ -32,6 +32,7 @@
     <string name="label_count_result">0 Resultados</string>
     <string name="label_format_date">dd/mm/yyyy</string>
     <string name="label_format_time">hh:mm:ss</string>
+    <string name="label_format_datetime">dd/mm/yyyy hh:mm:ss</string>
     <string name="label_upload_photo">Subir Foto</string>
 
     <string name="label_user_rol">ROL DE USUARIO</string>
@@ -40,8 +41,10 @@
     <string name="label_user_phone">TELEFONO DEL USUARIO</string>
     <string name="label_user_canton">CANTON DEL USUARIO</string>
 
-    <string name="label_card_alert_canton">Canton o Recinto de alerta</string>
+    <string name="label_card_alert_canton">Canton de alerta</string>
+    <string name="label_card_alert_site">Recinto o CDA</string>
     <string name="label_card_alert_message">Mensaje de alerta</string>
+    <string name="label_card_alert_type">Tipo de alerta</string>
     <string name="label_card_alert_state">Estado de alerta</string>
     <string name="label_card_assistance_state">Asistencia</string>
 
@@ -97,11 +100,27 @@
         <item>TICS</item>
     </string-array>
 
-    <string-array name="state">
+    <string-array name="alertState">
         <item>Estado</item>
         <item>NUEVO</item>
         <item>EN CURSO</item>
         <item>FINALIZADO</item>
+    </string-array>
+
+    <string-array name="alertType">
+        <item>Tipo</item>
+        <item>EN CDA ASIGNADO</item>
+        <item>KIT RECIBIDO</item>
+        <item>KIT INCOMPLETO</item>
+        <item>CDA INSTALADO</item>
+        <item>TEST EXITOSO</item>
+        <item>TEST CON ERROR</item>
+        <item>USUARIO BLOQUEADO</item>
+        <item>KIT GUARDADO</item>
+        <item>CDA FINALIZADO</item>
+        <item>SOLICITAR RETORNO A CPE</item>
+        <item>EN CPE</item>
+        <item>OTRO</item>
     </string-array>
 
     <string-array name="canton">

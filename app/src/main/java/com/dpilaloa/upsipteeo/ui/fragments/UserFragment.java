@@ -40,12 +40,12 @@ public class UserFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewUsers);
         TextView txtResult = view.findViewById(R.id.textViewNotResult);
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        TextView txtCount = view.findViewById(R.id.textViewCount);
         EditText editTextSearch = view.findViewById(R.id.editTextSearch);
         UserAdapter userAdapter = new UserAdapter(view.getContext());
         Button btnAddUser = view.findViewById(R.id.buttonAddUser);
 
         Spinner spinnerRol = view.findViewById(R.id.spinnerRol);
-        TextView txtCount = view.findViewById(R.id.textViewCount);
 
         ArrayAdapter<CharSequence> adapterSpinnerRol = ArrayAdapter.createFromResource(view.getContext(), R.array.rol, android.R.layout.simple_spinner_item);
         adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

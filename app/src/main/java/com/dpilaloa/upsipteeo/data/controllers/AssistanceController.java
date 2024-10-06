@@ -43,20 +43,17 @@ public class AssistanceController {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        if(snapshot.child("date").exists() && snapshot.child("time").exists()) {
+                        Assistance assistance = new Assistance();
+                        assistance.uid = snapshot.getKey();
+                        assistance.date = snapshot.child("date").getValue(String.class);
+                        assistance.time = snapshot.child("time").getValue(String.class);
+                        Long date = snapshot.child("dateTime").getValue(Long.class);
+                        assistance.dateTime = date != null ? date : 0L;
+                        assistance.photo = photo;
+                        assistanceAdapter.add(assistance);
 
-                            Assistance assistance = new Assistance();
-                            assistance.uid = snapshot.getKey();
-                            assistance.date = snapshot.child("date").getValue(String.class);
-                            assistance.time = snapshot.child("time").getValue(String.class);
-                            Long date = snapshot.child("dateTime").getValue(Long.class);
-                            assistance.dateTime = date != null ? date : 0L;
-                            assistance.photo = photo;
-                            assistanceAdapter.add(assistance);
+                        count++;
 
-                            count++;
-
-                        }
                     }
                     textViewResult.setVisibility(assistanceAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
                 } else {

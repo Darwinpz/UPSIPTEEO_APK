@@ -15,9 +15,9 @@ public class UserHolder extends RecyclerView.ViewHolder{
     public TextView cardCed, cardName, cardCanton, cardPhone, cardRol;
     public CardView cardViewUser;
     public ImageView cardPhoto;
+
     public UserHolder(@NonNull View itemView) {
         super(itemView);
-
         cardCed = itemView.findViewById(R.id.cardCed);
         cardName = itemView.findViewById(R.id.cardName);
         cardCanton = itemView.findViewById(R.id.cardCanton);
@@ -25,6 +25,5 @@ public class UserHolder extends RecyclerView.ViewHolder{
         cardRol = itemView.findViewById(R.id.cardRol);
         cardPhoto = itemView.findViewById(R.id.cardPhoto);
         cardViewUser = itemView.findViewById(R.id.cardViewUser);
-
     }
 }
