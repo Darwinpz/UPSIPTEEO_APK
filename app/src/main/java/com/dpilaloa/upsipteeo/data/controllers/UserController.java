@@ -165,7 +165,7 @@ public class UserController {
 
         progressBar.setVisibility(View.VISIBLE);
         textViewResult.setVisibility(View.VISIBLE);
-        databaseReference.child("users").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").orderByChild("rol").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

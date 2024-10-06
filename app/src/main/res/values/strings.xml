@@ -85,16 +85,16 @@
 
     <string-array name="rol">
         <item>Rol</item>
-        <item>TICS</item>
-        <item>TECNICO SUPERVISOR</item>
-        <item>OPERADOR CDA</item>
-        <item>OPERADOR CPE</item>
+        <item>ARCHIVO DE ACTAS</item>
         <item>ASISTENTE CDA</item>
         <item>ASISTENTE CPE</item>
         <item>DIGITADOR</item>
         <item>FIRMAS DE ACTAS</item>
-        <item>ARCHIVO DE ACTAS</item>
+        <item>OPERADOR CDA</item>
+        <item>OPERADOR CPE</item>
         <item>RECEPTOR DE ACTAS</item>
+        <item>TECNICO SUPERVISOR</item>
+        <item>TICS</item>
     </string-array>
 
     <string-array name="state">

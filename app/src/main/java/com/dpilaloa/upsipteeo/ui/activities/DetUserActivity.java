@@ -73,7 +73,7 @@ public class DetUserActivity extends AppCompatActivity {
         toolbar.setOnClickListener(view -> finish());
 
         ArrayAdapter<CharSequence> adapterSpinnerRol = new ArraySpinnerAdapter(this,android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.rol), PrimaryActivity.rol,1);
+                getResources().getStringArray(R.array.rol), PrimaryActivity.rol,10);
         adapterSpinnerRol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_rol.setAdapter(adapterSpinnerRol);
 
