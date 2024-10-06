@@ -191,12 +191,10 @@ public class UserController {
                                 user.lastName !=null && user.lastName.toLowerCase().trim().contains(filter.trim().toLowerCase()) ||
                                 user.canton!=null && user.canton.toLowerCase().trim().contains(filter.trim().toLowerCase())) {
 
-                            if(user.rol!=null && (rol.equals("Rol") || user.rol.equals(rol))) {
-                                assert user.uid != null;
-                                if (!user.uid.equals(uid)) {
-                                    userAdapter.add(user);
-                                    count++;
-                                }
+                            if (user.rol != null && (rol.equals("Rol") || user.rol.equals(rol))
+                                    && user.uid != null && !user.uid.equals(uid)) {
+                                userAdapter.add(user);
+                                count++;
                             }
 
                         }
